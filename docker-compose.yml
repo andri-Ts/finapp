@@ -1,0 +1,26 @@
+services:
+  # Nom du service
+  postgres:
+    image: postgres:17 # Image docker utilisé (depuis docker hub)
+    container_name: finapp-postgres
+    restart: unless-stopped
+
+    # Variables d'environnement utilisées par l'image PostgreSQL
+    environment:
+      POSTGRS_USER: ${POSTGRES_USER} # Nom de l'user admin
+      POSTGRES_PASSWORD: ${POSTGRES_PSWD}
+      POSTGRES_DB: ${POSTGRES_DB} # Base créer automatiquement au premier démarage
+
+    # Port de la machine -> Port du container
+    ports:
+      - '5432:5432'
+
+    # Persistance des données
+    volumes:
+      # mapper des volumes, créer dossier postgres_data
+      # Volume Docker nommé -> dossier intern PostgreSQL
+      - postgres_data:/var/lib/posgresql/data
+
+# Déclaration des volumes docker utilisés par les services
+volumes:
+  postgres_data:
