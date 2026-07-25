@@ -28,3 +28,11 @@ export async function createUserService(data: CreateUserInput) {
 
   return newUser; // !!! NE PAS RETOURNER AU FRONT LE PSWD HASHH, à corriger plutard
 }
+
+export async function getUserById(userId: string) {
+  return prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+}
