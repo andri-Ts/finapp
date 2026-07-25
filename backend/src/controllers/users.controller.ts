@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
 import { createUserSchema } from '../schemas/user.schema';
 import { createUserService } from '../services/user.service';
+import { sanitizeUser } from '../utils/user.utils';
 
 // async: Pendant qu'il cherche les utilisateurs, Node.js continue de gérer d'autres requêtes.
 
@@ -31,7 +32,7 @@ export async function createUsers(req: Request, res: Response) {
     // Appel du service: Le controller dit simplement :"Le formulaire est valide, maintenant crée l'utilisateur.";
     const users = await createUserService(validation.data);
 
-    return res.status(201).json(users);
+    return res.status(201).json(sanitizeUser(users)); // on retourne une version public de res (pour éviter de reoutner le mdp)
   } catch (error) {
     // Ici on transforme conflit email dans le service en réponse HTTP propre :
     if (error instanceof Error && error.message === 'EMAIL_ALREADY_EXISTS') {

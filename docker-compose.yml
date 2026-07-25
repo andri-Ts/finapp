@@ -19,7 +19,7 @@ services:
     volumes:
       # mapper des volumes, créer dossier postgres_data
       # Volume Docker nommé -> dossier intern PostgreSQL
-      - postgres_data:/var/lib/posgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
 # Déclaration des volumes docker utilisés par les services
 volumes:
