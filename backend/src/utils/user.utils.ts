@@ -8,6 +8,6 @@ export function sanitizeUser(user: any) {
     email: user.email,
     currency: user.currency,
     createdAt: user.createdAt,
-    updateAt: user.updateAt,
+    updatedAt: user.updatedAt,
   };
 }
