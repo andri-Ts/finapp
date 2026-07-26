@@ -15,4 +15,24 @@ model User {
   currency     String   @default("EUR")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  account Account[] // 1 user ---> N accounts
+}
+
+model Account{
+  id String @id @default(cuid())
+  name String
+  type String // Type du compte (BANK, CASH, SAVINGS...)
+  currency String @default("EUR")
+  initialBalance Decimal @default(0) // Decimal pour avoir un nombre précis et non avec des virgules à rallonge
+  currentBalance Decimal @default(0)
+  icon String?
+  color String?
+  displayOrder Int @default(0) // le 1er compte afficher à l'user
+  isDefault Boolean @default(false)
+  archived Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String // Clé étrangère : identifiant du propriétaire du compte
+  // Cette ligne n'ajoute pas une colonne supplémentaire: la clé étrangère est stockée dans la colonne userId.cette clé étrangère pointe vers le id de la table User.
+  user User @relation(fields: [userId], references: [id])
 }
