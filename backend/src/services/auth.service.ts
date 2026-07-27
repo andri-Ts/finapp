@@ -19,6 +19,7 @@ export async function login(data: LoginInput) {
   // Génere un JWT valable 1 jour
   const token = jwt.sign(
     // payload: données qu'on veut retrouver au décodage du token
+    // LE TOKEN EST DECODER à partir de la signature dans authenticate()
     {
       userId: user.id,
       email: user.email,

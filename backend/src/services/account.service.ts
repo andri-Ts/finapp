@@ -1,4 +1,5 @@
 import prisma from '../lib/prisma';
+import { IUpdateAccountInput } from '../schemas/account.schema';
 
 interface ICreateAccountData {
   name: string;
@@ -7,6 +8,9 @@ interface ICreateAccountData {
   icon?: string;
   color?: string;
 }
+
+// findUnique() : Quand tu as une valeur unique
+// findFirst() : Quand on combines plusieurs conditions
 
 export async function createAccountService(
   userId: string,
@@ -25,4 +29,54 @@ export async function createAccountService(
   });
 
   return newAccount;
+}
+
+export async function getAccountsService(userId: string) {
+  const accounts = await prisma.account.findMany({
+    where: {
+      userId, // vient de token
+      archived: false,
+    },
+    orderBy: {
+      displayOrder: 'asc',
+    },
+  });
+
+  return accounts;
+}
+
+export async function getAccountService(accountId: string, userId: string) {
+  return await prisma.account.findFirst({
+    where: {
+      id: accountId,
+      userId, // un user peut avoir plusieur account
+      archived: false,
+    },
+  });
+}
+
+export async function updateAccountService(
+  accountId: string,
+  userId: string,
+  newData: IUpdateAccountInput,
+) {
+  // Vérifier le compte d'abord
+  const account = await prisma.account.findFirst({
+    where: {
+      id: accountId,
+      userId,
+      archived: false,
+    },
+  });
+  if (!account) throw new Error('ACCOUNT_NOT_FOUND');
+
+  // Mettre à jour le compte
+  const accountUpdated = await prisma.account.update({
+    where: {
+      id: account.id,
+    },
+    data: newData,
+  });
+
+  return accountUpdated;
 }

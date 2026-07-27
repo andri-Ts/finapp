@@ -19,6 +19,8 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   // console.log('token: ', token);
 
   try {
+    // Jwt recalcule (décodage) le token pour avoir le userId, email
+    // Payload va contenir les infos du user
     const payload = jwt.verify(token, process.env.JWT_SECRET as string);
     // console.log('payload: ', payload);
 
