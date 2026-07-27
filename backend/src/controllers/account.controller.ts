@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import {
+  archiveAccountService,
   createAccountService,
   getAccountService,
   getAccountsService,
@@ -101,6 +102,34 @@ export async function updateAccount(req: Request, res: Response) {
     );
 
     return res.status(200).json({ account: accountUpdated });
+  } catch (error) {
+    if (error instanceof Error && error.message === 'ACCOUNT_NOT_FOUND') {
+      return res.status(404).json({
+        message: 'Compte introuvable',
+      });
+    }
+
+    console.error(error);
+
+    return res.status(500).json({ message: 'Erreur serveur' });
+  }
+}
+
+export async function archiveAccount(req: Request, res: Response) {
+  try {
+    const userId = req.user?.userId;
+    const accountId = req.params.id;
+
+    // Vérifie aussi que accounId est une string
+    if (!userId || !accountId || Array.isArray(accountId)) {
+      return res.status(401).json({
+        message: 'Utilisateur non authentifié',
+      });
+    }
+
+    await archiveAccountService(accountId, userId);
+
+    return res.status(200).json({ message: 'Compte archivé' });
   } catch (error) {
     if (error instanceof Error && error.message === 'ACCOUNT_NOT_FOUND') {
       return res.status(404).json({

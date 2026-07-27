@@ -80,3 +80,26 @@ export async function updateAccountService(
 
   return accountUpdated;
 }
+
+export async function archiveAccountService(accountId: string, userId: string) {
+  const account = await prisma.account.findFirst({
+    where: {
+      id: accountId,
+      userId,
+      archived: false,
+    },
+  });
+  if (!account) throw new Error('ACCOUNT_NOT_FOUND');
+
+  // Mettre archive à true
+  const accountArchived = await prisma.account.update({
+    where: {
+      id: accountId,
+    },
+    data: {
+      archived: true,
+    },
+  });
+
+  return accountArchived;
+}
