@@ -26,4 +26,5 @@ export const createAccountSchema = z.object({
 // Avec un PATCH et non PUT) , on ne veut pas tout envoyer.
 // partial(): Zod transforme automatiquement, tous les champs deviennent optionnels.
 export const updateAccountSchema = createAccountSchema.partial();
+
 export type IUpdateAccountInput = z.infer<typeof updateAccountSchema>;

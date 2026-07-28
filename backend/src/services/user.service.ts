@@ -1,5 +1,6 @@
 import prisma from '../lib/prisma';
 import bcrypt from 'bcrypt';
+import { createDefaultCategories } from './category.service';
 
 interface ICreateUserInput {
   pseudo: string;
@@ -25,6 +26,8 @@ export async function createUserService(userData: ICreateUserInput) {
       passwordHash,
     },
   });
+
+  await createDefaultCategories(newUser.id); // ajout des catégories par défaut au nouvel utilisateur
 
   return newUser; // !!! NE PAS RETOURNER AU FRONT LE PSWD HASHH, à corriger plutard
 }
