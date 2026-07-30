@@ -31,7 +31,7 @@ export async function createAccountService(
   return newAccount;
 }
 
-export async function getAccountsService(userId: string) {
+export async function getAllAccountService(userId: string) {
   const accounts = await prisma.account.findMany({
     where: {
       userId, // vient de token

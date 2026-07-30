@@ -5,7 +5,7 @@ import {
 } from '../schemas/category.schema';
 import {
   createCategoryService,
-  getCategoriesService,
+  getAllCategorieService,
   getCategoryService,
   updateCategoryService,
   archiveCategoryService,
@@ -44,7 +44,7 @@ export async function getCategories(req: Request, res: Response) {
       return res.status(401).json({ message: 'Utilisateur non authentifié' });
     }
 
-    const categories = await getCategoriesService(userId);
+    const categories = await getAllCategorieService(userId);
 
     return res.status(200).json({ categories });
   } catch (error) {

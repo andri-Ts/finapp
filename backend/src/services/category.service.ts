@@ -68,7 +68,7 @@ export async function createCategoryService(
   });
 }
 
-export async function getCategoriesService(userId: string) {
+export async function getAllCategorieService(userId: string) {
   return await prisma.category.findMany({
     where: {
       userId,

@@ -12,6 +12,12 @@ enum CategoryType{
   INCOME
 }
 
+enum TransactionType{
+  EXPENSE
+  INCOME
+  TRANSFER
+}
+
 model User {
   id           String   @id @default(cuid())
   pseudo       String
@@ -38,9 +44,12 @@ model Account{
   archived Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+    // ---- Relations --------
   userId String // Clé étrangère : identifiant du propriétaire du compte
   // Cette ligne n'ajoute pas une colonne supplémentaire: la clé étrangère est stockée dans la colonne userId.cette clé étrangère pointe vers le id de la table User.
   user User @relation(fields: [userId], references: [id])
+  transaction Transaction[]
 }
 
 model Category{
@@ -52,7 +61,28 @@ model Category{
   archived Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // ---- Relations --------
   userId String
   user User @relation(fields: [userId], references: [id])
   @@unique([userId, name]) // La combinaison userId + name doit être unique -> un utilisateur ne peut avoir un même nom de catégorie
+  transaction Transaction[]
+}
+
+model Transaction {
+  id String @id @default(cuid())
+  amount Decimal // Montant toujours positif
+  type TransactionType
+  description String
+  note String?
+  transactionDate DateTime // Date réel de la date
+  transferGroupId String? // Lie les deux transations d'un transfert
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // ---- Relations --------
+  accountId String // Compte concerné
+  account Account @relation(fields: [accountId], references: [id])
+  categoryId String? // Valeur peut être absent car Transfert n'a pas besoin de categorie
+  category Category? @relation(fields: [categoryId], references: [id])
 }

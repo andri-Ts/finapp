@@ -3,7 +3,7 @@ import {
   archiveAccountService,
   createAccountService,
   getAccountService,
-  getAccountsService,
+  getAllAccountService,
   updateAccountService,
 } from '../services/account.service';
 import {
@@ -42,7 +42,7 @@ export async function getAccounts(req: Request, res: Response) {
     if (!userId)
       return res.status(401).json({ message: 'Utilisateur non authentifié' });
 
-    const accounts = await getAccountsService(userId);
+    const accounts = await getAllAccountService(userId);
     // console.log('ACCOUNTS:', accounts);
 
     return res.status(200).json({ accounts });
