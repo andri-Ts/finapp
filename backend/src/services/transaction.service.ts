@@ -89,6 +89,9 @@ export async function getAllTransactionService(userId: string) {
         archived: false,
       },
     },
+    orderBy: {
+      transactionDate: 'desc', // pour avoir du plus récent au plus ancien
+    },
     // include pour inclure les données utiles le frontend en a besoin (ex: le front connait immédiatement que c'est Compte Courant (pas juste id de compte))
     include: {
       // On utilise ensuite select pour ne récupérer que les champs utiles au frontend.

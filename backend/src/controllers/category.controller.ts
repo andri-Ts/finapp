@@ -37,7 +37,7 @@ export async function createCategory(req: Request, res: Response) {
   }
 }
 
-export async function getCategories(req: Request, res: Response) {
+export async function getAllCategory(req: Request, res: Response) {
   try {
     const userId = req.user?.userId;
     if (!userId) {

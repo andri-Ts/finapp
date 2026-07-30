@@ -3,7 +3,7 @@ import { authenticate } from '../middlewares/auth.middleware';
 import {
   archiveCategory,
   createCategory,
-  getCategories,
+  getAllCategory,
   getCategory,
   updateCategory,
 } from '../controllers/category.controller';
@@ -12,7 +12,7 @@ const categoryRoutes = Router();
 
 categoryRoutes.post('/', authenticate, createCategory);
 
-categoryRoutes.get('/', authenticate, getCategories);
+categoryRoutes.get('/', authenticate, getAllCategory);
 categoryRoutes.get('/:id', authenticate, getCategory);
 
 categoryRoutes.patch('/:id', authenticate, updateCategory);
