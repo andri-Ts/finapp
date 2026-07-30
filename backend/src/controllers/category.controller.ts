@@ -99,7 +99,7 @@ export async function updateCategory(req: Request, res: Response) {
       category: categoryUpdated,
     });
   } catch (error) {
-    if (error instanceof Error && error.message === 'CATEGORY_NOT_FOUND') {
+    if (error instanceof Error && error.message === ERRORS.CATEGORY_NOT_FOUND) {
       return res.status(404).json({
         message: 'Catégorie introuvable',
       });
@@ -127,7 +127,7 @@ export async function archiveCategory(req: Request, res: Response) {
 
     return res.status(200).json({ message: 'Catégorie archivé' });
   } catch (error) {
-    if (error instanceof Error && error.message === 'CATEGORY_NOT_FOUND') {
+    if (error instanceof Error && error.message === ERRORS.CATEGORY_NOT_FOUND) {
       return res.status(404).json({
         message: 'Compte introuvable',
       });

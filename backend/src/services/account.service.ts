@@ -1,3 +1,4 @@
+import { ERRORS } from '../constants/errors';
 import prisma from '../lib/prisma';
 import { IUpdateAccountInput } from '../schemas/account.schema';
 
@@ -68,7 +69,7 @@ export async function updateAccountService(
       archived: false,
     },
   });
-  if (!account) throw new Error('ACCOUNT_NOT_FOUND');
+  if (!account) throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
 
   // Mettre à jour le compte
   const accountUpdated = await prisma.account.update({
@@ -89,7 +90,7 @@ export async function archiveAccountService(accountId: string, userId: string) {
       archived: false,
     },
   });
-  if (!account) throw new Error('ACCOUNT_NOT_FOUND');
+  if (!account) throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
 
   // Mettre archive à true
   const accountArchived = await prisma.account.update({

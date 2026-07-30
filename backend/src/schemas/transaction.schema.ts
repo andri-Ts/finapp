@@ -21,4 +21,7 @@ export const createTransactionSchema = z.object({
   transactionDate: z.coerce.date(), // coerce: on obtiens directement un objet Date(pas un string/json).
 });
 
+export const updateTransactionSchema = createTransactionSchema.partial();
+
 export type ICreateTransactionInput = z.infer<typeof createTransactionSchema>;
+export type IUpdateTransactionInput = z.infer<typeof updateTransactionSchema>;

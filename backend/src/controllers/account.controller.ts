@@ -103,7 +103,7 @@ export async function updateAccount(req: Request, res: Response) {
 
     return res.status(200).json({ account: accountUpdated });
   } catch (error) {
-    if (error instanceof Error && error.message === 'ACCOUNT_NOT_FOUND') {
+    if (error instanceof Error && error.message === ERRORS.ACCOUNT_NOT_FOUND) {
       return res.status(404).json({
         message: 'Compte introuvable',
       });
@@ -131,7 +131,7 @@ export async function archiveAccount(req: Request, res: Response) {
 
     return res.status(200).json({ message: 'Compte archivé' });
   } catch (error) {
-    if (error instanceof Error && error.message === 'ACCOUNT_NOT_FOUND') {
+    if (error instanceof Error && error.message === ERRORS.ACCOUNT_NOT_FOUND) {
       return res.status(404).json({
         message: 'Compte introuvable',
       });

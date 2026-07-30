@@ -1,3 +1,4 @@
+import { ERRORS } from '../constants/errors';
 import { CategoryType } from '../generated/prisma/enums';
 import prisma from '../lib/prisma';
 import {
@@ -103,7 +104,7 @@ export async function updateCategoryService(
       archived: false,
     },
   });
-  if (!category) throw new Error('CATEGORY_NOT_FOUND');
+  if (!category) throw new Error(ERRORS.CATEGORY_NOT_FOUND);
 
   // Mettre à jour le categorie
   const categoryUpdated = await prisma.category.update({
@@ -126,7 +127,7 @@ export async function archiveCategoryService(
       archived: false,
     },
   });
-  if (!category) throw new Error('CATEGORY_NOT_FOUND');
+  if (!category) throw new Error(ERRORS.CATEGORY_NOT_FOUND);
 
   // Mettre à jour le categorie
   const categoryArchived = await prisma.category.update({
