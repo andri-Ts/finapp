@@ -10,6 +10,8 @@ import {
   updateCategoryService,
   archiveCategoryService,
 } from '../services/category.service';
+import { ERRORS } from '../constants/errors';
+import { getAuthentificatedUser } from '../utils/auth';
 
 export async function createCategory(req: Request, res: Response) {
   const validation = createCategorySchema.safeParse(req.body);
@@ -20,12 +22,7 @@ export async function createCategory(req: Request, res: Response) {
     });
 
   try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return res.status(401).json({
-        message: 'Utilisateur non authentifié',
-      });
-    }
+    const userId = getAuthentificatedUser(req);
 
     const newCategory = await createCategoryService(userId, validation.data);
 
@@ -39,10 +36,7 @@ export async function createCategory(req: Request, res: Response) {
 
 export async function getAllCategory(req: Request, res: Response) {
   try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return res.status(401).json({ message: 'Utilisateur non authentifié' });
-    }
+    const userId = getAuthentificatedUser(req);
 
     const categories = await getAllCategorieService(userId);
 

@@ -10,6 +10,8 @@ import {
   createAccountSchema,
   updateAccountSchema,
 } from '../schemas/account.schema';
+import { getAuthentificatedUser } from '../utils/auth';
+import { ERRORS } from '../constants/errors';
 
 export async function createAccount(req: Request, res: Response) {
   const validation = createAccountSchema.safeParse(req.body);
@@ -20,11 +22,7 @@ export async function createAccount(req: Request, res: Response) {
       .json({ message: 'Données invalides', errors: validation.error.issues });
 
   try {
-    const userId = req.user?.userId; // récupere l'user qui va créer un coptes
-    // Sécurité (normalement impossible si middlaware est bien placé)
-    if (!userId) {
-      return res.status(401).json({ message: 'Utilisateur non authentifier' });
-    }
+    const userId = getAuthentificatedUser(req);
 
     const newAccount = await createAccountService(userId, validation.data);
 
@@ -38,9 +36,7 @@ export async function createAccount(req: Request, res: Response) {
 
 export async function getAllAccount(req: Request, res: Response) {
   try {
-    const userId = req.user?.userId; // userId obtenue de token
-    if (!userId)
-      return res.status(401).json({ message: 'Utilisateur non authentifié' });
+    const userId = getAuthentificatedUser(req);
 
     const accounts = await getAllAccountService(userId);
     // console.log('ACCOUNTS:', accounts);
