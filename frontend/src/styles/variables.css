@@ -1,6 +1,6 @@
 :root {
   /* =====================
-     Colors
+     Brand colors
   ====================== */
 
   --color-primary: #4f7cff;
@@ -8,9 +8,21 @@
 
   --color-secondary: #eef2ff;
 
+  /* =====================
+     Semantic colors
+  ====================== */
+
   --color-success: #22c55e;
+  --color-success-background: #dcfce7;
+  --color-success-text: #166534;
+
   --color-danger: #ef4444;
+  --color-danger-background: #fee2e2;
+  --color-danger-text: #991b1b;
+
   --color-warning: #f59e0b;
+  --color-warning-background: #fef3c7;
+  --color-warning-text: #92400e;
 
   --color-background: #f8fafc;
   --color-surface: #ffffff;
@@ -19,7 +31,6 @@
   --color-text-secondary: #64748b;
 
   --color-border: #e2e8f0;
-
   /* =====================
      Spacing
   ====================== */
