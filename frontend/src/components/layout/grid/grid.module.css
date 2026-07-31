@@ -1,0 +1,40 @@
+.grid {
+  display: grid;
+}
+
+.columns1 {
+  grid-template-columns: 1fr;
+}
+
+.columns2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.columns3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.columns4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.sm {
+  gap: var(--space-sm);
+}
+
+.md {
+  gap: var(--space-md);
+}
+
+.lg {
+  gap: var(--space-lg);
+}
+
+/* On considère qu'en dessous d'environ 768 px (48rem), on passe sur une seule colonne. */
+@media (max-width: 48rem) {
+  .columns2,
+  .columns3,
+  .columns4 {
+    grid-template-columns: 1fr;
+  }
+}

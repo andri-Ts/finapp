@@ -1,0 +1,32 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.sm {
+  gap: var(--space-sm);
+}
+
+.md {
+  gap: var(--space-md);
+}
+
+.lg {
+  gap: var(--space-lg);
+}
+
+.start {
+  align-items: flex-start;
+}
+
+.center {
+  align-items: center;
+}
+
+.end {
+  align-items: flex-end;
+}
+
+.stretch {
+  align-items: stretch;
+}
