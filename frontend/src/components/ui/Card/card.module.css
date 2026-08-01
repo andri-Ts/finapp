@@ -5,7 +5,7 @@
   border-radius: var(--radius-lg);
 
   box-shadow: var(--shadow-sm);
-  padding: var(--space-lg);
+  padding: var(--space-md);
 }
 
 .title {

@@ -1,0 +1,11 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: var(--space-md);
+}
+
+.card p {
+  color: var(--color-text-secondary);
+}

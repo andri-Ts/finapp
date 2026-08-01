@@ -1,0 +1,57 @@
+import type { ITransaction } from '@/types/transaction.types';
+
+export const transactions: ITransaction[] = [
+  {
+    id: '1',
+
+    title: 'Courses Carrefour',
+
+    amount: 45.9,
+
+    type: 'expense',
+
+    date: '2026-08-01',
+
+    categoryId: 'food',
+
+    accountId: 'bank',
+
+    createdAt: '2026-08-01',
+  },
+
+  {
+    id: '2',
+
+    title: 'Salaire',
+
+    amount: 2500,
+
+    type: 'income',
+
+    date: '2026-08-02',
+
+    categoryId: 'salary',
+
+    accountId: 'bank',
+
+    createdAt: '2026-08-02',
+  },
+
+  {
+    id: '3',
+
+    title: 'Netflix',
+
+    amount: 13.99,
+
+    type: 'expense',
+
+    date: '2026-08-03',
+
+    categoryId: 'subscription',
+
+    accountId: 'bank',
+
+    createdAt: '2026-08-03',
+  },
+];
