@@ -6,6 +6,26 @@
   gap: var(--space-md);
 }
 
-.card p {
-  color: var(--color-text-secondary);
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+
+  color: var(--colot-text-secondary);
+
+  font-size: var(--font-size-small);
+}
+
+.expense {
+  color: var(--color-danger-text);
+}
+
+.income {
+  color: var(--color-success-text);
 }

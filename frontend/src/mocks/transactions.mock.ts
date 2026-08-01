@@ -12,7 +12,7 @@ export const transactions: ITransaction[] = [
 
     date: '2026-08-01',
 
-    categoryId: 'food',
+    categoryId: '1111',
 
     accountId: 'bank',
 
@@ -30,7 +30,7 @@ export const transactions: ITransaction[] = [
 
     date: '2026-08-02',
 
-    categoryId: 'salary',
+    categoryId: '2222',
 
     accountId: 'bank',
 
@@ -48,7 +48,7 @@ export const transactions: ITransaction[] = [
 
     date: '2026-08-03',
 
-    categoryId: 'subscription',
+    categoryId: '3333',
 
     accountId: 'bank',
 
