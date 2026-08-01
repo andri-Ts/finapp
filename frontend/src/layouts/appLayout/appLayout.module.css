@@ -14,7 +14,9 @@
 .main {
   flex: 1; /* Le main occupe tout l'espace qui reste */
   padding: var(--space-lg);
-  /* background-color: red; */
+
+  display: flex;
+  justify-content: center;
 }
 
 /* ----------------------------------------*/
