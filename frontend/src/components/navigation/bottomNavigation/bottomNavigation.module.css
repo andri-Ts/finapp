@@ -1,0 +1,44 @@
+.navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: var(--space-sm);
+
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: var(--space-xs);
+
+  color: var(--color-text);
+  font-size: var(--font-size-captation);
+
+  transition: color var(--transisiton-fast);
+}
+.link:hover {
+  color: var(--color-primary);
+}
+
+.active {
+  color: var(--color-primary);
+}
+
+/* ----------------------------------------*/
+/* ----- Ordinateur ------------ */
+/* -----------------------------------------*/
+
+@media (min-width: 48rem) {
+  .navigation {
+    display: none;
+  }
+}

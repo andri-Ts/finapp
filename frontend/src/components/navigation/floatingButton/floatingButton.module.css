@@ -1,0 +1,28 @@
+.button {
+  position: fixed; /* reste visible*/
+
+  right: var(--space-lg);
+  bottom: 5rem; /* Le bouton doit flotter au-dessus de navigation */
+
+  width: 3rem;
+  height: 3rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 48rem) {
+  .button {
+    display: none;
+  }
+}

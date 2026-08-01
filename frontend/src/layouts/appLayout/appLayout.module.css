@@ -1,0 +1,33 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* content est le véritable conteneur */
+.content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1; /* Le main occupe tout l'espace qui reste */
+  padding: var(--space-lg);
+  /* background-color: red; */
+}
+
+/* ----------------------------------------*/
+/* ----- Tablette et télephone ------------ */
+/*-----------------------------------------*/
+
+@media (max-width: 48rem) {
+  .layout {
+    display: block; /* élément s'affiche sous forme de bloc indépendant. Il prend toute la largeur disponible sur la ligne, force un retour à la ligne avant et après lui*/
+  }
+
+  .main {
+    padding: var(--space-md);
+    padding-bottom: 5rem; /* laisse la place à la navigation mobile en bas.*/
+  }
+}

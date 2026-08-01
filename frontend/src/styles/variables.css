@@ -25,7 +25,7 @@
   --color-warning-text: #92400e;
 
   --color-background: #f8fafc;
-  --color-surface: #ffffff;
+  --color-surface: #ffffff; /* couleur de fond des bares des navigations */
 
   --color-text: #1e293b;
   --color-text-secondary: #64748b;

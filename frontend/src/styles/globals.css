@@ -31,3 +31,8 @@ h3 {
 small {
   font-size: var(--font-size-small);
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
