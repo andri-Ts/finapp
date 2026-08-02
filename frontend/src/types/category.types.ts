@@ -1,4 +1,4 @@
-import type { CategoryIconName } from '@/constants/categoryIcons';
+import type { CategoryIconName } from '@/constants/constIcons';
 
 export interface ICategory {
   id: string;

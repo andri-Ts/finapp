@@ -3,7 +3,7 @@ import styles from './transactionCard.module.css';
 import Card from '@/components/ui/Card';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
-import { categoryIcons } from '@/constants/categoryIcons';
+import { categoryIcons } from '@/constants/constIcons';
 
 interface TransactionCardProps {
   transaction: ITransaction;

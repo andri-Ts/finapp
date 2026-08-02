@@ -1,4 +1,4 @@
-import type { CategoryIconName } from '@/constants/categoryIcons';
+import type { CategoryIconName } from '@/constants/constIcons';
 
 export type TransactionType = 'EXPENSE' | 'INCOME' | 'TRANSFERT';
 
