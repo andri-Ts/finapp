@@ -3,55 +3,70 @@ import type { ITransaction } from '@/types/transaction.types';
 export const mockTransactions: ITransaction[] = [
   {
     id: '1',
+    amount: 25,
+    type: 'EXPENSE',
+    description: 'Restaurant',
+    note: null,
+    transactionDate: '2026-08-01T12:30:00.000Z',
 
-    title: 'Courses Carrefour',
+    account: {
+      id: 'acc1',
+      name: 'Compte courant',
+      icon: 'wallet',
+      color: '#4f7cff',
+    },
 
-    amount: 45.9,
-
-    type: 'expense',
-
-    date: '2026-08-01',
-
-    categoryId: '1111',
-
-    accountId: 'bank',
-
-    createdAt: '2026-08-01',
+    category: {
+      id: 'cat1',
+      name: 'Restaurant',
+      icon: 'utensils',
+      color: '#ef4444',
+    },
   },
 
   {
     id: '2',
+    amount: 2000,
+    type: 'INCOME',
+    description: 'Salaire',
+    note: null,
+    transactionDate: '2026-08-01T08:00:00.000Z',
 
-    title: 'Salaire',
+    account: {
+      id: 'acc1',
+      name: 'Compte courant',
+      icon: 'wallet',
+      color: '#4f7cff',
+    },
 
-    amount: 2500,
-
-    type: 'income',
-
-    date: '2026-08-02',
-
-    categoryId: '2222',
-
-    accountId: 'bank',
-
-    createdAt: '2026-08-02',
+    category: {
+      id: 'cat2',
+      name: 'Salaire',
+      icon: 'briefcase',
+      color: '#22c55e',
+    },
   },
 
   {
     id: '3',
+    amount: 4000,
+    type: 'INCOME',
+    description: 'Salaire2',
+    note: null,
+    transactionDate: '2026-08-01T08:00:00.000Z',
 
-    title: 'Netflix',
+    account: {
+      id: 'acc1',
+      name: 'Compte courant',
+      icon: 'wallet',
+      color: '#4f7cff',
+    },
 
-    amount: 13.99,
-
-    type: 'expense',
-
-    date: '2026-08-03',
-
-    categoryId: '3333',
-
-    accountId: 'bank',
-
-    createdAt: '2026-08-03',
+    category: {
+      id: 'cat2',
+      name: 'Salaire',
+      icon: 'briefcase',
+      color: '#22c55e',
+    },
   },
 ];
