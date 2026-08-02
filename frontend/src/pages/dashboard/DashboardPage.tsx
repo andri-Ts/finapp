@@ -2,6 +2,10 @@ import PageHeader from '@/components/layout/pageHeader';
 import styles from './dashboard.module.css';
 import StatCard from '@/features/dashboard/components/StatCard';
 import BalanceCard from '@/features/dashboard/components/balanceCard';
+import PageSection from '@/components/layout/pageSection';
+import { Link } from 'react-router-dom';
+import TransactionList from '@/features/transactions/components/transactionList';
+import { mockTransactions } from '@/mocks/transactions.mock';
 
 function DashboardPage() {
   return (
@@ -15,6 +19,18 @@ function DashboardPage() {
 
         <StatCard title="Dépenses du mois" value={850} variant="danger" />
       </div>
+
+      <PageSection
+        title="Transaction du mois"
+        action={
+          <Link to={'/transactions'} className={styles.viewAllLink}>
+            Voir toutes →
+          </Link>
+        }
+      >
+        {/* mockTransactions doit être remplacer par les données du mois en cours envoer par l'api */}
+        <TransactionList transactions={mockTransactions} />
+      </PageSection>
     </section>
   );
 }

@@ -9,7 +9,7 @@ interface TransactionListProps {
 
 function TransactionList(props: TransactionListProps) {
   return (
-    <section className={styles.list}>
+    <div className={styles.list}>
       {props.transactions.map((transaction) => {
         const category = categories.find(
           (category) => category.id === transaction.categoryId,
@@ -28,7 +28,7 @@ function TransactionList(props: TransactionListProps) {
           />
         );
       })}
-    </section>
+    </div>
   );
 }
 
