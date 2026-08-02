@@ -1,22 +1,39 @@
 import type { ICategory } from '@/types/category.types';
 
-export const categories: ICategory[] = [
+export const mockCategories: ICategory[] = [
   {
-    id: '1111',
-    name: 'Alimentation',
-    color: '#22c55e',
-    icon: 'shopping-cart',
+    id: 'cat1',
+    name: 'Restaurant',
+    type: 'EXPENSE',
+    icon: 'utensils',
+    color: '#ef4444',
+    monthlyAmount: 248,
   },
+
   {
-    id: '2222',
-    name: 'Salaire',
+    id: 'cat2',
+    name: 'Transport',
+    type: 'EXPENSE',
+    icon: 'car',
     color: '#3b82f6',
-    icon: 'wallet',
+    monthlyAmount: 112,
   },
+
   {
-    id: '3333',
-    name: 'Abonnements',
-    color: '#a855f7',
-    icon: 'tv',
+    id: 'cat3',
+    name: 'Courses',
+    type: 'EXPENSE',
+    icon: 'shopping',
+    color: '#22c55e',
+    monthlyAmount: 384,
+  },
+
+  {
+    id: 'cat4',
+    name: 'Salaire',
+    type: 'INCOME',
+    icon: 'briefcase',
+    color: '#22c55e',
+    monthlyAmount: 2000,
   },
 ];

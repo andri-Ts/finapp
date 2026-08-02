@@ -1,0 +1,18 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(22rem, 1fr)
+  ); /*remplis l'espace au maximum,  minimale et maximale de chaque colonne */
+  gap: var(--space-lg);
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width: 48rem) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+}
