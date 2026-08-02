@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import {
   archiveAccountService,
   createAccountService,
-  getAllAccountervice,
+  getAccountService,
   getAllAccountService,
   updateAccountService,
 } from '../services/account.service';
@@ -61,7 +61,7 @@ export async function getAccount(req: Request, res: Response) {
       });
     }
 
-    const account = await getAllAccountervice(accountId, userId);
+    const account = await getAccountService(accountId, userId);
     if (!account)
       return res.status(404).json({ message: 'Compte introuvable' });
 

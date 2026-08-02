@@ -46,7 +46,7 @@ export async function getAllAccountService(userId: string) {
   return accounts;
 }
 
-export async function getAllAccountervice(accountId: string, userId: string) {
+export async function getAccountService(accountId: string, userId: string) {
   return await prisma.account.findFirst({
     where: {
       id: accountId,

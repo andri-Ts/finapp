@@ -1,0 +1,15 @@
+.card {
+  text-align: center;
+}
+
+.accountName {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.balance {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}

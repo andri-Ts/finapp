@@ -1,0 +1,27 @@
+.title {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+}
+
+.value {
+  margin: var(--space-md) 0 0;
+
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+
+  color: var(--color-text);
+}
+
+.default {
+  color: var(--color-text);
+}
+
+.success {
+  color: var(--color-success-text);
+}
+
+.danger {
+  color: var(--color-danger-text);
+}
