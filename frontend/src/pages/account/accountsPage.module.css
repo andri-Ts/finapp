@@ -5,4 +5,5 @@
 
   /* permet à lla page de remplir tout le laoyout -> carte rallonger */
   width: 100%;
+  max-width: var(--layout-content-max-width);
 }
