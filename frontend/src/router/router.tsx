@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/appLayout/AppLayout';
 import AccountsPage from '@/pages/account/AccountsPage';
+import CalendarPage from '@/pages/calendarPage/CalendarPage';
 import CategoryPage from '@/pages/category/CategoryPage';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
 import TransactionsPage from '@/pages/transaction/TransactionsPage';
@@ -24,6 +25,10 @@ export const myRouter = createBrowserRouter([
       {
         path: '/accounts',
         element: <AccountsPage />,
+      },
+      {
+        path: '/calendar',
+        element: <CalendarPage />,
       },
     ],
   },
