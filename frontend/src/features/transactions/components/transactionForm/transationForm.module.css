@@ -63,6 +63,12 @@
   resize: vertical;
 }
 
+.error {
+  margin-top: var(--space-xs);
+  color: var(--color-danger-text);
+  font-size: var(--font-size-small);
+}
+
 /* =====================
    Desktop
 ===================== */

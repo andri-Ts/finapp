@@ -1,9 +1,15 @@
 import styles from './transactionTypeToggle.module.css';
 import type { TransactionType } from '@/types/transaction.types';
 
+// Le toggle permet actuellement de choisir uniquement entre dépense et revenu. // TRANSFER sera géré séparément lorsque nous construirons // la fonctionnalité de transfert.
+type TransactionTypeToggleValue = Extract<
+  TransactionType,
+  'EXPENSE' | 'INCOME'
+>;
+
 interface TransactionTypeToggleProps {
-  value: TransactionType;
-  onChange: (type: TransactionType) => void;
+  value: TransactionTypeToggleValue;
+  onChange: (type: TransactionTypeToggleValue) => void;
 }
 
 function TransactionTypeToggle({

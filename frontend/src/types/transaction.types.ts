@@ -1,6 +1,6 @@
 import type { CategoryIconName } from '@/constants/constIcons';
 
-export type TransactionType = 'EXPENSE' | 'INCOME' | 'TRANSFERT';
+export type TransactionType = 'EXPENSE' | 'INCOME' | 'TRANSFER';
 
 export interface TransactionCategory {
   id: string;
