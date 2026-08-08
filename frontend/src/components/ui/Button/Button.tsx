@@ -19,7 +19,7 @@ function Button({
 }: IButtonProps) {
   return (
     <button
-      className={`{${styles.button} ${styles[variant]}
+      className={`${styles.button} ${styles[variant]}
         ${styles[size]}
         ${className}`}
       disabled={disabled || loading}

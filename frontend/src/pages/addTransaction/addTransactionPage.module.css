@@ -1,0 +1,25 @@
+/* .page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+
+  width: 100%;
+  max-width: var(--layout-form-max-width);
+
+  margin: 0 auto;
+} */
+
+.page {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: var(--space-lg);
+
+  /*
+    Le formulaire peut grandir avec la largeur
+    disponible, mais s'arrête à cette largeur.
+  */
+  width: min(100%, var(--layout-form-max-width));
+
+  margin: 0 auto;
+}

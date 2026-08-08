@@ -96,7 +96,7 @@
   --layout-content-max-width: 70rem;
   --layout-dashboard-max-width: 75rem; /* 1200px */
   --layout-calendar-max-width: 68.75rem; /* 1100px */
-  --layout-form-max-width: 31.25rem; /* 500px */
+  --layout-form-max-width: 50rem; /* 500px */
   --layout-reading-max-width: 43.75rem; /* 700px */
 
   /* =====================
