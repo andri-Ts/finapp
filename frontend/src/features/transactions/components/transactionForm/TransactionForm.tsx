@@ -10,6 +10,7 @@ import {
   transactionSchema,
   type ITransactionFormData,
 } from '../../schemas/transaction.schema';
+import { useEffect } from 'react';
 
 function TransactionForm() {
   /*
@@ -28,6 +29,7 @@ function TransactionForm() {
     handleSubmit, // fonc de Hook Form: intercept le submit de formulaire, exécute la fonction à l'intérieur si tout est ok
     setValue,
     watch, // watch(): Permet de regarder la valeur actuelle d'un champ.
+    reset, // reset le formulaire
     formState: { errors }, // Contient les erreurs de validation
   } = useForm<ITransactionFormData>({
     resolver: zodResolver(transactionSchema), // branche zod et Hook Form pour checker le schema
@@ -48,117 +50,179 @@ function TransactionForm() {
    * C'est utile parce que nos composants personnalisés  ont besoin de connaître leur valeur actuelle.
    */
   const amount = watch('amount');
-  const type = watch('type');
-  const selectedCategoryId = watch('categoryId');
-  const selectedAccountId = watch('accountId');
+  const selectedType = watch('type');
+  // const selectedCategoryId = watch('categoryId');
+  // const selectedAccountId = watch('accountId');
+
+  // quand le type change, on remet le catégorie à 0
+  useEffect(() => {
+    setValue('categoryId', '');
+  }, [selectedType, setValue]);
 
   // fonc appeller par handleSubmit de Hook Form si le formulaire est valide
   const onSubmitForm = (data: ITransactionFormData) => {
     console.log('Transaction valide: ', data);
+
+    reset();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)} className={styles.form}>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit(onSubmitForm, (errors) => {
+        console.log('❌ Formulaire invalide :', errors);
+      })}
+    >
       {/* =========================
-          MONTANT
+      MONTANT
+       ========================== */}
+      <div className={`${styles.field} ${styles.amountField}`}>
+        <AmountInput
+          value={amount}
+          onChange={(value) => setValue('amount', value)}
+        />
+
+        {errors.amount && (
+          <span className={styles.error}>{errors.amount.message}</span>
+        )}
+      </div>
+
+      {/* =========================
+      TYPE
       ========================== */}
-      <AmountInput
-        value={amount}
-        onChange={(value) => setValue('amount', value)}
-      />
-      {/* Affichage de l'erreur Zod pour amount */}
-      {errors.amount && (
-        <span className={styles.error}>{errors.amount.message}</span>
+      <div className={styles.typeField}>
+        <TransactionTypeToggle
+          value={selectedType}
+          onChange={(value) => setValue('type', value)}
+        />
+
+        {errors.type && (
+          <span className={styles.error}>{errors.type.message}</span>
+        )}
+      </div>
+
+      {/* =========================
+      CATÉGORIE / COMPTE
+      ========================== */}
+
+      {selectedType !== 'TRANSFER' && (
+        <>
+          <div className={styles.field}>
+            <CategorySelect
+              value={watch('categoryId')}
+              onChange={(value) => setValue('categoryId', value)}
+              type={selectedType}
+            />
+
+            {errors.categoryId && (
+              <span className={styles.error}>{errors.categoryId.message}</span>
+            )}
+          </div>
+
+          <div className={styles.field}>
+            <AccountSelect
+              value={watch('accountId')}
+              onChange={(value) => setValue('accountId', value)}
+            />
+
+            {errors.accountId && (
+              <span className={styles.error}>{errors.accountId.message}</span>
+            )}
+          </div>
+        </>
       )}
 
       {/* =========================
-          TYPE
+      TRANSFERT
       ========================== */}
+      {selectedType === 'TRANSFER' && (
+        <>
+          <div className={styles.field}>
+            <AccountSelect
+              value={watch('sourceAccountId') ?? ''}
+              onChange={(value) => setValue('sourceAccountId', value)}
+            />
 
-      <TransactionTypeToggle
-        value={type}
-        onChange={(value) => setValue('type', value)}
-      />
+            {errors.sourceAccountId && (
+              <span className={styles.error}>
+                {errors.sourceAccountId.message}
+              </span>
+            )}
+          </div>
 
-      {errors.type && (
-        <span className={styles.error}>{errors.type.message}</span>
+          <div className={styles.field}>
+            <AccountSelect
+              value={watch('destinationAccountId') ?? ''}
+              onChange={(value) => setValue('destinationAccountId', value)}
+            />
+
+            {errors.destinationAccountId && (
+              <span className={styles.error}>
+                {errors.destinationAccountId.message}
+              </span>
+            )}
+          </div>
+        </>
       )}
 
       {/* =========================
-          CATÉGORIE
-      ========================== */}
-
-      <CategorySelect
-        value={selectedCategoryId}
-        onChange={(value) => setValue('categoryId', value)}
-      />
-
-      {errors.categoryId && (
-        <span className={styles.error}>{errors.categoryId.message}</span>
-      )}
-
-      {/* =========================
-          COMPTE
-      ========================== */}
-      <AccountSelect
-        value={selectedAccountId}
-        onChange={(value) => setValue('accountId', value)}
-      />
-      {errors.accountId && (
-        <span className={styles.error}>{errors.accountId.message}</span>
-      )}
-
-      {/* =========================
-          DATE
+      DATE
       ========================== */}
       <div className={styles.field}>
         <label htmlFor="transactionDate">Date</label>
+
         <input
           type="date"
           id="transactionDate"
           {...register('transactionDate')}
         />
+
         {errors.transactionDate && (
           <span className={styles.error}>{errors.transactionDate.message}</span>
         )}
       </div>
 
       {/* =========================
-          DESCRIPTION
+      DESCRIPTION
       ========================== */}
       <div className={styles.field}>
         <label htmlFor="description">Description</label>
+
         <input
           id="description"
           type="text"
           {...register('description')}
           placeholder="Ex. Restaurant"
         />
+
         {errors.description && (
           <span className={styles.error}>{errors.description.message}</span>
         )}
       </div>
 
       {/* =========================
-          NOTE
-      ========================== */}
+      NOTE
+  ========================== */}
 
       <div className={styles.field}>
         <label htmlFor="note">Note</label>
+
         <textarea
           id="note"
-          placeholder="Ajouter une note..."
           rows={3}
           {...register('note')}
+          placeholder="Ajouter une note..."
         />
+
         {errors.note && (
           <span className={styles.error}>{errors.note.message}</span>
         )}
       </div>
 
       {/* =========================
-          SUBMIT
-      ========================== */}
+      SUBMIT
+  ========================== */}
+
       <Button type="submit">Enregistrer</Button>
     </form>
   );

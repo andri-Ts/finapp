@@ -2,14 +2,14 @@ import styles from './transactionTypeToggle.module.css';
 import type { TransactionType } from '@/types/transaction.types';
 
 // Le toggle permet actuellement de choisir uniquement entre dépense et revenu. // TRANSFER sera géré séparément lorsque nous construirons // la fonctionnalité de transfert.
-type TransactionTypeToggleValue = Extract<
-  TransactionType,
-  'EXPENSE' | 'INCOME'
->;
+// type TransactionTypeToggleValue = Extract<
+//   TransactionType,
+//   'EXPENSE' | 'INCOME'
+// >;
 
 interface TransactionTypeToggleProps {
-  value: TransactionTypeToggleValue;
-  onChange: (type: TransactionTypeToggleValue) => void;
+  value: TransactionType;
+  onChange: (type: TransactionType) => void;
 }
 
 function TransactionTypeToggle({
@@ -17,7 +17,7 @@ function TransactionTypeToggle({
   onChange,
 }: TransactionTypeToggleProps) {
   return (
-    <div className={styles.container}>
+    <div className={styles.buttonGroup}>
       <button
         type="button"
         className={`${styles.button} ${
@@ -27,7 +27,6 @@ function TransactionTypeToggle({
       >
         Dépense
       </button>
-
       <button
         type="button"
         className={`${styles.button} ${
@@ -36,6 +35,15 @@ function TransactionTypeToggle({
         onClick={() => onChange('INCOME')}
       >
         Revenu
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.button} ${value === 'TRANSFER' ? styles.activeTransfer : ''}`}
+        onClick={() => onChange('TRANSFER')}
+      >
+        {' '}
+        Transfert{' '}
       </button>
     </div>
   );

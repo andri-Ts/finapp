@@ -36,4 +36,12 @@ export const mockCategories: ICategory[] = [
     color: '#22c55e',
     monthlyAmount: 2000,
   },
+  {
+    id: 'cat5',
+    name: 'Virement',
+    type: 'INCOME',
+    icon: 'briefcase',
+    color: '#70ae87',
+    monthlyAmount: 2000,
+  },
 ];
