@@ -257,6 +257,9 @@ export async function updateTransactionService(
   newData: IUpdateTransactionInput,
 ) {
   return prisma.$transaction(async (tx) => {
+    // =====================================================
+    // A. RÉCUPÉRER LA TRANSACTION
+    // =====================================================
     // Vérifier que la transaction existe
     const transaction = await tx.transaction.findFirst({
       where: {
@@ -271,6 +274,194 @@ export async function updateTransactionService(
       throw new Error(ERRORS.TRANSACTION_NOT_FOUND);
     }
 
+    // =====================================================
+    // B- Cas transfert
+    // =====================================================
+    if (transaction.type === TransactionType.TRANSFER) {
+      // Un transfert doit avoir un id de groupe
+      if (!transaction.transferGroupId) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // Récup les 2 transfers
+      const transferTransactions = await tx.transaction.findMany({
+        where: { transferGroupId: transaction.transferGroupId },
+      });
+
+      // Un transfert doit toujours être composé de 2 transactions
+      if (transferTransactions.length !== 2) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // la transaction qu'on modifie représente le compte source
+      const oldSourceTransaction = transferTransactions.find(
+        (t) => t.accountId === transaction.accountId,
+      );
+      const oldDestinationTransaction = transferTransactions.find(
+        (t) => t.accountId !== transaction.accountId,
+      );
+      if (!oldSourceTransaction || !oldDestinationTransaction) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // =====================================================
+      // B2. Récupérer les anciens compte
+      // =====================================================
+      const oldSourceAccount = await tx.account.findFirst({
+        where: {
+          id: oldSourceTransaction.accountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      const oldDestinationAccount = await tx.account.findFirst({
+        where: {
+          id: oldDestinationTransaction.accountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!oldSourceAccount || !oldDestinationAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // =====================================================
+      // B1 Nouvelles valeurs du montant et des comptes
+      // =====================================================
+      const newAmount = newData.amount ?? transaction.amount;
+      const newSourceAccountId = newData.sourceAccountId ?? oldSourceAccount.id;
+      const newDestinationAccountId =
+        newData.destinationAccountId ?? oldDestinationAccount.id;
+
+      // Un compte ne peut pas être transféré vers lui-même
+      if (newSourceAccountId === newDestinationAccountId) {
+        throw new Error(ERRORS.TRANSFER_SAME_ACCOUNT);
+      }
+
+      // =====================================================
+      // B2 Récupération des nouveaux comptes
+      // =====================================================
+      const newSourceAccount = await tx.account.findFirst({
+        where: {
+          id: newSourceAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      const newDestinationAccount = await tx.account.findFirst({
+        where: {
+          id: newDestinationAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!newSourceAccount || !newDestinationAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // =====================================================
+      // B3 Annuler les anciens impacts
+      // =====================================================
+      await tx.account.update({
+        where: {
+          id: oldDestinationAccount.id,
+        },
+        data: {
+          currentBalance: oldDestinationAccount.currentBalance.minus(
+            oldDestinationTransaction.amount,
+          ),
+        },
+      });
+
+      await tx.account.update({
+        where: {
+          id: oldSourceAccount.id,
+        },
+        data: {
+          currentBalance: oldSourceAccount.currentBalance.plus(
+            oldSourceTransaction.amount,
+          ),
+        },
+      });
+
+      // =====================================================
+      // B4 Vérifier le nouveau solde
+      // =====================================================
+      let availableBalance = newSourceAccount.currentBalance;
+
+      // Si le nouveau compte source est aussi l'ancien compte source, son solde vient d'être restauré à l'étape précédente.
+      if (newSourceAccount.id === oldSourceAccount.id) {
+        availableBalance = oldSourceAccount.currentBalance.plus(
+          oldSourceTransaction.amount,
+        );
+      }
+
+      if (availableBalance.lessThan(newAmount)) {
+        throw new Error(ERRORS.INSUFFICIENT_BALANCE);
+      }
+
+      // =====================================================
+      // B5 Appliquer le nouveau transfert
+      // =====================================================
+      await tx.account.update({
+        where: {
+          id: newSourceAccount.id,
+        },
+        data: {
+          currentBalance: availableBalance.minus(newAmount),
+        },
+      });
+
+      // Si source et destination sont différents, on crédite le compte destination.
+      await tx.account.update({
+        where: {
+          id: newDestinationAccount.id,
+        },
+        data: {
+          currentBalance: newDestinationAccount.currentBalance.plus(newAmount),
+        },
+      });
+
+      // =====================================================
+      // B6 Mettre à jour les deux transactions
+      // =====================================================
+      const commonData = {
+        amount: newAmount,
+        transactionDate: newData.transactionDate ?? transaction.transactionDate,
+        description: newData.description ?? transaction.description,
+        note: newData.note !== undefined ? newData.note : transaction.note,
+      };
+
+      const updatedSourceTransaction = await tx.transaction.update({
+        where: {
+          id: oldSourceTransaction.id,
+        },
+        data: {
+          ...commonData,
+          accountId: newSourceAccount.id,
+        },
+      });
+
+      await tx.transaction.update({
+        where: {
+          id: oldDestinationTransaction.id,
+        },
+        data: {
+          ...commonData,
+          accountId: newDestinationAccount.id,
+        },
+      });
+
+      return updatedSourceTransaction;
+    }
+
+    // =====================================================
+    // A. RÉCUPÉRER LA TRANSACTION
+    // =====================================================
     // Vérifier le compte
     const account = await tx.account.findFirst({
       where: {
@@ -358,6 +549,9 @@ export async function deleteTransactionService(
   transactionId: string,
 ) {
   return prisma.$transaction(async (tx) => {
+    // =====================================================
+    // A. RÉCUPÉRER LA TRANSACTION
+    // =====================================================
     const transaction = await tx.transaction.findFirst({
       where: {
         id: transactionId,
@@ -371,6 +565,101 @@ export async function deleteTransactionService(
       throw new Error(ERRORS.TRANSACTION_NOT_FOUND);
     }
 
+    // =====================================================
+    // B. CAS TRANSFER
+    // =====================================================
+    if (transaction.type === TransactionType.TRANSFER) {
+      if (!transaction.transferGroupId) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // Récup les 2 transactions
+      const transferTransactions = await tx.transaction.findMany({
+        where: {
+          transferGroupId: transaction.transferGroupId,
+        },
+      });
+
+      if (transferTransactions.length !== 2) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      const sourceTransaction = transferTransactions.find(
+        (t) => t.accountId === transaction.accountId,
+      );
+      const destinationTransaction = transferTransactions.find(
+        (t) => t.accountId !== transaction.accountId,
+      );
+      if (!sourceTransaction || !destinationTransaction) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // =====================================================
+      // B1. Récupérer les comptes
+      // =====================================================
+      const sourceAccount = await tx.account.findFirst({
+        where: {
+          id: sourceTransaction.accountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      const destinationAccount = await tx.account.findFirst({
+        where: {
+          id: destinationTransaction.accountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!sourceAccount || !destinationAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // =====================================================
+      // B3. Restaurer les soldes
+      // =====================================================
+      // Le compte source a été débité, on lui rend le montant
+      await tx.account.update({
+        where: {
+          id: sourceAccount.id,
+        },
+        data: {
+          currentBalance: sourceAccount.currentBalance.plus(
+            sourceTransaction.amount,
+          ),
+        },
+      });
+
+      // Le compte destination avait été crédité, on lui retire le montant
+      await tx.account.update({
+        where: { id: destinationAccount.id },
+        data: {
+          currentBalance: destinationAccount.currentBalance.minus(
+            destinationTransaction.amount,
+          ),
+        },
+      });
+
+      // =====================================================
+      // B4. Supprimer les 2 transactions
+      // =====================================================
+      await tx.transaction.deleteMany({
+        where: {
+          transferGroupId: transaction.transferGroupId,
+        },
+      });
+
+      return {
+        message: 'Transfert supprimé',
+        transferGroupId: transaction.transferGroupId,
+      };
+    }
+
+    // =====================================================
+    // C. INCOME / EXPENSE
+    // =====================================================
     // Vérifier le compte
     const account = await tx.account.findFirst({
       where: {

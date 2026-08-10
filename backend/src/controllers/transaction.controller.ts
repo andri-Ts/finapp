@@ -192,6 +192,31 @@ export async function updateTransaction(req: Request, res: Response) {
       });
     }
 
+    if (error instanceof Error && error.message === ERRORS.TRANSFER_INVALID) {
+      return res.status(400).json({
+        message: 'Transfert invalide',
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === ERRORS.TRANSFER_SAME_ACCOUNT
+    ) {
+      return res.status(400).json({
+        message:
+          'Le compte source et le compte destination doivent être différents',
+      });
+    }
+
+    if (
+      error instanceof Error &&
+      error.message === ERRORS.INSUFFICIENT_BALANCE
+    ) {
+      return res.status(400).json({
+        message: 'Le solde du compte source est insuffisant',
+      });
+    }
+
     console.error(error);
 
     return res.status(500).json({
@@ -231,6 +256,12 @@ export async function deleteTransaction(req: Request, res: Response) {
     if (error instanceof Error && error.message === ERRORS.ACCOUNT_NOT_FOUND) {
       return res.status(404).json({
         message: 'Compte introuvable',
+      });
+    }
+
+    if (error instanceof Error && error.message === ERRORS.TRANSFER_INVALID) {
+      return res.status(400).json({
+        message: 'Transfert invalide',
       });
     }
 
