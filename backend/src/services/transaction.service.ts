@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { ERRORS } from '../constants/errors';
 import { TransactionType } from '../generated/prisma/enums';
 import prisma from '../lib/prisma';
@@ -12,6 +13,106 @@ export async function createTransactionService(
 ) {
   // Ouvre une transaction SQL : toutes les opérations réussissent ensemble ou sont annulées.
   return prisma.$transaction(async (tx) => {
+    // =====================================================
+    // TRANSFER
+    // =====================================================
+    if (transactionData.type === 'TRANSFER') {
+      // Récup le compte source
+      const sourceAccount = await tx.account.findFirst({
+        where: {
+          id: transactionData.sourceAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!sourceAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // Récup le compte source
+      const destinationAccount = await tx.account.findFirst({
+        where: {
+          id: transactionData.destinationAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!destinationAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // Vérifier que les 2 comptes sont différentes
+      if (sourceAccount.id === destinationAccount.id) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
+
+      // Vérifier que le compte source possède suffisamment d'argent
+      if (sourceAccount.currentBalance.lessThan(transactionData.amount)) {
+        throw new Error(ERRORS.INSUFFICIENT_BALANCE);
+      }
+
+      // Générer un id commun pour les 2 transactions
+      const transferGroupId = randomUUID();
+
+      // Créer la transaction source
+      const sourceTransaction = await tx.transaction.create({
+        data: {
+          accountId: sourceAccount.id,
+          amount: transactionData.amount,
+          type: TransactionType.TRANSFER,
+          description: transactionData.description,
+          note: transactionData.note,
+          transactionDate: transactionData.transactionDate,
+          transferGroupId,
+        },
+      });
+
+      // Créer la transaction destination
+      const destinationTransaction = await tx.transaction.create({
+        data: {
+          accountId: destinationAccount.id,
+          amount: transactionData.amount,
+          type: TransactionType.TRANSFER,
+          description: transactionData.description,
+          note: transactionData.note,
+          transactionDate: transactionData.transactionDate,
+          transferGroupId,
+        },
+      });
+
+      // Débiter le compte source
+      await tx.account.update({
+        where: {
+          id: sourceAccount.id,
+        },
+        data: {
+          currentBalance: sourceAccount.currentBalance.minus(
+            transactionData.amount,
+          ),
+        },
+      });
+
+      // Créditer le compte destination
+      await tx.account.update({
+        where: {
+          id: destinationAccount.id,
+        },
+        data: {
+          currentBalance: destinationAccount.currentBalance.plus(
+            transactionData.amount,
+          ),
+        },
+      });
+
+      return sourceTransaction;
+    }
+
+    // =====================================================
+    // INCOME / EXPENSE
+    // =====================================================
+
     // Vérifie que le compte existe et appartient à l'utilisateur connecté.
     const account = await tx.account.findFirst({
       where: {
@@ -23,10 +124,7 @@ export async function createTransactionService(
     if (!account) throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
 
     // Une catégorie est obligatoire sauf pour les transferts.
-    if (
-      transactionData.type !== TransactionType.TRANSFER &&
-      !transactionData.categoryId
-    ) {
+    if (!transactionData.categoryId) {
       throw new Error(ERRORS.CATEGORY_REQUIRED);
     }
 
