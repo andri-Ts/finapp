@@ -16,7 +16,7 @@ export const createTransactionSchema = z.object({
     .min(1, 'La description est obligatoire')
     .max(100),
 
-  note: z.string().trim().max(500).optional(),
+  note: z.string().trim().max(500).nullable().optional(),
 
   transactionDate: z.coerce.date(), // coerce: on obtiens directement un objet Date(pas un string/json).
 });
