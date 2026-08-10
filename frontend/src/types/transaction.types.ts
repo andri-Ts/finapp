@@ -16,6 +16,7 @@ export interface TransactionAccount {
   color: string | null;
 }
 
+// type que le formulaire manipule
 export interface ITransaction {
   id: string;
   amount: number;

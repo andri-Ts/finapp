@@ -2,7 +2,7 @@ import type { IAccount } from '@/types/account.types';
 
 export const mockAccounts: IAccount[] = [
   {
-    id: 'acc1',
+    id: 'cms7j6jxv0000o4u73fel9o1p',
     name: 'Compte courant',
     type: 'BANK',
     currency: 'EUR',
@@ -12,13 +12,13 @@ export const mockAccounts: IAccount[] = [
   },
 
   {
-    id: 'acc2',
+    id: 'cmsnixy1u000034u74x6u2dg4',
     name: 'Épargne',
     type: 'SAVINGS',
     currency: 'EUR',
-    currentBalance: 5200,
+    currentBalance: 1500,
     icon: 'piggy-bank',
-    color: '#22c55e',
+    color: '#4CAF50',
   },
 
   {

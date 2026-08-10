@@ -15,10 +15,9 @@ export const transactionSchema = z
       .max(255, 'La description est trop longue'),
     note: z.string().max(1000, 'La note est trop longue').optional(),
   })
+  // superfine() vérifie les règles qui dépendent du type.
   .superRefine((data, context) => {
     /*
-     * Ici, on vérifie les règles qui dépendent du type.
-     *
      * EXPENSE / INCOME :
      * → catégorie obligatoire
      * → compte obligatoire

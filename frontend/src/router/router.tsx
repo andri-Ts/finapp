@@ -4,6 +4,7 @@ import AddTransactionPage from '@/pages/addTransaction/AddTransactionPage';
 import CalendarPage from '@/pages/calendarPage/CalendarPage';
 import CategoryPage from '@/pages/category/CategoryPage';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
+import LoginPage from '@/pages/login/LoginPage';
 import TransactionsPage from '@/pages/transaction/TransactionsPage';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -14,6 +15,10 @@ export const myRouter = createBrowserRouter([
       {
         path: '/',
         element: <DashboardPage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
       },
       {
         path: '/transactions',

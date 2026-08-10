@@ -11,6 +11,9 @@ import {
   type ITransactionFormData,
 } from '../../schemas/transaction.schema';
 import { useEffect } from 'react';
+import { buildTransactionPayload } from '../../utils/buildTransactionPayload';
+import { createTransaction } from '../../api/transactionApi';
+import axios from 'axios';
 
 function TransactionForm() {
   /*
@@ -60,8 +63,22 @@ function TransactionForm() {
   }, [selectedType, setValue]);
 
   // fonc appeller par handleSubmit de Hook Form si le formulaire est valide
-  const onSubmitForm = (data: ITransactionFormData) => {
-    console.log('Transaction valide: ', data);
+  const onSubmitForm = async (data: ITransactionFormData) => {
+    const payload = buildTransactionPayload(data);
+
+    console.log('Données du formulaire: ', data);
+    console.log("Payload envoyé à l'API: ", payload);
+
+    try {
+      const transactionCreated = await createTransaction(payload);
+      console.log('Transaciton créée OK', transactionCreated);
+    } catch (error) {
+      console.error('❌ Erreur lors de la création :', error);
+
+      if (axios.isAxiosError(error)) {
+        console.error('❌ Réponse du backend :', error.response?.data);
+      }
+    }
 
     reset();
   };
