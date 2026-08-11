@@ -5,19 +5,63 @@ import BalanceCard from '@/features/dashboard/components/balanceCard';
 import PageSection from '@/components/layout/pageSection';
 import { Link } from 'react-router-dom';
 import TransactionList from '@/features/transactions/components/transactionList';
-import { mockTransactions } from '@/mocks/transactions.mock';
+// import { mockTransactions } from '@/mocks/transactions.mock';
+import Button from '@/components/ui/Button';
+import { useEffect, useState } from 'react';
+import type { IDashboard } from '@/features/dashboard/types/dashboard.types';
+import { getDashboard } from '@/features/dashboard/api/dashboardApi';
 
 function DashboardPage() {
+  const [dashboard, setDashboard] = useState<IDashboard | null>(null);
+
+  useEffect(() => {
+    async function loadDashboard() {
+      try {
+        const data = await getDashboard();
+        console.log('data dash: ', data);
+        setDashboard(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement du dashboard: ', error);
+      }
+    }
+
+    loadDashboard();
+  }, []);
+
+  if (!dashboard) {
+    return <p>Chargement...</p>;
+  }
+
   return (
     <section className={styles.page}>
-      <PageHeader title="Bonjour Zahard 👋" />
+      <PageHeader
+        title="Bonjour Zahard 👋"
+        action={
+          <Link to={'/transactions/new'}>
+            <Button>Nouvelle transaction</Button>
+          </Link>
+        }
+      />
 
-      <BalanceCard accountName="Compte courant" balance={2150} />
+      <BalanceCard
+        accountName={
+          dashboard.defaultAccount?.name ?? 'Aucun compte par défaut'
+        }
+        balance={dashboard.defaultAccount?.currentBalance ?? 0}
+      />
 
       <div className={styles.statsGrid}>
-        <StatCard title="Revenus du mois" value={3000} variant="success" />
+        <StatCard
+          title="Revenus du mois"
+          value={dashboard.stats.incomeOfMonth}
+          variant="success"
+        />
 
-        <StatCard title="Dépenses du mois" value={850} variant="danger" />
+        <StatCard
+          title="Dépenses du mois"
+          value={dashboard.stats.expenseOfMonth}
+          variant="danger"
+        />
       </div>
 
       <PageSection
@@ -29,7 +73,7 @@ function DashboardPage() {
         }
       >
         {/* mockTransactions doit être remplacer par les données du mois en cours envoer par l'api */}
-        <TransactionList transactions={mockTransactions} />
+        <TransactionList transactions={dashboard.transactionsOfMonth} />
       </PageSection>
     </section>
   );
