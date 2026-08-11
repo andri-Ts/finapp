@@ -81,3 +81,5 @@
 "accountId": "cms7j6jxv0000o4u73fel9o1p",
 "categoryId": "cms4x4op4000310u7ojn18c6f"
 }
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXM0eDRvb2gwMDAyMTB1N3hvZWg4aDh6IiwiZW1haWwiOiJ0ZXN0NEB0b2cuY29tIiwiaWF0IjoxNzg2NDM4OTQ3LCJleHAiOjE3ODY1MjUzNDd9.mUbXG-wfwmG4PcM6DT2k7ud_Y05D3waukKxTzWYj1ok
