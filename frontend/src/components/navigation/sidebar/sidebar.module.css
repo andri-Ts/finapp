@@ -1,5 +1,6 @@
 .sidebar {
-  width: 16rem;
+  width: var(--sidebar-width);
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
@@ -7,56 +8,143 @@
   padding: var(--space-lg);
 
   background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border-subtle);
 }
+
+/* ---------------------------------------- */
+/* Logo */
+/* ---------------------------------------- */
 
 .logo {
   margin-bottom: var(--space-2xl);
 
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+
+  color: var(--color-text);
 }
+
+/* Petit détail identitaire */
+.logo::first-letter {
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------- */
+/* Navigation */
+/* ---------------------------------------- */
 
 .navigation {
   display: flex;
   flex-direction: column;
 
-  gap: var(--space-sm);
+  gap: var(--space-xs);
 
   flex: 1;
 }
 
+/* ---------------------------------------- */
+/* Navigation link */
+/* ---------------------------------------- */
+
 .link {
+  position: relative;
+
   display: flex;
   align-items: center;
+
   gap: var(--space-sm);
 
-  padding: var(--space-sm);
+  padding: 0.7rem 0.75rem;
+
   border-radius: var(--radius-md);
 
-  color: var(--color-text);
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
 
   transition:
     background-color var(--transition-fast),
-    color var(--transition-fast);
-}
-.link:hover {
-  background: var(--color-secondary);
+    color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.active {
-  background: var(--color-primary);
-  color: var(--color-surface);
+.link svg {
+  flex-shrink: 0;
+
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
 }
+
+/* ---------------------------------------- */
+/* Hover */
+/* ---------------------------------------- */
+
+.link:hover {
+  background: var(--color-surface-secondary);
+  color: var(--color-text);
+}
+
+.link:hover svg {
+  transform: translateX(1px);
+}
+
+/* ---------------------------------------- */
+/* Active */
+/* ---------------------------------------- */
+
+.active {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.active svg {
+  color: var(--color-primary);
+}
+
+/*
+Petit accent vertical.
+C'est volontairement très discret :
+c'est notre petite touche "gaming".
+*/
+
+.active::before {
+  content: '';
+
+  position: absolute;
+
+  left: -0.75rem;
+
+  width: 3px;
+  height: 1.25rem;
+
+  border-radius: 999px;
+
+  background: var(--color-primary);
+}
+
+/* ---------------------------------------- */
+/* Profile */
+/* ---------------------------------------- */
 
 .profile {
   padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-border);
+
+  border-top: 1px solid var(--color-border-subtle);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
 }
 
-/* -----------------------------------------------------------------------------*/
+/* ---------------------------------------- */
+/* Tablette / téléphone */
+/* ---------------------------------------- */
 
-/* Tablette et télephone */
 @media (max-width: 48rem) {
   .sidebar {
     display: none;
