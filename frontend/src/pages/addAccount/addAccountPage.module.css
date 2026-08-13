@@ -1,0 +1,10 @@
+.page {
+  width: 100%;
+
+  padding: var(--space-lg);
+
+  /* Le formulaire peut grandir avec la largeur disponible, mais s'arrête à cette largeur. */
+  /* width: min(100%, var(--layout-form-max-width)); */
+
+  margin: 0 auto;
+}

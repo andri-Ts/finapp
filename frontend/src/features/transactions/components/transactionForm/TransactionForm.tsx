@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { buildTransactionPayload } from '../../utils/buildTransactionPayload';
 import { createTransaction } from '../../api/transactionApi';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 function TransactionForm() {
   /*
@@ -33,7 +34,7 @@ function TransactionForm() {
     setValue,
     watch, // watch(): Permet de regarder la valeur actuelle d'un champ.
     reset, // reset le formulaire
-    formState: { errors }, // Contient les erreurs de validation
+    formState: { errors, isSubmitting }, // Contient les erreurs de validation
   } = useForm<ITransactionFormData>({
     resolver: zodResolver(transactionSchema), // branche zod et Hook Form pour checker le schema
     // remplace le useState()
@@ -71,6 +72,7 @@ function TransactionForm() {
 
     try {
       const transactionCreated = await createTransaction(payload);
+      toast.success('Transaction ajoutée');
       console.log('Transaciton créée OK', transactionCreated);
     } catch (error) {
       console.error('❌ Erreur lors de la création :', error);
@@ -87,7 +89,7 @@ function TransactionForm() {
     <form
       className={styles.form}
       onSubmit={handleSubmit(onSubmitForm, (errors) => {
-        console.log('❌ Formulaire invalide :', errors);
+        console.log('Formulaire invalide :', errors);
       })}
     >
       {/* =========================
@@ -240,7 +242,9 @@ function TransactionForm() {
       SUBMIT
   ========================== */}
 
-      <Button type="submit">Enregistrer</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Enregistrement...' : 'Enregistrer'}
+      </Button>
     </form>
   );
 }

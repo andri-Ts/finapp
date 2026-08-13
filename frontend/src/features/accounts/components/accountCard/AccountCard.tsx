@@ -3,13 +3,17 @@ import styles from './accountCard.module.css';
 import Card from '@/components/ui/Card';
 import { accountIcons } from '@/constants/constIcons';
 import { formatCurrency } from '@/utils/formatCurrency';
+import Button from '@/components/ui/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface AccountCardProps {
   account: IAccount;
+  onArchive: (id: string) => void;
 }
 
-function AccountCard({ account }: AccountCardProps) {
+function AccountCard({ account, onArchive }: AccountCardProps) {
   const AccountIcon = account.icon ? accountIcons[account.icon] : null;
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -24,6 +28,11 @@ function AccountCard({ account }: AccountCardProps) {
         </strong>
 
         <span className={styles.currency}>{account.currency}</span>
+
+        <Button onClick={() => navigate(`/accounts/${account.id}/edit`)}>
+          Modifier
+        </Button>
+        <Button onClick={() => onArchive(account.id)}>Archiver</Button>
       </article>
     </Card>
   );

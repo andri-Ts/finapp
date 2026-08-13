@@ -43,7 +43,12 @@ export async function getAllAccountService(userId: string) {
     },
   });
 
-  return accounts;
+  // On convertit les Decimal de prisma en number(pour le front)
+  return accounts.map((account) => ({
+    ...account,
+    initialBalance: Number(account.initialBalance),
+    currentBalance: Number(account.currentBalance),
+  }));
 }
 
 export async function getAccountService(accountId: string, userId: string) {
