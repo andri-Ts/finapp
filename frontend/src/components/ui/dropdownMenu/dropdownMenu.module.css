@@ -1,0 +1,80 @@
+.container {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  padding: 0;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+.trigger:hover {
+  background: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  right: 0;
+
+  min-width: 10rem;
+
+  padding: var(--space-xs);
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-md);
+
+  z-index: 10;
+}
+
+.item {
+  width: 100%;
+
+  padding: var(--space-sm) var(--space-md);
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+.item:hover {
+  background: var(--color-secondary);
+}
+.item.danger {
+  color: var(--color-danger);
+}
+.item.danger:hover {
+  background: var(--color-danger-background);
+}

@@ -8,6 +8,7 @@ import DashboardPage from '@/pages/dashboard/DashboardPage';
 import EditAccountPage from '@/pages/editAccount/EditAccountPage';
 import LoginPage from '@/pages/login/LoginPage';
 import TransactionsPage from '@/pages/transaction/TransactionsPage';
+import EditCategoryPage from '@/pages/updtadeCategory/EditCategoryPage';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const myRouter = createBrowserRouter([
@@ -29,6 +30,10 @@ export const myRouter = createBrowserRouter([
       {
         path: '/categories',
         element: <CategoryPage />,
+      },
+      {
+        path: '/categories/:id/edit',
+        element: <EditCategoryPage />,
       },
       {
         path: '/accounts',

@@ -17,6 +17,6 @@ categoryRoutes.get('/:id', authenticate, getCategory);
 
 categoryRoutes.patch('/:id', authenticate, updateCategory);
 
-categoryRoutes.delete('/:id', authenticate, archiveCategory);
+categoryRoutes.patch('/:id/archive', authenticate, archiveCategory);
 
 export default categoryRoutes;

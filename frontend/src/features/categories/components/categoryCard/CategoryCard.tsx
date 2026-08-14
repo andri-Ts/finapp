@@ -3,12 +3,15 @@ import styles from './categoryCard.module.css';
 import type { ICategory } from '@/types/category.types';
 import { categoryIcons } from '@/constants/constIcons';
 import { formatCurrency } from '@/utils/formatCurrency';
+import DropdownMenu from '@/components/ui/dropdownMenu/DropdownMenu';
 
 interface CategoryCardProps {
   category: ICategory;
+  onEdit: (category: ICategory) => void;
+  onArchive: (id: string) => void;
 }
 
-function CategoryCard({ category }: CategoryCardProps) {
+function CategoryCard({ category, onEdit, onArchive }: CategoryCardProps) {
   const CategoryIcon = category?.icon ? categoryIcons[category.icon] : null;
 
   return (
@@ -39,12 +42,26 @@ function CategoryCard({ category }: CategoryCardProps) {
               category.type === 'EXPENSE' ? styles.expense : styles.income
             }
           >
-            {category.type === 'EXPENSE' ? '-' : '+'}
+            {/* {category.type === 'EXPENSE' ? '-' : '+'} */}
 
             {formatCurrency(category.monthlyAmount)}
           </strong>
 
           <span className={styles.period}>Ce mois</span>
+
+          <DropdownMenu
+            items={[
+              {
+                label: 'Modifier',
+                onClick: () => onEdit(category),
+              },
+              {
+                label: 'Archiver',
+                onClick: () => onArchive(category.id),
+                danger: true,
+              },
+            ]}
+          />
         </div>
       </article>
     </Card>

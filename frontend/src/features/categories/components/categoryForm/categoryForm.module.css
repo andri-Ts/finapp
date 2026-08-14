@@ -1,0 +1,175 @@
+.form {
+  width: 100%;
+  /* max-width: var(--layout-form-max-width); */
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+
+  padding: var(--space-lg);
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.field label,
+.label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-sm) var(--space-md);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-secondary);
+}
+
+.field input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+/* =====================
+   Type
+====================== */
+
+.field input[type='text'],
+.field select {
+  width: 100%;
+  padding: var(--space-sm);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  font: inherit;
+
+  transition: border-color var(--transition-fast);
+}
+
+.field input[type='text']:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* =====================
+   Icon
+====================== */
+
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-sm);
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  aspect-ratio: 1;
+
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.iconButton:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-color: var(--color-secondary);
+}
+
+.iconButton:active {
+  transform: scale(0.95);
+}
+
+.iconButtonSelected {
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  border-color: var(--color-primary);
+}
+
+/* =====================
+   Color
+====================== */
+
+.field input[type='color'] {
+  width: 3rem;
+  height: 2.5rem;
+
+  padding: 0.2rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background-color: var(--color-surface);
+
+  cursor: pointer;
+}
+
+/* =====================
+   Error
+====================== */
+
+.error {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-danger-text);
+}
+
+/* =====================
+   Responsive
+====================== */
+
+/* =====================
+   Responsive
+====================== */
+
+@media (max-width: 480px) {
+  .iconGrid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

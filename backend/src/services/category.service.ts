@@ -70,7 +70,11 @@ export async function createCategoryService(
 }
 
 export async function getAllCategorieService(userId: string) {
-  return await prisma.category.findMany({
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+  const categories = await prisma.category.findMany({
     where: {
       userId,
       archived: false,
@@ -79,6 +83,45 @@ export async function getAllCategorieService(userId: string) {
       name: 'asc',
     },
   });
+
+  // groupeBy() sert à séparer les données en plusieurs lots selon une colonne
+  const monthlyTotals = await prisma.transaction.groupBy({
+    by: ['categoryId'],
+    where: {
+      categoryId: {
+        not: null, // Ignore les transactions sans catégorie (ex: transferts)
+      },
+      transactionDate: {
+        gte: startOfMonth,
+        lt: endOfMonth,
+      },
+      account: {
+        userId,
+        archived: false,
+      },
+    },
+    _sum: {
+      amount: true, // Additionne les montants de chaque catégorie
+    },
+  });
+
+  const categoriesWithTotal = categories.map((category) => {
+    // Chercher le total du la catégorie
+    const total = monthlyTotals.find(
+      (itemTotal) => itemTotal.categoryId === category.id,
+    );
+
+    //Récup le montant ou 0 s'il n'y a pas de transaction
+    const monthlyAmount = total?._sum.amount ? Number(total._sum.amount) : 0;
+
+    return {
+      ...category,
+      monthlyAmount,
+    };
+  });
+  // console.log('Category total: ', categoriesWithTotal);
+
+  return categoriesWithTotal;
 }
 
 export async function getCategoryService(userId: string, categoryId: string) {

@@ -1,6 +1,6 @@
 import { navigation } from '@/constants/navigation';
 import styles from './sidebar.module.css';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Sidebar() {
   return (
@@ -28,7 +28,9 @@ function Sidebar() {
           })}
       </nav>
 
-      <div className={styles.profile}>Profil</div>
+      <div className={styles.profile}>
+        <p>Profil</p> <Link to={'/login'}>Connexion</Link>
+      </div>
     </aside>
   );
 }
