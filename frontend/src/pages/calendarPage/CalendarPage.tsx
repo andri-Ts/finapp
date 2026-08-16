@@ -3,17 +3,34 @@ import CalendarHeader from '@/features/calendar/components/calendarHeader';
 import styles from './calendarPage.module.css';
 import CalendarGrid from '@/features/calendar/components/calendarGrid';
 import DayTransactions from '@/features/calendar/components/dayTransactions';
-import { useState } from 'react';
-import { mockTransactions } from '@/mocks/transactions.mock';
+import { useEffect, useState } from 'react';
+// import { mockTransactions } from '@/mocks/transactions.mock';
+import type { ITransaction } from '@/types/transaction.types';
+import { getAllTransactions } from '@/features/transactions/api/transactionApi';
 
 function CalendarPage() {
   // dates
-  const initialDate = new Date(2026, 7, 1);
+  const initialDate = new Date();
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Data: Source de vérité (mock aujourd'hui, API demain)
-  const transactions = mockTransactions;
+  // Data: Source de vérité
+  useEffect(() => {
+    async function loadTransaction() {
+      try {
+        const data = await getAllTransactions();
+        setTransactions(data.transactions);
+      } catch (error) {
+        console.error('Erreur lors du chargement des transactions :', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadTransaction();
+  }, []);
 
   // Next month
   const nextMonth = () => {
@@ -28,6 +45,10 @@ function CalendarPage() {
       return new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1);
     });
   };
+
+  if (isLoading) {
+    return <p>Chargement...</p>;
+  }
 
   return (
     <section className={styles.page}>
