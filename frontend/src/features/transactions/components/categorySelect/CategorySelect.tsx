@@ -1,7 +1,9 @@
 import DropdownSelect from '@/components/forms/dropdownSelect';
+import { getAllCategory } from '@/features/categories/api/categoryApi';
 import { mockCategories } from '@/mocks/categories.mock';
-import type { CategoryType } from '@/types/category.types';
+import type { ICategory, CategoryType } from '@/types/category.types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useEffect, useState } from 'react';
 
 interface CategorySelectProps {
   value: string;
@@ -10,15 +12,30 @@ interface CategorySelectProps {
 }
 
 function CategorySelect({ value, type, onChange }: CategorySelectProps) {
-  // ON ne garde que les catégories qui correspondent au type d'actions
-  const categories = mockCategories.filter(
+  const [categories, setCategories] = useState<ICategory[]>([]);
+
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const data = await getAllCategory();
+        setCategories(data.categories);
+      } catch (error) {
+        console.error('Erreur lors du chargement des catégories: ', error);
+      }
+    }
+
+    loadCategories();
+  }, []);
+
+  // On ne garde que les catégories correspondant au type de transaction.
+  const filteredCategories = categories.filter(
     (category) => category.type === type,
   );
 
   return (
     <DropdownSelect
       label="Catégorie"
-      items={categories}
+      items={filteredCategories}
       value={value}
       onChange={onChange}
       renderItem={(category) => (

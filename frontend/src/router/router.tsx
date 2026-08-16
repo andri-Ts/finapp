@@ -8,8 +8,9 @@ import DashboardPage from '@/pages/dashboard/DashboardPage';
 import EditAccountPage from '@/pages/editAccount/EditAccountPage';
 import LoginPage from '@/pages/login/LoginPage';
 import TransactionsPage from '@/pages/transaction/TransactionsPage';
-import EditCategoryPage from '@/pages/updtadeCategory/EditCategoryPage';
+import EditCategoryPage from '@/pages/editCategory/EditCategoryPage';
 import { createBrowserRouter } from 'react-router-dom';
+import EditTransactionPage from '@/pages/editTransaction/EditTransactionPage';
 
 export const myRouter = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const myRouter = createBrowserRouter([
       {
         path: '/transactions',
         element: <TransactionsPage />,
+      },
+      {
+        path: '/transactions/:id/edit',
+        element: <EditTransactionPage />,
       },
       {
         path: '/categories',

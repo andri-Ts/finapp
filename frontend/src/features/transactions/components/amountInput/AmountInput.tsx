@@ -16,21 +16,24 @@ function AmountInput({ value, onChange }: AmountInputProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
-    // La valeur '0' s'efface lorsque on tape d'autres nombre
-    const cleanedValue =
-      inputValue === '0' && newValue.length > 1
-        ? newValue.replace(/^0+/, '')
-        : newValue;
-    setInputValue(cleanedValue);
+    // Permet de garder uniquement les chiffres, la virgule et le point
+    if (!/^\d*[,.]?\d*$/.test(newValue)) {
+      return;
+    }
 
-    // Si user efface le champ, on considère que amount = 0
-    if (cleanedValue === '') {
+    setInputValue(newValue);
+
+    // Champ vide
+    if (newValue === '') {
       onChange(0);
       return;
     }
 
-    // Convertire la valeur affciher en nombre
-    const numericValue = Number(cleanedValue);
+    // Transforme 12,50 en 12.50 pour JavaScript
+    const normalizedValue = newValue.replace(',', '.');
+
+    const numericValue = Number(normalizedValue);
+
     if (!Number.isNaN(numericValue)) {
       onChange(numericValue);
     }
@@ -43,7 +46,7 @@ function AmountInput({ value, onChange }: AmountInputProps) {
         type="text" // input affcihe un string
         inputMode="decimal" // formulaire travail avec un number
         id="amount"
-        value={value}
+        value={inputValue}
         onChange={handleChange}
         className={styles.input}
       />

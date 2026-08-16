@@ -12,11 +12,19 @@ import {
 } from '../../schemas/transaction.schema';
 import { useEffect } from 'react';
 import { buildTransactionPayload } from '../../utils/buildTransactionPayload';
-import { createTransaction } from '../../api/transactionApi';
+import { createTransaction, updateTransaction } from '../../api/transactionApi';
 import axios from 'axios';
 import { toast } from 'sonner';
+import type { ITransaction } from '@/types/transaction.types';
+import { useNavigate } from 'react-router-dom';
 
-function TransactionForm() {
+interface ITransactionFormProps {
+  // Si présent → mode édition
+  // Si absent → mode création
+  transaction?: ITransaction;
+}
+
+function TransactionForm({ transaction }: ITransactionFormProps) {
   /*
    * useForm() de React Hook Form est le "gestionnaire" de notre formulaire.
    *
@@ -48,6 +56,7 @@ function TransactionForm() {
       note: '',
     },
   });
+  const navigate = useNavigate();
 
   /*
    * watch('amount'): "Donne-moi la valeur actuelle de amount."
@@ -59,9 +68,23 @@ function TransactionForm() {
   // const selectedAccountId = watch('accountId');
 
   // quand le type change, on remet le catégorie à 0
-  useEffect(() => {
-    setValue('categoryId', '');
-  }, [selectedType, setValue]);
+  useEffect(
+    () => {
+      if (!transaction) return;
+
+      reset({
+        amount: Number(transaction.amount),
+        type: transaction.type,
+        categoryId: transaction.category?.id ?? '',
+        accountId: transaction.account.id,
+        transactionDate: transaction.transactionDate.split('T')[0],
+        description: transaction.description,
+        note: transaction.note ?? '',
+      });
+      // setValue('categoryId', '');
+    },
+    [transaction, reset] /*[selectedType, setValue]*/,
+  );
 
   // fonc appeller par handleSubmit de Hook Form si le formulaire est valide
   const onSubmitForm = async (data: ITransactionFormData) => {
@@ -71,18 +94,30 @@ function TransactionForm() {
     console.log("Payload envoyé à l'API: ", payload);
 
     try {
-      const transactionCreated = await createTransaction(payload);
-      toast.success('Transaction ajoutée');
-      console.log('Transaciton créée OK', transactionCreated);
+      if (transaction) {
+        // mode édition
+        await updateTransaction(transaction.id, payload);
+        toast.success('Transaction modifié');
+        navigate('/');
+      } else {
+        // mode création
+        await createTransaction(payload);
+        toast.success('Transaction ajoutée');
+        navigate('/');
+      }
+      // console.log('Transaciton créée OK', transactionCreated)
+      reset();
     } catch (error) {
-      console.error('❌ Erreur lors de la création :', error);
+      console.error('Erreur lors de la création :', error);
 
       if (axios.isAxiosError(error)) {
-        console.error('❌ Réponse du backend :', error.response?.data);
+        // console.error('Réponse du backend :', error.response?.data);
+        console.error(
+          'Réponse du backend :',
+          JSON.stringify(error.response?.data, null, 2),
+        );
       }
     }
-
-    reset();
   };
 
   return (
@@ -94,7 +129,7 @@ function TransactionForm() {
     >
       {/* =========================
       MONTANT
-       ========================== */}
+      ========================== */}
       <div className={`${styles.field} ${styles.amountField}`}>
         <AmountInput
           value={amount}
@@ -221,7 +256,7 @@ function TransactionForm() {
 
       {/* =========================
       NOTE
-  ========================== */}
+      ========================== */}
 
       <div className={styles.field}>
         <label htmlFor="note">Note</label>
@@ -240,7 +275,7 @@ function TransactionForm() {
 
       {/* =========================
       SUBMIT
-  ========================== */}
+      ========================== */}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? 'Enregistrement...' : 'Enregistrer'}

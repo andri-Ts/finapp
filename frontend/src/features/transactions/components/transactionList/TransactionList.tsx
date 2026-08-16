@@ -4,13 +4,18 @@ import TransactionCard from '../transactionCard';
 
 interface TransactionListProps {
   transactions: ITransaction[];
+  onDelete?: (id: string) => void;
 }
 
-function TransactionList({ transactions }: TransactionListProps) {
+function TransactionList({ transactions, onDelete }: TransactionListProps) {
   return (
     <div className={styles.list}>
       {transactions.map((transaction) => (
-        <TransactionCard key={transaction.id} transaction={transaction} />
+        <TransactionCard
+          key={transaction.id}
+          transaction={transaction}
+          onDelete={onDelete}
+        />
       ))}
     </div>
   );

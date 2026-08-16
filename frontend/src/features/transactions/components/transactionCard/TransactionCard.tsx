@@ -4,12 +4,15 @@ import Card from '@/components/ui/Card';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import { categoryIcons } from '@/constants/constIcons';
+import Button from '@/components/ui/Button';
+import { Trash } from 'lucide-react';
 
 interface TransactionCardProps {
   transaction: ITransaction;
+  onDelete?: (id: string) => void;
 }
 
-function TransactionCard({ transaction }: TransactionCardProps) {
+function TransactionCard({ transaction, onDelete }: TransactionCardProps) {
   const CategoryIcon = transaction.category?.icon
     ? categoryIcons[transaction.category.icon]
     : null;
@@ -34,6 +37,11 @@ function TransactionCard({ transaction }: TransactionCardProps) {
           {transaction.type === 'EXPENSE' ? '-' : '+'}
           {formatCurrency(transaction.amount)}
         </strong>
+        {onDelete && (
+          <Button type="button" onClick={() => onDelete(transaction.id)}>
+            <Trash />
+          </Button>
+        )}
       </article>
     </Card>
   );

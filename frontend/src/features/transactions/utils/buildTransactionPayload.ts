@@ -4,6 +4,7 @@ import type {
   ICreateTransferPayload,
 } from '@/types/transactionPayload.types';
 import type { ITransactionFormData } from '../schemas/transaction.schema';
+// import type { IUpdateAccountPayload } from '@/features/accounts/api/acccountApi';
 
 export function buildTransactionPayload(
   data: ITransactionFormData,
@@ -23,7 +24,7 @@ export function buildTransactionPayload(
     return payload;
   }
 
-  // Sinon
+  // Sinon EXPENSE/INCOME
   const payload: ICreateExpenseIncomePayload = {
     amount: data.amount,
     type: data.type,

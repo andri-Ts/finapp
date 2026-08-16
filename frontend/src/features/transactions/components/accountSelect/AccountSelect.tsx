@@ -1,6 +1,9 @@
 import DropdownSelect from '@/components/forms/dropdownSelect';
-import { mockAccounts } from '@/mocks/accounts.mock';
+import { getAllAccount } from '@/features/accounts/api/acccountApi';
+// import { mockAccounts } from '@/mocks/accounts.mock';
+import type { IAccount } from '@/types/account.types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useEffect, useState } from 'react';
 
 interface AccountSelectProps {
   value: string;
@@ -8,10 +11,25 @@ interface AccountSelectProps {
 }
 
 function AccountSelect({ value, onChange }: AccountSelectProps) {
+  const [accounts, setAccounts] = useState<IAccount[]>([]);
+
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const data = await getAllAccount();
+        setAccounts(data.accounts);
+      } catch (error) {
+        console.error('Erreur lors du chargement des catégories: ', error);
+      }
+    }
+
+    loadCategories();
+  }, []);
+
   return (
     <DropdownSelect
       label="Compte"
-      items={mockAccounts} /* liste des comptes de l'user */
+      items={accounts} /* liste des comptes de l'user */
       value={value}
       onChange={onChange}
       renderItem={(account) => (

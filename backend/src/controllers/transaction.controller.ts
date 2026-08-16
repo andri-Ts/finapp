@@ -97,7 +97,7 @@ export async function getAllTransaction(req: Request, res: Response) {
 
     const transactions = await getAllTransactionService(userId);
 
-    return res.status(200).json(transactions);
+    return res.status(200).json({ transactions });
   } catch (error) {
     console.error(error);
 
