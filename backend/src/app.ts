@@ -2,13 +2,13 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
-import healthRouter from './routes/health.routes';
-import userRoutes from './routes/users.routes';
-import authRoutes from './routes/auth.routes';
-import accountRoutes from './routes/account.routes';
-import categoryRoutes from './routes/category.routes';
-import transactionRoutes from './routes/transaction.routes';
-import dashboardRoutes from './routes/dashboard.routes';
+import healthRouter from './routes/health.routes.js';
+import userRoutes from './routes/users.routes.js';
+import authRoutes from './routes/auth.routes.js';
+import accountRoutes from './routes/account.routes.js';
+import categoryRoutes from './routes/category.routes.js';
+import transactionRoutes from './routes/transaction.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 const app = express();
 

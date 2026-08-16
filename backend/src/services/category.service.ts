@@ -1,10 +1,10 @@
-import { ERRORS } from '../constants/errors';
-import { CategoryType } from '../generated/prisma/enums';
-import prisma from '../lib/prisma';
+import { ERRORS } from '../constants/errors.js';
+import { CategoryType } from '../generated/prisma/enums.js';
+import prisma from '../lib/prisma.js';
 import {
   ICreateCategoryInput,
   IUpdateCategoryInput,
-} from '../schemas/category.schema';
+} from '../schemas/category.schema.js';
 
 const defaultCategories = [
   {

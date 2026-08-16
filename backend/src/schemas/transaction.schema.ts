@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TransactionType } from '../generated/prisma/enums';
+import { TransactionType } from '../generated/prisma/enums.js';
 
 const baseTransactionSchema = {
   amount: z.coerce.number().positive('Le montant doit être supérieur à 0'),

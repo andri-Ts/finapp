@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { authenticate } from '../middlewares/auth.middleware';
+import { authenticate } from '../middlewares/auth.middleware.js';
 import {
   archiveCategory,
   createCategory,
   getAllCategory,
   getCategory,
   updateCategory,
-} from '../controllers/category.controller';
+} from '../controllers/category.controller.js';
 
 const categoryRoutes = Router();
 

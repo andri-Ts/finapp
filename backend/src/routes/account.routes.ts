@@ -6,8 +6,8 @@ import {
   getAllAccount,
   setDefaultAccount,
   updateAccount,
-} from '../controllers/account.controller';
-import { authenticate } from '../middlewares/auth.middleware';
+} from '../controllers/account.controller.js';
+import { authenticate } from '../middlewares/auth.middleware.js';
 
 const accountRoutes = Router();
 

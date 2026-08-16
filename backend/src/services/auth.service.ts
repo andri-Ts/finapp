@@ -1,5 +1,5 @@
-import prisma from '../lib/prisma';
-import { LoginInput } from '../schemas/auth.schema';
+import prisma from '../lib/prisma.js';
+import { LoginInput } from '../schemas/auth.schema.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

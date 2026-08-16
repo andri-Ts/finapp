@@ -1,11 +1,11 @@
 import { randomUUID } from 'node:crypto';
-import { ERRORS } from '../constants/errors';
-import { TransactionType } from '../generated/prisma/enums';
-import prisma from '../lib/prisma';
+import { ERRORS } from '../constants/errors.js';
+import { TransactionType } from '../generated/prisma/enums.js';
+import prisma from '../lib/prisma.js';
 import {
   ICreateTransactionInput,
   IUpdateTransactionInput,
-} from '../schemas/transaction.schema';
+} from '../schemas/transaction.schema.js';
 
 export async function createTransactionService(
   userId: string,

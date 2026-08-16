@@ -1,6 +1,6 @@
-import prisma from '../lib/prisma';
+import prisma from '../lib/prisma.js';
 import bcrypt from 'bcrypt';
-import { createDefaultCategories } from './category.service';
+import { createDefaultCategories } from './category.service.js';
 
 interface ICreateUserInput {
   pseudo: string;

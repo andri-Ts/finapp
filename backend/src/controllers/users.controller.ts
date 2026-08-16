@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import prisma from '../lib/prisma';
-import { createUserSchema } from '../schemas/user.schema';
-import { createUserService } from '../services/user.service';
-import { sanitizeUser } from '../utils/user.utils';
+import prisma from '../lib/prisma.js';
+import { createUserSchema } from '../schemas/user.schema.js';
+import { createUserService } from '../services/user.service.js';
+import { sanitizeUser } from '../utils/user.utils.js';
 
 // async: Pendant qu'il cherche les utilisateurs, Node.js continue de gérer d'autres requêtes.
 

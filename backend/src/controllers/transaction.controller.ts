@@ -2,15 +2,15 @@ import { Request, Response } from 'express';
 import {
   createTransactionSchema,
   updateTransactionSchema,
-} from '../schemas/transaction.schema';
+} from '../schemas/transaction.schema.js';
 import {
   createTransactionService,
   getTransactionService,
   getAllTransactionService,
   updateTransactionService,
   deleteTransactionService,
-} from '../services/transaction.service';
-import { ERRORS } from '../constants/errors';
+} from '../services/transaction.service.js';
+import { ERRORS } from '../constants/errors.js';
 
 export async function createTransaction(req: Request, res: Response) {
   // VAlidation Zod

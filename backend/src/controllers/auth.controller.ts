@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { loginSchema } from '../schemas/auth.schema';
-import { login } from '../services/auth.service';
-import { sanitizeUser } from '../utils/user.utils';
-import { getUserById } from '../services/user.service';
+import { loginSchema } from '../schemas/auth.schema.js';
+import { login } from '../services/auth.service.js';
+import { sanitizeUser } from '../utils/user.utils.js';
+import { getUserById } from '../services/user.service.js';
 
 export async function loginUser(req: Request, res: Response) {
   const validation = loginSchema.safeParse(req.body);

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { getAuthentificatedUser } from '../utils/auth';
-import { getDashboardService } from '../services/dashboard.service';
+import { getAuthentificatedUser } from '../utils/auth.js';
+import { getDashboardService } from '../services/dashboard.service.js';
 
 export async function getDashboard(req: Request, res: Response) {
   try {

@@ -1,6 +1,6 @@
-import { ERRORS } from '../constants/errors';
-import prisma from '../lib/prisma';
-import { IUpdateAccountInput } from '../schemas/account.schema';
+import { ERRORS } from '../constants/errors.js';
+import prisma from '../lib/prisma.js';
+import { IUpdateAccountInput } from '../schemas/account.schema.js';
 
 interface ICreateAccountData {
   name: string;

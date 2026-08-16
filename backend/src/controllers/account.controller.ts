@@ -6,13 +6,13 @@ import {
   getAllAccountService,
   setDefaultAccountService,
   updateAccountService,
-} from '../services/account.service';
+} from '../services/account.service.js';
 import {
   createAccountSchema,
   updateAccountSchema,
-} from '../schemas/account.schema';
-import { getAuthentificatedUser } from '../utils/auth';
-import { ERRORS } from '../constants/errors';
+} from '../schemas/account.schema.js';
+import { getAuthentificatedUser } from '../utils/auth.js';
+import { ERRORS } from '../constants/errors.js';
 
 export async function createAccount(req: Request, res: Response) {
   const validation = createAccountSchema.safeParse(req.body);

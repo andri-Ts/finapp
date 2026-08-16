@@ -2,16 +2,16 @@ import { Request, Response } from 'express';
 import {
   createCategorySchema,
   updateCategorySchema,
-} from '../schemas/category.schema';
+} from '../schemas/category.schema.js';
 import {
   createCategoryService,
   getAllCategorieService,
   getCategoryService,
   updateCategoryService,
   archiveCategoryService,
-} from '../services/category.service';
-import { ERRORS } from '../constants/errors';
-import { getAuthentificatedUser } from '../utils/auth';
+} from '../services/category.service.js';
+import { ERRORS } from '../constants/errors.js';
+import { getAuthentificatedUser } from '../utils/auth.js';
 
 export async function createCategory(req: Request, res: Response) {
   const validation = createCategorySchema.safeParse(req.body);
