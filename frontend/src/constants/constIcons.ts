@@ -4,7 +4,7 @@ import {
   Briefcase,
   Car,
   ShoppingCart,
-  Coffee,
+  // Coffee,
   PiggyBank,
   CreditCard,
   Banknote,
