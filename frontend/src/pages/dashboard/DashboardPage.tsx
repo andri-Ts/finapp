@@ -3,7 +3,7 @@ import styles from './dashboard.module.css';
 import StatCard from '@/features/dashboard/components/StatCard';
 import BalanceCard from '@/features/dashboard/components/balanceCard';
 import PageSection from '@/components/layout/pageSection';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from '@/features/transactions/components/transactionList';
 // import { mockTransactions } from '@/mocks/transactions.mock';
 import Button from '@/components/ui/Button';
@@ -13,6 +13,7 @@ import { getDashboard } from '@/features/dashboard/api/dashboardApi';
 
 function DashboardPage() {
   const [dashboard, setDashboard] = useState<IDashboard | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadDashboard() {
@@ -27,6 +28,10 @@ function DashboardPage() {
 
     loadDashboard();
   }, []);
+
+  const handleEdit = (id: string) => {
+    navigate(`/transactions/${id}/edit`);
+  };
 
   if (!dashboard) {
     return <p>Chargement...</p>;
@@ -73,7 +78,10 @@ function DashboardPage() {
         }
       >
         {/* mockTransactions doit être remplacer par les données du mois en cours envoer par l'api */}
-        <TransactionList transactions={dashboard.transactionsOfMonth} />
+        <TransactionList
+          transactions={dashboard.transactionsOfMonth}
+          onEdit={handleEdit}
+        />
       </PageSection>
     </section>
   );

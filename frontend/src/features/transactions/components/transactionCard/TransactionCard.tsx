@@ -10,9 +10,14 @@ import { Trash } from 'lucide-react';
 interface TransactionCardProps {
   transaction: ITransaction;
   onDelete?: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
-function TransactionCard({ transaction, onDelete }: TransactionCardProps) {
+function TransactionCard({
+  transaction,
+  onDelete,
+  onEdit,
+}: TransactionCardProps) {
   const CategoryIcon = transaction.category?.icon
     ? categoryIcons[transaction.category.icon]
     : null;
@@ -20,23 +25,29 @@ function TransactionCard({ transaction, onDelete }: TransactionCardProps) {
   return (
     <Card>
       <article className={styles.card}>
-        <div className={styles.info}>
-          <h3>{transaction.description}</h3>
-          <div className={styles.category}>
-            {CategoryIcon && <CategoryIcon size={15} />}
-            <span>{transaction.category?.name ?? 'Sans catégorie'}</span>
-          </div>
-          <p>{formatDate(transaction.transactionDate)}</p>
-        </div>
-
-        <strong
-          className={
-            transaction.type === 'EXPENSE' ? styles.expense : styles.income
-          }
+        <button
+          type="button"
+          className={styles.content}
+          onClick={() => onEdit(transaction.id)}
         >
-          {transaction.type === 'EXPENSE' ? '-' : '+'}
-          {formatCurrency(transaction.amount)}
-        </strong>
+          <div className={styles.info}>
+            <h3>{transaction.description}</h3>
+            <div className={styles.category}>
+              {CategoryIcon && <CategoryIcon size={15} />}
+              <span>{transaction.category?.name ?? 'Sans catégorie'}</span>
+            </div>
+            <p>{formatDate(transaction.transactionDate)}</p>
+          </div>
+
+          <strong
+            className={
+              transaction.type === 'EXPENSE' ? styles.expense : styles.income
+            }
+          >
+            {transaction.type === 'EXPENSE' ? '-' : '+'}
+            {formatCurrency(transaction.amount)}
+          </strong>
+        </button>
         {onDelete && (
           <Button type="button" onClick={() => onDelete(transaction.id)}>
             <Trash />

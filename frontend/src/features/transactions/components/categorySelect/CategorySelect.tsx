@@ -1,8 +1,8 @@
 import DropdownSelect from '@/components/forms/dropdownSelect';
 import { getAllCategory } from '@/features/categories/api/categoryApi';
-import { mockCategories } from '@/mocks/categories.mock';
+// import { mockCategories } from '@/mocks/categories.mock';
 import type { ICategory, CategoryType } from '@/types/category.types';
-import { formatCurrency } from '@/utils/formatCurrency';
+// import { formatCurrency } from '@/utils/formatCurrency';
 import { useEffect, useState } from 'react';
 
 interface CategorySelectProps {
@@ -49,7 +49,7 @@ function CategorySelect({ value, type, onChange }: CategorySelectProps) {
         >
           <span>{category.name}</span>
 
-          <small>{formatCurrency(category.monthlyAmount)}</small>
+          {/* <small>{formatCurrency(category.monthlyAmount)}</small> */}
         </div>
       )}
     />

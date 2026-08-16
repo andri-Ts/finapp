@@ -56,6 +56,10 @@ function TransactionsPage() {
     }
   };
 
+  const handleEdit = (id: string) => {
+    navigate(`/transactions/${id}/edit`);
+  };
+
   if (loading) {
     return <p>Chargement...</p>;
   }
@@ -72,7 +76,11 @@ function TransactionsPage() {
       />
 
       {/* <p>Nombre de transactions : {transactions.length}</p> */}
-      <TransactionList transactions={transactions} onDelete={handleDelete} />
+      <TransactionList
+        transactions={transactions}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
     </section>
   );
 }

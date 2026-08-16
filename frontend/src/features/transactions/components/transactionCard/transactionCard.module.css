@@ -6,6 +6,31 @@
   gap: var(--space-md);
 }
 
+.content {
+  flex: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: var(--space-md);
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: inherit;
+  font: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+.content:hover {
+  opacity: 0.8;
+}
+
 .info {
   display: flex;
   flex-direction: column;

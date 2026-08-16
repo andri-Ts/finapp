@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 interface AccountCardProps {
   account: IAccount;
   onArchive: (id: string) => void;
+  onSetDefault: (id: string) => void;
 }
 
-function AccountCard({ account, onArchive }: AccountCardProps) {
+function AccountCard({ account, onArchive, onSetDefault }: AccountCardProps) {
   const AccountIcon = account.icon ? accountIcons[account.icon] : null;
   const navigate = useNavigate();
 
@@ -28,6 +29,14 @@ function AccountCard({ account, onArchive }: AccountCardProps) {
         </strong>
 
         <span className={styles.currency}>{account.currency}</span>
+
+        <Button
+          type="button"
+          onClick={() => onSetDefault(account.id)}
+          disabled={account.isDefault}
+        >
+          {account.isDefault ? 'Compte par défaut' : 'Définir par défaut'}
+        </Button>
 
         <Button onClick={() => navigate(`/accounts/${account.id}/edit`)}>
           Modifier

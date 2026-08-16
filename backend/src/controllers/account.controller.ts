@@ -4,6 +4,7 @@ import {
   createAccountService,
   getAccountService,
   getAllAccountService,
+  setDefaultAccountService,
   updateAccountService,
 } from '../services/account.service';
 import {
@@ -136,5 +137,38 @@ export async function archiveAccount(req: Request, res: Response) {
     console.error(error);
 
     return res.status(500).json({ message: 'Erreur serveur' });
+  }
+}
+
+export async function setDefaultAccount(req: Request, res: Response) {
+  try {
+    const userId = req.user?.userId;
+    const accountId = req.params.id;
+
+    // Vérifie que l'utilisateur est authentifié
+    // et que l'id du compte est bien une string
+    if (!userId || !accountId || Array.isArray(accountId)) {
+      return res.status(401).json({
+        message: 'Utilisateur non authentifié',
+      });
+    }
+
+    const account = await setDefaultAccountService(accountId, userId);
+
+    return res.status(200).json({
+      account,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.message === ERRORS.ACCOUNT_NOT_FOUND) {
+      return res.status(404).json({
+        message: 'Compte introuvable',
+      });
+    }
+
+    console.error(error);
+
+    return res.status(500).json({
+      message: 'Erreur serveur',
+    });
   }
 }

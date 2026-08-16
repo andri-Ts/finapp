@@ -59,3 +59,9 @@ export async function archiveAccount(id: string): Promise<string> {
 
   return response.data.message;
 }
+
+export async function setDefaultAccount(id: string): Promise<IAccount> {
+  const response = await api.patch(`/accounts/${id}/default`);
+
+  return response.data.account;
+}

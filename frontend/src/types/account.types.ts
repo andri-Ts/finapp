@@ -7,4 +7,5 @@ export interface IAccount extends IDropdownItem {
   currentBalance: number;
   icon: AccountIconName | null;
   color: string | null;
+  isDefault: boolean;
 }

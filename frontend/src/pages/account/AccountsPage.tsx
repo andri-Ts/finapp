@@ -6,6 +6,7 @@ import type { IAccount } from '@/types/account.types';
 import {
   archiveAccount,
   getAllAccount,
+  setDefaultAccount,
 } from '@/features/accounts/api/acccountApi';
 import Button from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
@@ -46,6 +47,27 @@ function AccountsPage() {
     }
   };
 
+  const handleSetDefault = async (id: string) => {
+    try {
+      await setDefaultAccount(id);
+
+      setAccounts((currentAccounts) =>
+        currentAccounts.map((account) => ({
+          ...account,
+          isDefault: account.id === id,
+        })),
+      );
+
+      toast.success('Compte par défaut modifié');
+    } catch (error) {
+      console.error(
+        'Erreur lors de la modification du compte par défaut : ',
+        error,
+      );
+      toast.error('Impossible de modifier le compte par défaut');
+    }
+  };
+
   if (loading) {
     return <p>Chargement...</p>;
   }
@@ -59,7 +81,11 @@ function AccountsPage() {
         }
       />
 
-      <AccountList accounts={accounts} onArchive={handleArchiveAccount} />
+      <AccountList
+        accounts={accounts}
+        onArchive={handleArchiveAccount}
+        onSetDefault={handleSetDefault}
+      />
     </section>
   );
 }

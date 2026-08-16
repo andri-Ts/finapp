@@ -109,3 +109,47 @@ export async function archiveAccountService(accountId: string, userId: string) {
 
   return accountArchived;
 }
+
+export async function setDefaultAccountService(
+  accountId: string,
+  userId: string,
+) {
+  // Vérifier que le compte existe et appartient à l'utilisateur
+  const account = await prisma.account.findFirst({
+    where: {
+      id: accountId,
+      userId,
+      archived: false,
+    },
+  });
+
+  if (!account) {
+    throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+  }
+
+  // Les deux opérations doivent réussir ensemble :
+  // 1. retirer le statut par défaut aux autres comptes
+  // 2. définir le compte sélectionné comme compte par défaut
+  const accountUpdated = await prisma.$transaction(async (tx) => {
+    await tx.account.updateMany({
+      where: {
+        userId,
+        isDefault: true,
+      },
+      data: {
+        isDefault: false,
+      },
+    });
+
+    return await tx.account.update({
+      where: {
+        id: accountId,
+      },
+      data: {
+        isDefault: true,
+      },
+    });
+  });
+
+  return accountUpdated;
+}

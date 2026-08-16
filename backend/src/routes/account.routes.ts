@@ -4,6 +4,7 @@ import {
   createAccount,
   getAccount,
   getAllAccount,
+  setDefaultAccount,
   updateAccount,
 } from '../controllers/account.controller';
 import { authenticate } from '../middlewares/auth.middleware';
@@ -17,5 +18,6 @@ accountRoutes.get('/:id', authenticate, getAccount);
 
 accountRoutes.patch('/:id', authenticate, updateAccount);
 accountRoutes.patch('/:id/archive', authenticate, archiveAccount);
+accountRoutes.patch('/:id/default', authenticate, setDefaultAccount);
 
 export default accountRoutes;
