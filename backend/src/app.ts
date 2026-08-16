@@ -12,8 +12,13 @@ import dashboardRoutes from './routes/dashboard.routes';
 
 const app = express();
 
+const allowedOrigins: string[] = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL,
+].filter((origin): origin is string => Boolean(origin)); // apres filter(), origin est forcément un string
+
 app.use(helmet()); // Sécurité HTTP
-app.use(cors({ origin: 'http://localhost:5173' })); // Autoriser les requêtes de frontend
+app.use(cors({ origin: allowedOrigins })); // Autoriser les requêtes de frontend
 app.use(express.json()); // Lire JSON
 app.use(morgan('dev')); // Logs développement
 

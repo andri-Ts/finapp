@@ -83,3 +83,5 @@
 }
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbXM0eDRvb2gwMDAyMTB1N3hvZWg4aDh6IiwiZW1haWwiOiJ0ZXN0NEB0b2cuY29tIiwiaWF0IjoxNzg2ODg0ODg5LCJleHAiOjE3ODY5NzEyODl9.2j7Oy9WenEkeoA7oNesiJm9lBKOURU0ZnEOOzxiyR7w
+
+postgresql://neondb_owner:npg_bLp0sFKgPn7w@ep-shiny-king-b1kp1a5v.c-5.eu-central-1.aws.neon.tech/neondb?sslmode=require

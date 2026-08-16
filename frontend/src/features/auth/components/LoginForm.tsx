@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { login } from '../api/authApi';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Empêche le navigateur de recharger la page.
@@ -34,9 +37,8 @@ function LoginForm() {
        */
       localStorage.setItem('token', response.token);
 
-      /*
-       * Plus tard, ici on redirigera l'utilisateur vers le dashboard.
-       */
+      /* Plus tard, ici on redirigera l'utilisateur vers le dashboard.*/
+      navigate('/');
 
       // const user = await getMe();
 
