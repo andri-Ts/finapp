@@ -33,7 +33,10 @@ export async function getDashboardService(userId: string) {
   // =========================
   const transactionsOfMonth = await prisma.transaction.findMany({
     where: {
-      accountId: defaultAccount?.id,
+      account: {
+        //  tous les transactions de tous les comptes
+        userId,
+      },
       transactionDate: {
         gte: startOfMonth,
         lt: startOfNextMonth,
@@ -68,7 +71,9 @@ export async function getDashboardService(userId: string) {
   // aggreaget(): utilisé pour faire des calules sur plusiseur lignes de bases de données
   const incomeOfMonth = await prisma.transaction.aggregate({
     where: {
-      accountId: defaultAccount?.id,
+      account: {
+        userId,
+      },
       type: 'INCOME',
       transactionDate: {
         gte: startOfMonth, // 'greater than or equal'
