@@ -30,7 +30,7 @@ export async function login(data: LoginInput) {
       // Plus tard, on la récupérera depuis un fichier de configuration
       // validé avec Zod pour conserver un typage sûr.
       //   expiresIn: process.env.JWT_SECRET_IN,
-      expiresIn: '1d',
+      expiresIn: '3d',
     },
   );
 
