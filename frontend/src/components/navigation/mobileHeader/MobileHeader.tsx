@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './mobileHeader.module.css';
 
 function MobileHeader() {
@@ -8,6 +9,7 @@ function MobileHeader() {
       <button type="button" className={styles.profileButton}>
         Profile
       </button>
+      <Link to={'/login'}>Connexion</Link>
     </header>
   );
 }

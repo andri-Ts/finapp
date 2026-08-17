@@ -33,4 +33,8 @@
   .statsGrid {
     gap: var(--space-md);
   }
+
+  .newTransaction {
+    display: none;
+  }
 }

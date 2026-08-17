@@ -36,17 +36,19 @@ function TransactionCard({
               {CategoryIcon && <CategoryIcon size={15} />}
               <span>{transaction.category?.name ?? 'Sans catégorie'}</span>
             </div>
-            <p>{formatDate(transaction.transactionDate)}</p>
           </div>
 
-          <strong
-            className={
-              transaction.type === 'EXPENSE' ? styles.expense : styles.income
-            }
-          >
-            {transaction.type === 'EXPENSE' ? '-' : '+'}
-            {formatCurrency(transaction.amount)}
-          </strong>
+          <div>
+            <strong
+              className={
+                transaction.type === 'EXPENSE' ? styles.expense : styles.income
+              }
+            >
+              {transaction.type === 'EXPENSE' ? '-' : '+'}
+              {formatCurrency(transaction.amount)}
+            </strong>
+            <p>{formatDate(transaction.transactionDate)}</p>
+          </div>
         </button>
         {onDelete && (
           <Button type="button" onClick={() => onDelete(transaction.id)}>

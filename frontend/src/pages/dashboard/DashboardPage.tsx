@@ -42,7 +42,7 @@ function DashboardPage() {
       <PageHeader
         title="Bonjour Zahard 👋"
         action={
-          <Link to={'/transactions/new'}>
+          <Link to={'/transactions/new'} className={styles.newTransaction}>
             <Button>Nouvelle transaction</Button>
           </Link>
         }
