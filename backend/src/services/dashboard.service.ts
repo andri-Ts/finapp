@@ -88,7 +88,9 @@ export async function getDashboardService(userId: string) {
 
   const expenseOfMonth = await prisma.transaction.aggregate({
     where: {
-      accountId: defaultAccount?.id,
+      account: {
+        userId,
+      },
       type: 'EXPENSE',
       transactionDate: {
         gte: startOfMonth,
