@@ -23,6 +23,7 @@ function Button({
         ${styles[size]}
         ${className}`}
       disabled={disabled || loading}
+      aria-busy={loading}
       {...props}
     >
       {loading ? 'Chargement...' : children}
