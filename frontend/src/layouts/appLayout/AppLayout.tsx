@@ -3,7 +3,7 @@ import styles from './appLayout.module.css';
 import { Outlet } from 'react-router-dom';
 import MobileHeader from '@/components/navigation/mobileHeader';
 import BottomNavigation from '@/components/navigation/bottomNavigation';
-import FloatingButton from '@/components/navigation/floatingButton';
+// import FloatingButton from '@/components/navigation/floatingButton';
 
 function AppLayout() {
   return (
