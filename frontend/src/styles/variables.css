@@ -1,58 +1,69 @@
 :root {
   /* =====================
-     Brand colors
+     Brand — Madagascar Forest
   ====================== */
 
-  /* Green inspired by Madagascar vegetation */
-  --color-primary: #2f8f5b;
-  --color-primary-hover: #26784b;
-  --color-primary-active: #1f643e;
-
-  /* Soft botanical tint */
-  --color-secondary: #e8f4ed;
-
-  /* Floral accent inspired by Catharanthus roseus */
-  --color-accent: #d86b8a;
-  --color-accent-hover: #c55878;
-  --color-accent-background: #f9e8ee;
+  --color-primary: #63d391;
+  --color-primary-hover: #4fbd7d;
+  --color-primary-soft: #183326;
 
   /* =====================
-     Semantic colors
+     Accent — Pervenche
   ====================== */
 
-  --color-success: #2f9e62;
-  --color-success-background: #e5f5eb;
-  --color-success-text: #236b43;
-
-  --color-danger: #d95c68;
-  --color-danger-background: #fae8eb;
-  --color-danger-text: #9f3743;
-
-  --color-warning: #d69a32;
-  --color-warning-background: #faf1dc;
-  --color-warning-text: #8a621f;
+  --color-accent: #b86ad9;
+  --color-accent-hover: #a653c7;
+  --color-accent-soft: #2a1b32;
 
   /* =====================
-     UI colors
+     Highlight — Sun
   ====================== */
 
-  --color-background: #f7f8f5;
+  --color-highlight: #e8c96a;
 
-  --color-surface: #ffffff;
+  /* =====================
+     Surfaces
+  ====================== */
 
-  --color-surface-secondary: #f1f4f0;
+  --color-background: #0b1410;
+  --color-surface: #122019;
+  --color-surface-elevated: #192a21;
+  --color-surface-hover: #1e3227;
+  --color-surface-active: #243b2f;
 
-  --color-surface-elevated: #ffffff;
+  /* =====================
+     Text
+  ====================== */
 
-  --color-text: #17231d;
+  --color-text: #f4f7f3;
+  --color-text-secondary: #91a69a;
+  --color-text-muted: #617469;
+  --color-text-inverse: #0b1410;
 
-  --color-text-secondary: #66736c;
+  /* =====================
+     Borders
+  ====================== */
 
-  --color-text-muted: #8b9690;
+  --color-border: #263a30;
+  --color-border-subtle: #1c2d24;
+  --color-border-focus: #63d391;
 
-  --color-border: #dfe5e0;
+  /* =====================
+     Semantic
+  ====================== */
 
-  --color-border-subtle: #ebefec;
+  --color-success: #63d391;
+  --color-success-background: #163426;
+  --color-success-text: #8ee3ad;
+  --color-danger: #f2766a;
+  --color-danger-background: #3a1e1c;
+  --color-danger-text: #ff9b91;
+  --color-warning: #e8c96a;
+  --color-warning-background: #392f18;
+  --color-warning-text: #f2d98a;
+  --color-info: #65cfe0;
+  --color-info-background: #153137;
+  --color-info-text: #8de1ed;
 
   /* =====================
      Spacing
@@ -74,60 +85,59 @@
   --radius-md: 0.75rem; /* 12px */
   --radius-lg: 1rem; /* 16px */
   --radius-xl: 1.25rem; /* 20px */
+  --radius-full: 9999px;
 
   /* =====================
      Shadows
   ====================== */
 
-  --shadow-sm: 0 1px 2px rgba(23, 35, 29, 0.04);
-
-  --shadow-md: 0 4px 16px rgba(23, 35, 29, 0.07);
-
-  --shadow-lg: 0 12px 32px rgba(23, 35, 29, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
 
   /* =====================
      Glass
   ====================== */
 
-  --glass-background: rgba(255, 255, 255, 0.72);
-
-  --glass-border: rgba(255, 255, 255, 0.65);
-
-  --glass-shadow: 0 8px 30px rgba(23, 35, 29, 0.08);
-
+  --glass-background: rgba(18, 32, 25, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   --glass-blur: 18px;
 
   /* =====================
      Transitions
   ====================== */
 
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 400ms ease;
+  --transition-fast: 120ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
 
   /* =====================
      Typography
   ====================== */
 
   --font-family:
-    Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-
   --font-size-display: 2rem;
   --font-size-h1: 1.75rem;
   --font-size-h2: 1.5rem;
   --font-size-h3: 1.25rem;
-
   --font-size-body: 1rem;
   --font-size-small: 0.875rem;
   --font-size-caption: 0.75rem;
-
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
 
   /* =====================
      Layout
