@@ -1,14 +1,12 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-
   gap: var(--space-xs);
 }
 
 .label {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
-
   color: var(--color-text);
 }
 
@@ -18,28 +16,53 @@
   padding: var(--space-sm) var(--space-md);
 
   border: 1px solid var(--color-border);
+
   border-radius: var(--radius-md);
 
+  /* MODIFICATION : surface dédiée aux champs, cohérente avec le thème Light Natural */
   background: var(--color-surface);
+
   color: var(--color-text);
 
-  transition: border-color var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
 }
+
+/* MODIFICATION : état focus plus visible et cohérent avec notre Design System */
 .input:focus {
   outline: none;
-  border-color: var(--color-primary);
+
+  border-color: var(--color-border-focus);
+
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+/* MODIFICATION : état hover très discret */
+.input:hover:not(:focus) {
+  border-color: var(--color-text-muted);
 }
 
 .error {
   border-color: var(--color-danger);
 }
 
+/* MODIFICATION : focus spécifique lorsqu'il y a une erreur */
+.error:focus {
+  border-color: var(--color-danger);
+
+  box-shadow: 0 0 0 3px var(--color-danger-background);
+}
+
 .errorMessage {
   color: var(--color-danger);
+
   font-size: var(--font-size-small);
 }
 
 .helperText {
   color: var(--color-text-secondary);
+
   font-size: var(--font-size-small);
 }

@@ -1,36 +1,111 @@
 .navigation {
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: var(--space-sm);
+  /* justify-content: space-around; */
 
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+  width: 100%;
+  min-height: var(--mobile-navigation-height);
 
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
+
+  z-index: 30;
+
+  padding: var(--space-xs) var(--space-sm);
+  padding-bottom: calc(
+    var(--space-xs) + env(safe-area-inset-bottom)
+  ); /* prise en compte de la zone sécurisée des appareils avec encoche */
+
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface);
+
+  box-shadow: var(--shadow-md);
 }
 
 .link {
+  /* position: relative; */
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  gap: var(--space-xs);
+  /* gap: var(--space-xs); */
 
-  color: var(--color-text);
-  font-size: var(--font-size-captation);
+  min-width: 0;
+  min-height: 3rem;
 
-  transition: color var(--transisiton-fast);
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-muted);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
 }
 .link:hover {
   color: var(--color-primary);
+  background-color: var(--color-secondary);
 }
 
 .active {
   color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.active:hover {
+  color: var(--color-primary);
+}
+/* ---------------------------------------- */
+/* Bouton central +                         */
+/* ---------------------------------------- */
+
+.addButton {
+  flex: 0 0 3.25rem;
+
+  width: 3.25rem;
+  height: 3.25rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 var(--space-lg);
+
+  padding: 0;
+
+  border: none;
+  border-radius: var(--radius-lg);
+
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+
+  box-shadow: var(--shadow-md);
+
+  cursor: pointer;
+
+  transform: translateY(-0.6rem);
+
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.addButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.addButton:active {
+  transform: translateX(-50%) scale(0.94);
+  /* MODIFICATION : micro-interaction au tap */
+}
+
+.addButton:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 3px;
 }
 
 /* ----------------------------------------*/

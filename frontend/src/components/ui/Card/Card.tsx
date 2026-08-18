@@ -7,11 +7,11 @@ interface ICardProps {
   className?: string;
 }
 
-function Card({ children, title, className }: ICardProps) {
+function Card({ children, title, className = '' }: ICardProps) {
   return (
     <section className={`${styles.card} ${className}`}>
       {title && <h3 className={styles.title}>{title}</h3>}
-      <div>{children}</div>
+      <div className={styles.content}>{children}</div>
     </section>
   );
 }

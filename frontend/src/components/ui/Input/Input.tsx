@@ -21,7 +21,9 @@ function Input({ label, error, helperText, className, ...props }: IInputProps) {
 
       {error && <p className={styles.erroMessage}>{error}</p>}
 
-      {error && helperText && <p className={styles.helperText}>{helperText}</p>}
+      {!error && helperText && (
+        <p className={styles.helperText}>{helperText}</p>
+      )}
     </div>
   );
 }

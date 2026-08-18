@@ -21,7 +21,7 @@
   cursor: pointer;
 
   transition:
-    background var(--transition-fast),
+    background-color var(--transition-fast),
     color var(--transition-fast);
 }
 .trigger:hover {

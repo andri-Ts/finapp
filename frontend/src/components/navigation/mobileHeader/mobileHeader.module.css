@@ -3,32 +3,39 @@
 
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md);
 
-  border-bottom: 1px solid var(--color-border);
+  min-height: var(--mobile-header-height);
+
+  padding: 0 var(--space-md);
+
   background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
+
+  color: var(--color-text);
 }
 
 .logo {
-  font-size: var(--font-size-h2);
+  font-size: var(--font-size-body);
   font-weight: var(--font-weight-bold);
-}
 
-.profileButton {
-  border: none;
-
-  background-color: transparent;
   color: var(--color-text);
-  font: inherit;
-
-  cursor: pointer;
 }
 
-/* -----------------------------------------------------------------------------*/
+.title {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
 
-/* Tablette et télephone */
+  color: var(--color-text-secondary);
+}
+
+/* ---------------------------------------- */
+/* Tablette et téléphone                    */
+/* ---------------------------------------- */
+
 @media (max-width: 48rem) {
   .header {
     display: flex;
+
+    padding-top: env(safe-area-inset-top);
   }
 }

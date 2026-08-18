@@ -41,15 +41,21 @@ function AmountInput({ value, onChange }: AmountInputProps) {
 
   return (
     <div className={styles.container}>
-      <label htmlFor="amount">Montant</label>
-      <input
-        type="text" // input affcihe un string
-        inputMode="decimal" // formulaire travail avec un number
-        id="amount"
-        value={inputValue}
-        onChange={handleChange}
-        className={styles.input}
-      />
+      <label htmlFor="amount" className={styles.label}>
+        Montant
+      </label>
+      <div className={styles.inputWrapper}>
+        <input
+          type="text" // input affcihe un string
+          inputMode="decimal" // formulaire travail avec un number
+          id="amount"
+          value={inputValue}
+          onChange={handleChange}
+          className={styles.input}
+          placeholder="0.00"
+        />
+        <span className={styles.currency}>€</span>
+      </div>
     </div>
   );
 }

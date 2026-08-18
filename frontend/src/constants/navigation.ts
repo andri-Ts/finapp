@@ -14,6 +14,15 @@ interface INavigation {
   showOnMobile: boolean;
 }
 
+// Centraliser les titres associées au routes
+export const pageTitles: Record<string, string> = {
+  '/': 'Accueil',
+  '/calendar': 'Calendrier',
+  '/categories': 'Catégories',
+  '/transactions': 'Transactions',
+  '/accounts': 'Comptes',
+};
+
 export const navigation: INavigation[] = [
   {
     label: 'Dashboard',

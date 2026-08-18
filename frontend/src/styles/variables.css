@@ -3,50 +3,50 @@
      Brand — Madagascar Forest
   ====================== */
 
-  --color-primary: #63d391;
-  --color-primary-hover: #4fbd7d;
-  --color-primary-soft: #183326;
+  --color-primary: #2f8f5b;
+  --color-primary-hover: #26784b;
+  --color-primary-soft: #e6f4eb;
 
   /* =====================
      Accent — Pervenche
   ====================== */
 
-  --color-accent: #b86ad9;
-  --color-accent-hover: #a653c7;
-  --color-accent-soft: #2a1b32;
+  --color-accent: #b85c86;
+  --color-accent-hover: #a34d74;
+  --color-accent-soft: #f6e8ef;
 
   /* =====================
      Highlight — Sun
   ====================== */
 
-  --color-highlight: #e8c96a;
+  --color-highlight: #d6a83d;
 
   /* =====================
      Surfaces
   ====================== */
 
-  --color-background: #0b1410;
-  --color-surface: #122019;
-  --color-surface-elevated: #192a21;
-  --color-surface-hover: #1e3227;
-  --color-surface-active: #243b2f;
+  --color-background: #f5f7f3;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-hover: #f0f4f1;
+  --color-surface-active: #e8efea;
 
   /* =====================
      Text
   ====================== */
 
-  --color-text: #f4f7f3;
-  --color-text-secondary: #91a69a;
-  --color-text-muted: #617469;
-  --color-text-inverse: #0b1410;
+  --color-text: #17231d;
+  --color-text-secondary: #607068;
+  --color-text-muted: #89958e;
+  --color-text-inverse: #ffffff;
 
   /* =====================
      Borders
   ====================== */
 
-  --color-border: #263a30;
-  --color-border-subtle: #1c2d24;
-  --color-border-focus: #63d391;
+  --color-border: #dce4de;
+  --color-border-subtle: #e9eeeb;
+  --color-border-focus: #2f8f5b;
 
   /* =====================
      Semantic
@@ -117,12 +117,7 @@
   ====================== */
 
   --font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+    Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
