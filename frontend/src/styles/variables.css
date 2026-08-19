@@ -3,66 +3,70 @@
      Brand — Madagascar Forest
   ====================== */
 
-  --color-primary: #2f8f5b;
-  --color-primary-hover: #26784b;
-  --color-primary-soft: #e6f4eb;
+  --color-primary: #63d391;
+  --color-primary-hover: #4fbd7d;
+  --color-primary-soft: #183326;
 
   /* =====================
      Accent — Pervenche
   ====================== */
 
-  --color-accent: #b85c86;
-  --color-accent-hover: #a34d74;
-  --color-accent-soft: #f6e8ef;
+  --color-accent: #b86ad9;
+  --color-accent-hover: #a653c7;
+  --color-accent-soft: #2a1b32;
 
   /* =====================
      Highlight — Sun
   ====================== */
 
-  --color-highlight: #d6a83d;
+  --color-highlight: #e8c96a;
 
   /* =====================
      Surfaces
   ====================== */
 
-  --color-background: #f5f7f3;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #ffffff;
-  --color-surface-hover: #f0f4f1;
-  --color-surface-active: #e8efea;
+  --color-background: #0f1a14;
+  --color-surface: #17261e;
+  --color-surface-elevated: #1d3026;
+
+  --color-surface-hover: #23392d;
+  --color-surface-active: #294332;
 
   /* =====================
      Text
   ====================== */
 
-  --color-text: #17231d;
-  --color-text-secondary: #607068;
-  --color-text-muted: #89958e;
-  --color-text-inverse: #ffffff;
+  --color-text: #f4f7f3;
+  --color-text-secondary: #9caf9f;
+  --color-text-muted: #708479;
+  --color-text-inverse: #0b1410;
 
   /* =====================
      Borders
   ====================== */
 
-  --color-border: #dce4de;
-  --color-border-subtle: #e9eeeb;
-  --color-border-focus: #2f8f5b;
+  --color-border: #2b4035;
+  --color-border-subtle: #21352b;
+  --color-border-focus: #63d391;
 
   /* =====================
      Semantic
   ====================== */
 
   --color-success: #63d391;
-  --color-success-background: #163426;
+  --color-success-background: #193b2b;
   --color-success-text: #8ee3ad;
+
   --color-danger: #f2766a;
-  --color-danger-background: #3a1e1c;
+  --color-danger-background: #40221f;
   --color-danger-text: #ff9b91;
+
   --color-warning: #e8c96a;
-  --color-warning-background: #392f18;
+  --color-warning-background: #3d321b;
   --color-warning-text: #f2d98a;
+
   --color-info: #65cfe0;
-  --color-info-background: #153137;
+  --color-info-background: #18363c;
   --color-info-text: #8de1ed;
 
   /* =====================
@@ -167,3 +171,7 @@
 
   --floating-button-size: 3.5rem;
 }
+
+/*
+
+*/

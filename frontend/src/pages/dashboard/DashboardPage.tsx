@@ -6,7 +6,7 @@ import PageSection from '@/components/layout/pageSection';
 import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from '@/features/transactions/components/transactionList';
 // import { mockTransactions } from '@/mocks/transactions.mock';
-import Button from '@/components/ui/Button';
+// import Button from '@/components/ui/Button';
 import { useEffect, useState } from 'react';
 import type { IDashboard } from '@/features/dashboard/types/dashboard.types';
 import { getDashboard } from '@/features/dashboard/api/dashboardApi';
@@ -39,14 +39,7 @@ function DashboardPage() {
 
   return (
     <section className={styles.page}>
-      <PageHeader
-        title="Bonjour Zahard 👋"
-        action={
-          <Link to={'/transactions/new'} className={styles.newTransaction}>
-            <Button>Nouvelle transaction</Button>
-          </Link>
-        }
-      />
+      <PageHeader title="Bonjour Zahard 👋" />
 
       <BalanceCard
         accountName={
@@ -70,7 +63,7 @@ function DashboardPage() {
       </div>
 
       <PageSection
-        title="Transaction du mois"
+        title="Transactions du mois"
         action={
           <Link to={'/transactions'} className={styles.viewAllLink}>
             Voir toutes →

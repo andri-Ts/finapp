@@ -15,7 +15,10 @@
 
   cursor: pointer;
 
-  transition: var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
 }
 .day:hover {
   background: var(--color-secondary);
@@ -43,30 +46,42 @@
   gap: 0.15rem;
 
   margin-top: var(--space-xs);
+
+  font-size: var(--font-size-caption);
+  line-height: 1;
 }
 
 .income {
   color: var(--color-success);
 
-  font-size: var(--font-size-small);
-  /* font-weight: var(--font-weight-semibold); */
-  line-height: 1;
+  font-size: var(--font-size-caption);
 }
 
 .expense {
   color: var(--color-danger);
-
-  font-size: var(--font-size-small);
-  /* font-weight: var(--font-weight-semibold); */
-  line-height: 1;
+  font-size: var(--font-size-caption);
 }
 
 .selected {
   border: 2px solid var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.today {
+  border-color: var(--color-primary);
+}
+.today.selected {
+  background: var(--color-primary-soft);
 }
 
 @media (max-width: 48rem) {
   .day {
     font-size: var(--font-size-small);
+  }
+
+  .summary,
+  .income,
+  .expense {
+    font-size: 0.625rem;
   }
 }

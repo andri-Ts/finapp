@@ -30,6 +30,10 @@
 /*-----------------------------------------*/
 
 @media (max-width: 768px) {
+  .page {
+    gap: var(--space-lg);
+  }
+
   .statsGrid {
     gap: var(--space-md);
   }

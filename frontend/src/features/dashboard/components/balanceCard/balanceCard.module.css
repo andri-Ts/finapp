@@ -1,5 +1,6 @@
 .card {
   text-align: center;
+  padding: var(--space-xl);
 }
 
 .accountName {
@@ -9,7 +10,22 @@
 }
 
 .balance {
+  margin-top: var(--space-md);
+
   font-size: var(--font-size-display);
   font-weight: var(--font-weight-bold);
+
+  line-height: var(--line-height-tight);
   color: var(--color-text);
+}
+
+/* MODIFICATION : adaptation mobile */
+@media (max-width: 48rem) {
+  .card {
+    padding: var(--space-lg);
+  }
+
+  .balance {
+    font-size: var(--font-size-h1);
+  }
 }

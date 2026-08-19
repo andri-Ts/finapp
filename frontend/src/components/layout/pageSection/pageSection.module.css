@@ -31,4 +31,8 @@
   .header {
     align-items: flex-start;
   }
+
+  .title {
+    font-size: var(--font-size-body);
+  }
 }

@@ -16,7 +16,7 @@ function PageSection({ title, action, children }: IPageSectionProps) {
         {action && <div className={styles.action}>{action}</div>}
       </div>
 
-      <div className={styles.children}>{children}</div>
+      <div className={styles.content}>{children}</div>
     </section>
   );
 }

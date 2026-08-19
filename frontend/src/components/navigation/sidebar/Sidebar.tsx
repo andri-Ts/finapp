@@ -1,8 +1,11 @@
 import { navigation } from '@/constants/navigation';
 import styles from './sidebar.module.css';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
 function Sidebar() {
+  const navigate = useNavigate();
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>FinApp</div>
@@ -28,8 +31,18 @@ function Sidebar() {
           })}
       </nav>
 
+      <button
+        type="button"
+        onClick={() => navigate('/transactions/new')}
+        className={styles.addButton}
+      >
+        <Plus size={20} />
+        <span>Ajouter une transaction</span>
+      </button>
+
       <div className={styles.profile}>
-        <p>Profil</p> <Link to={'/login'}>Connexion</Link>
+        <p>Profil</p>
+        <Link to={'/login'}>Connexion</Link>
       </div>
     </aside>
   );

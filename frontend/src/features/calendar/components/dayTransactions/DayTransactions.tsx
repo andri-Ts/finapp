@@ -28,7 +28,9 @@ function DayTransactions({ selectedDate, transactions }: DayTransactionsProps) {
         {transactionsOfDay.map((transaction) => (
           <article key={transaction.id} className={styles.transaction}>
             {/* <span>{transaction.category?.icon}</span> */}
-            <span>{transaction.description}</span>
+            <span className={styles.description}>
+              {transaction.description}
+            </span>
 
             <strong
               className={

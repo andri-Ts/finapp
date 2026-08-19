@@ -24,6 +24,15 @@ function CalendarDay({
     selectedDate.getMonth() === currentMonth.getMonth() &&
     selectedDate.getFullYear() === currentMonth.getFullYear();
 
+  // MODIFICATION : détection du jour actuel
+  const today = new Date();
+
+  const isToday =
+    calendarCell.day !== null &&
+    today.getDate() === calendarCell.day &&
+    today.getMonth() === currentMonth.getMonth() &&
+    today.getFullYear() === currentMonth.getFullYear();
+
   // Clique sur une date pour voir les transactions
   const handleClick = () => {
     if (calendarCell.day === null) {
@@ -50,7 +59,7 @@ function CalendarDay({
 
   return (
     <button
-      className={`${styles.day} ${isSelected ? styles.selected : ''}`}
+      className={`${styles.day} ${isSelected ? styles.selected : ''} ${isToday ? styles.today : ''}`}
       disabled={calendarCell.day === null}
       onClick={handleClick}
     >

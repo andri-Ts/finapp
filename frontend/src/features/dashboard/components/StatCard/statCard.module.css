@@ -25,3 +25,14 @@
 .danger {
   color: var(--color-danger-text);
 }
+
+/* MODIFICATION : les statistiques deviennent légèrement plus compactes sur mobile */
+@media (max-width: 48rem) {
+  .card {
+    padding: var(--space-md);
+  }
+
+  .value {
+    font-size: var(--font-size-h3);
+  }
+}

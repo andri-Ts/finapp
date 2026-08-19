@@ -1,6 +1,8 @@
 .layout {
   min-height: 100vh;
   display: flex;
+  align-items: flex-start; /*sidebar ne s'étrire aps avec le contenu */
+
   background: var(--color-background);
 }
 
