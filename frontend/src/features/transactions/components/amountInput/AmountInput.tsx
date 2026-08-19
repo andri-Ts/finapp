@@ -10,10 +10,13 @@ function AmountInput({ value, onChange }: AmountInputProps) {
   const [inputValue, setInputValue] = useState(String(value));
 
   useEffect(() => {
-     // On ne réinitialise pas le champ si sa valeur saisie
-  // correspond déjà à la valeur numérique du parent.
+    // On ne réinitialise pas le champ si sa valeur saisie
+    // correspond déjà à la valeur numérique du parent.
     const currentNumericValue = Number(inputValue.replace(',', '.'));
-    setInputValue(String(value));
+
+    if (currentNumericValue !== value) {
+      setInputValue(String(value));
+    }
   }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,12 +27,12 @@ function AmountInput({ value, onChange }: AmountInputProps) {
       return;
     }
 
-// Si l'utilisateur commence par 0 suivi d'un chiffre,
-  // on supprime les zéros inutiles.
-    let cleanedValue = newValue
-     if (/^0\d/.test(cleanedValue)) {
-    cleanedValue = cleanedValue.replace(/^0+/, '');
-  }
+    // Si l'utilisateur commence par 0 suivi d'un chiffre,
+    // on supprime les zéros inutiles.
+    let cleanedValue = newValue;
+    if (/^0\d/.test(cleanedValue)) {
+      cleanedValue = cleanedValue.replace(/^0+/, '');
+    }
 
     setInputValue(newValue);
 
