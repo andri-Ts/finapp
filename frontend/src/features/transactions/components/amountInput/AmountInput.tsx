@@ -7,16 +7,22 @@ interface AmountInputProps {
 }
 
 function AmountInput({ value, onChange }: AmountInputProps) {
-  const [inputValue, setInputValue] = useState(String(value));
+  const [inputValue, setInputValue] = useState(
+    value === 0 ? '' : String(value),
+  );
 
   useEffect(() => {
-    // On ne réinitialise pas le champ si sa valeur saisie
-    // correspond déjà à la valeur numérique du parent.
-    const currentNumericValue = Number(inputValue.replace(',', '.'));
-
-    if (currentNumericValue !== value) {
-      setInputValue(String(value));
+    // Si la valeur venant du parent est 0,
+    // on affiche un champ vide.
+    //
+    // Cela évite d'avoir "0" dans le champ
+    // avant même que l'utilisateur commence à saisir.
+    if (value === 0) {
+      setInputValue('');
+      return;
     }
+
+    setInputValue(String(value));
   }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,13 +31,6 @@ function AmountInput({ value, onChange }: AmountInputProps) {
     // Permet de garder uniquement les chiffres, la virgule et le point
     if (!/^\d*[,.]?\d*$/.test(newValue)) {
       return;
-    }
-
-    // Si l'utilisateur commence par 0 suivi d'un chiffre,
-    // on supprime les zéros inutiles.
-    let cleanedValue = newValue;
-    if (/^0\d/.test(cleanedValue)) {
-      cleanedValue = cleanedValue.replace(/^0+/, '');
     }
 
     setInputValue(newValue);
@@ -43,7 +42,7 @@ function AmountInput({ value, onChange }: AmountInputProps) {
     }
 
     // Transforme 12,50 en 12.50 pour JavaScript
-    const normalizedValue = cleanedValue.replace(',', '.');
+    const normalizedValue = newValue.replace(',', '.');
 
     const numericValue = Number(normalizedValue);
 

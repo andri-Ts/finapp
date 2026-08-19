@@ -30,7 +30,10 @@ function BottomNavigation() {
       <button
         type="button"
         className={styles.addButton}
-        onClick={() => navigatePlus('/transactions/new')}
+        onClick={() => {
+          console.log('Je clique');
+          navigatePlus('/transactions/new');
+        }}
         aria-label="Ajouter une transaction"
       >
         <Plus size={26} />

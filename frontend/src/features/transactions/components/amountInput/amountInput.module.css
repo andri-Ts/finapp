@@ -11,50 +11,70 @@
 }
 
 .inputWrapper {
-  position: relative;
-
   display: flex;
   align-items: center;
-}
 
-.input {
   width: 100%;
-  padding: var(--space-md);
-  /* MODIFICATION : espace à droite pour la devise */
-  padding-right: 3rem;
+  box-sizing: border-box;
+
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+
   background: var(--color-surface);
-  color: var(--color-text);
-  /* MODIFICATION : montant légèrement plus important visuellement */
-  font-size: var(--font-size-h2);
-  font-weight: var(--font-weight-semibold);
-  text-align: right;
+
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
 }
-
-.input::placeholder {
-  color: var(--color-text-muted);
-}
-
-.input:hover:not(:focus) {
-  border-color: var(--color-text-muted);
-}
-
-.input:focus {
-  outline: none;
+/*
+ * On applique le style de focus au wrapper,
+ * puisque la bordure appartient maintenant au wrapper.
+ */
+.inputWrapper:focus-within {
   border-color: var(--color-border-focus);
   box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
-/* MODIFICATION : devise intégrée visuellement au champ */
+.inputWrapper:hover:not(:focus-within) {
+  border-color: var(--color-text-muted);
+}
+
+.input {
+  flex: 1 1 0;
+  min-width: 0;
+
+  padding: var(--space-md) 0;
+  padding-right: var(--space-sm);
+  padding-left: var(--space-md);
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-semibold);
+
+  text-align: right;
+
+  box-sizing: border-box;
+  appearance: none;
+  appearance: none;
+}
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
 .currency {
-  position: absolute;
-  right: var(--space-md);
+  flex: 0 0 auto;
+
+  padding-right: var(--space-md);
+
   color: var(--color-text-secondary);
+
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
-  pointer-events: none;
+
+  line-height: 1;
 }
