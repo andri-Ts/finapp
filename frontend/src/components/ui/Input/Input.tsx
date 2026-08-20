@@ -7,12 +7,24 @@ interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   helperText?: string;
 }
 
-function Input({ label, error, helperText, className, ...props }: IInputProps) {
+function Input({
+  label,
+  error,
+  helperText,
+  className,
+  id,
+  ...props
+}: IInputProps) {
   return (
     <div className={styles.wrapper}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && (
+        <label htmlFor={id} className={styles.label}>
+          {label}
+        </label>
+      )}
 
       <input
+        id={id}
         className={`${styles.input}
           ${error ? styles.error : ''}
           ${className}`}

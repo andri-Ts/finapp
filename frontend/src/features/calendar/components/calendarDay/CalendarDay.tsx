@@ -51,11 +51,11 @@ function CalendarDay({
   // liste des transacitons
   const income = transactions
     .filter((transaction) => transaction.type === 'INCOME')
-    .reduce((sum, transaction) => sum + transaction.amount, 0);
+    .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
   const expense = transactions
     .filter((transaction) => transaction.type === 'EXPENSE')
-    .reduce((sum, transaction) => sum + transaction.amount, 0);
+    .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
   return (
     <button

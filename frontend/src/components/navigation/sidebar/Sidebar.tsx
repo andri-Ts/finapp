@@ -1,6 +1,6 @@
 import { navigation } from '@/constants/navigation';
 import styles from './sidebar.module.css';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
 function Sidebar() {
@@ -42,7 +42,7 @@ function Sidebar() {
 
       <div className={styles.profile}>
         <p>Profil</p>
-        <Link to={'/login'}>Connexion</Link>
+        {/* <Link to={'/login'}>Connexion</Link> */}
       </div>
     </aside>
   );

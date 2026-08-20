@@ -2,7 +2,10 @@
   /* min-height: 32rem; */
 
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  /* grid-template-columns: repeat(7, 1fr); */
+  /* Important : minmax(0, 1fr) permet aux 7 colonnes
+     de réellement rétrécir sur les petits écrans. */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   padding: var(--space-md);
 
   gap: var(--space-sm);
@@ -25,6 +28,9 @@
   font-weight: var(--font-weight-semibold);
 
   color: var(--color-text-secondary);
+
+  /* Empêche le contenu de forcer la largeur de la colonne */
+  overflow: hidden;
 }
 
 @media (max-width: 48rem) {
@@ -32,5 +38,9 @@
     padding: var(--space-md);
 
     gap: var(--space-xs);
+  }
+
+  .weekDay {
+    font-size: var(--font-size-caption);
   }
 }
