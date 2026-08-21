@@ -3,66 +3,43 @@ import styles from './categoryCard.module.css';
 import type { ICategory } from '@/types/category.types';
 import { categoryIcons } from '@/constants/constIcons';
 import { formatCurrency } from '@/utils/formatCurrency';
-import DropdownMenu from '@/components/ui/dropdownMenu/DropdownMenu';
+// import DropdownMenu from '@/components/ui/dropdownMenu/DropdownMenu';
 
 interface CategoryCardProps {
   category: ICategory;
-  onEdit: (category: ICategory) => void;
-  onArchive: (id: string) => void;
+  // onEdit: (category: ICategory) => void;
+  // onArchive: (id: string) => void;
 }
 
-function CategoryCard({ category, onEdit, onArchive }: CategoryCardProps) {
+function CategoryCard({ category /* onEdit, onArchive*/ }: CategoryCardProps) {
   const CategoryIcon = category?.icon ? categoryIcons[category.icon] : null;
+
+  // const isExpense = category.type === 'EXPENSE';
 
   return (
     <Card>
-      <article className={styles.card}>
-        <div className={styles.left}>
-          <div
-            className={styles.icon}
-            style={{
-              backgroundColor: category.color ?? 'var(--color-primary)',
-            }}
-          >
-            {CategoryIcon && <CategoryIcon size={20} />}
-          </div>
-
-          <div className={styles.info}>
-            <h3 className={styles.name}>{category.name}</h3>
-
-            <span className={styles.type}>
-              {category.type === 'EXPENSE' ? 'Dépense' : 'Revenu'}
-            </span>
-          </div>
+      <article
+        className={styles.card}
+        style={
+          {
+            '--category-color': category.color ?? 'var(--color-primary)',
+          } as React.CSSProperties
+        }
+      >
+        <div className={styles.icon}>
+          {CategoryIcon && <CategoryIcon size={24} />}
         </div>
 
-        <div className={styles.right}>
-          <strong
-            className={
-              category.type === 'EXPENSE' ? styles.expense : styles.income
-            }
-          >
-            {/* {category.type === 'EXPENSE' ? '-' : '+'} */}
+        <h3 className={styles.name}>{category.name}</h3>
 
-            {formatCurrency(category.monthlyAmount)}
-          </strong>
-
-          <span className={styles.period}>Ce mois</span>
-
-          <DropdownMenu
-            items={[
-              {
-                label: 'Modifier',
-                onClick: () => onEdit(category),
-              },
-              {
-                label: 'Archiver',
-                onClick: () => onArchive(category.id),
-                danger: true,
-              },
-            ]}
-          />
-        </div>
+        <strong
+          className={
+            category.type === 'EXPENSE' ? styles.expense : styles.income
+          }
+        >
+          {category.type === 'EXPENSE' ? '-' : '+'}
+          {formatCurrency(category.monthlyAmount)}
+        </strong>
       </article>
     </Card>
   );

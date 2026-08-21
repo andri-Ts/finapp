@@ -1,10 +1,18 @@
 .list {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(22rem, 1fr)
-  ); /*remplis l'espace au maximum,  minimale et maximale de chaque colonne */
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-lg);
+}
+
+/* ==========================
+   Tablet
+========================== */
+
+@media (max-width: 64rem) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 /* ==========================
@@ -13,6 +21,8 @@
 
 @media (max-width: 48rem) {
   .list {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: var(--space-lg);
   }
 }

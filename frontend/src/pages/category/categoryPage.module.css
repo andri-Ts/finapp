@@ -7,3 +7,12 @@
   width: 100%;
   max-width: var(--layout-content-max-width);
 }
+
+.period {
+  margin: 0;
+
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+
+  color: var(--color-text-secondary);
+}
