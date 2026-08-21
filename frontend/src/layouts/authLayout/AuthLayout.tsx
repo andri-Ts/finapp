@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import styles from './authLayout.module.css';
-import React, { type ReactNode } from 'react';
 
 function AuthLayout() {
   return (

@@ -17,6 +17,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import type { ITransaction } from '@/types/transaction.types';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 
 interface ITransactionFormProps {
   // Si présent → mode édition
@@ -42,7 +44,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     setValue,
     watch, // watch(): Permet de regarder la valeur actuelle d'un champ.
     reset, // reset le formulaire
-    formState: { errors, isSubmitting }, // Contient les erreurs de validation
+    formState: { errors /*isSubmitting*/ }, // Contient les erreurs de validation
   } = useForm<ITransactionFormData>({
     resolver: zodResolver(transactionSchema), // branche zod et Hook Form pour checker le schema
     // remplace le useState()
@@ -68,10 +70,12 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
   // const selectedAccountId = watch('accountId');
 
   // quand le type change, on remet le catégorie à 0
+  // lorsque la transaction arrive en mode édition,  on remplit le formulaire avec ses données.
   useEffect(
     () => {
       if (!transaction) return;
 
+      // remplace les valeurs du formulaire avec celles de la transaction récupérée par TanStack Query.
       reset({
         amount: Number(transaction.amount),
         type: transaction.type,
@@ -86,6 +90,63 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     [transaction, reset] /*[selectedType, setValue]*/,
   );
 
+  const createMutation = useMutation({
+    mutationFn: createTransaction,
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['transactions'], // le cache devient invalide car la liste a été renouvelé
+      });
+      toast.success('Transaction ajoutés');
+      navigate('/');
+    },
+
+    onError: (error) => {
+      console.error('Erreur lors de la création :', error);
+
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Réponse du backend :',
+          JSON.stringify(error.response?.data, null, 2),
+        );
+      }
+
+      toast.error('Impossible de créer la transaction');
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: Parameters<typeof updateTransaction>[1]; // TypScr : donne-moi le type du deuxième paramètre.
+    }) => updateTransaction(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] }); // invalide la liste apres modification
+      queryClient.invalidateQueries({ queryKey: ['transaction'] }); // invalide également la transaciotn individuelle si elle est mise en cache
+      toast.success('Transaction modifiée');
+      navigate('/');
+    },
+
+    onError: (error) => {
+      console.error('Erreur lors de la modification :', error);
+
+      if (axios.isAxiosError(error)) {
+        console.error(
+          'Réponse du backend :',
+          JSON.stringify(error.response?.data, null, 2),
+        );
+      }
+
+      toast.error('Impossible de modifier la transaction');
+    },
+  });
+
+  const issaving = createMutation.isPending || updateMutation.isPending;
+
   // fonc appeller par handleSubmit de Hook Form si le formulaire est valide
   const onSubmitForm = async (data: ITransactionFormData) => {
     const payload = buildTransactionPayload(data);
@@ -93,31 +154,15 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     console.log('Données du formulaire: ', data);
     console.log("Payload envoyé à l'API: ", payload);
 
-    try {
-      if (transaction) {
-        // mode édition
-        await updateTransaction(transaction.id, payload);
-        toast.success('Transaction modifié');
-        navigate('/');
-      } else {
-        // mode création
-        await createTransaction(payload);
-        toast.success('Transaction ajoutée');
-        navigate('/');
-      }
-      // console.log('Transaciton créée OK', transactionCreated)
-      reset();
-    } catch (error) {
-      console.error('Erreur lors de la création :', error);
-
-      if (axios.isAxiosError(error)) {
-        // console.error('Réponse du backend :', error.response?.data);
-        console.error(
-          'Réponse du backend :',
-          JSON.stringify(error.response?.data, null, 2),
-        );
-      }
+    if (transaction) {
+      // mode édition
+      updateMutation.mutate({ id: transaction.id, payload });
+    } else {
+      // mode création
+      createMutation.mutate(payload);
     }
+    // console.log('Transaciton créée OK', transactionCreated)
+    // reset();
   };
 
   return (
@@ -277,8 +322,8 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       SUBMIT
       ========================== */}
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Enregistrement...' : 'Enregistrer'}
+      <Button type="submit" disabled={issaving}>
+        {issaving ? 'Enregistrement...' : 'Enregistrer'}
       </Button>
     </form>
   );

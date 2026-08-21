@@ -10,26 +10,53 @@ import {
   getAllTransactions,
 } from '@/features/transactions/api/transactionApi';
 import { toast } from 'sonner';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 
 function TransactionsPage() {
-  const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  // const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function loadTransactions() {
-      try {
-        const data = await getAllTransactions();
-        setTransactions(data.transactions);
-      } catch (error) {
-        console.error('Erreur lors du chargement des transactions: ', error);
-      } finally {
-        setLoading(false);
+  // useEffect(() => {
+  //   async function loadTransactions() {
+  //     try {
+  //       const data = await getAllTransactions();
+  //       setTransactions(data.transactions);
+  //     } catch (error) {
+  //       console.error('Erreur lors du chargement des transactions: ', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   loadTransactions();
+  // }, []);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['transactions'],
+    queryFn: getAllTransactions,
+  });
+
+  // ON récupère le tableau depuis la réponse API
+  const transactions: ITransaction[] = data?.transactions ?? [];
+
+  // Mutation pour surrpiremer une transaciton
+  const deleteMutation = useMutation({
+    mutationFn: deleteTransaction, // fonc API appelée pour sup transacion
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] }); // indique à tansstack query que les trans ne sont plus à jour
+      toast.success('Transaction supprimée');
+    },
+
+    onError: (error) => {
+      // MODIFICATION : gestion de l'erreur de récupération
+      if (isError) {
+        return <p>Impossible de charger les transactions.</p>;
       }
-    }
-
-    loadTransactions();
-  }, []);
+    },
+  });
 
   const handleDelete = async (id: string) => {
     // Demande confirmation avant de supprimer définitivement la transaction.
@@ -41,27 +68,33 @@ function TransactionsPage() {
       return;
     }
 
-    try {
-      await deleteTransaction(id);
+    deleteMutation.mutate(id);
+    // try {
+    //   await deleteTransaction(id);
 
-      setTransactions((transactions) =>
-        // On conserve toutes les transactions sauf celle qui vient d'être supprimée
-        transactions.filter((transaction) => transaction.id !== id),
-      );
-      toast.success('Transaction supprimée');
-    } catch (error) {
-      console.error('Erreur lors de la suppression de la transaction :', error);
+    //   // setTransactions((transactions) =>
+    //   //   // On conserve toutes les transactions sauf celle qui vient d'être supprimée
+    //   //   transactions.filter((transaction) => transaction.id !== id),
+    //   // );
+    //   toast.success('Transaction supprimée');
+    // } catch (error) {
+    //   console.error('Erreur lors de la suppression de la transaction :', error);
 
-      toast.error('Impossible de supprimer la transaction');
-    }
+    //   toast.error('Impossible de supprimer la transaction');
+    // }
   };
 
   const handleEdit = (id: string) => {
     navigate(`/transactions/${id}/edit`);
   };
 
-  if (loading) {
+  if (isLoading) {
     return <p>Chargement...</p>;
+  }
+
+  // MODIFICATION : gestion de l'erreur de récupération
+  if (isError) {
+    return <p>Impossible de charger les transactions.</p>;
   }
 
   return (
