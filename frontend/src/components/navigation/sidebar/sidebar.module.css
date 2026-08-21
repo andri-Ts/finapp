@@ -108,6 +108,35 @@
   outline-offset: 2px;
 }
 
+.logoutButton {
+  /* MODIFICATION : le bouton ne prend plus toute la largeur */
+  width: fit-content;
+
+  /* MODIFICATION : reste aligné à gauche du profil */
+  align-self: flex-start;
+
+  /* MODIFICATION : on conserve l'alignement icône + texte */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: var(--space-sm);
+
+  /* MODIFICATION : même retrait horizontal que "Profil" */
+  /* margin-left: var(--space-sm); */
+
+  /* MODIFICATION : on annule le padding horizontal du Button */
+  padding-left: 0;
+  padding-right: var(--space-sm);
+
+  color: var(--color-text-muted);
+}
+
+.logoutButton:hover {
+  color: var(--color-danger-text);
+  background-color: var(--color-danger-background);
+}
+
 /* ---------------------------------------- */
 /* Profil                                   */
 /* ---------------------------------------- */
@@ -115,14 +144,24 @@
 .profile {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+
   gap: var(--space-xs);
+
   padding-top: var(--space-md);
+
   border-top: 1px solid var(--color-border-subtle);
+
   font-size: var(--font-size-small);
 }
 
 .profile p {
   margin: 0;
+
+  /* MODIFICATION : même alignement horizontal
+     que le bouton logout */
+  padding: 0 var(--space-sm);
+
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
 }

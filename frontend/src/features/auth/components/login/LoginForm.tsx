@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './loginForm.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userAuth } from '../../context/AuthContext';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
@@ -75,6 +75,8 @@ function LoginForm() {
       <Button type="submit" loading={isSubmitting} size="lg">
         Se connecter
       </Button>
+
+      <Link to="/register">Créer un compte</Link>
     </form>
   );
 }

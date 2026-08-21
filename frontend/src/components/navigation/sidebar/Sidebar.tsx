@@ -1,10 +1,18 @@
 import { navigation } from '@/constants/navigation';
 import styles from './sidebar.module.css';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { LogOut, Plus } from 'lucide-react';
+import { userAuth } from '@/features/auth/context/AuthContext';
+import Button from '@/components/ui/Button';
 
 function Sidebar() {
   const navigate = useNavigate();
+  const { logout } = userAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <aside className={styles.sidebar}>
@@ -42,7 +50,17 @@ function Sidebar() {
 
       <div className={styles.profile}>
         <p>Profil</p>
-        {/* <Link to={'/login'}>Connexion</Link> */}
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={handleLogout}
+          className={styles.logoutButton}
+        >
+          <LogOut size={16} />
+          <span>Déconnexion</span>
+        </Button>
       </div>
     </aside>
   );
