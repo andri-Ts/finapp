@@ -34,7 +34,7 @@ function AccountForm({ account }: IAccountFormProps) {
     setValue,
     watch,
     reset,
-    formState: { errors, isSubmitting }, // isSubmitting passe à true pendant l'éxécutions de handleSubmit
+    formState: { errors /*isSubmitting*/ }, // isSubmitting passe à true pendant l'éxécutions de handleSubmit
   } = useForm<IAccountFormData>({
     resolver: zodResolver(accountSchema),
     defaultValues: {
