@@ -1,8 +1,8 @@
 import PageHeader from '@/components/layout/pageHeader';
 // import styles from './editTransactionPage.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import TransactionForm from '@/features/transactions/components/transactionForm';
-import type { ITransaction } from '@/types/transaction.types';
+// import type { ITransaction } from '@/types/transaction.types';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { getTransaction } from '@/features/transactions/api/transactionApi';

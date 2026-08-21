@@ -3,7 +3,6 @@ import styles from './transactionsPage.module.css';
 import TransactionList from '@/features/transactions/components/transactionList';
 import Button from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import type { ITransaction } from '@/types/transaction.types';
 import {
   deleteTransaction,
@@ -52,7 +51,7 @@ function TransactionsPage() {
 
     onError: (error) => {
       // MODIFICATION : gestion de l'erreur de récupération
-      if (isError) {
+      if (error) {
         return <p>Impossible de charger les transactions.</p>;
       }
     },
