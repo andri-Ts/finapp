@@ -237,8 +237,8 @@ function AccountForm({ account }: IAccountFormProps) {
         <input type="color" id="color" {...register('color')} />
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting
+      <Button type="submit" disabled={issaving}>
+        {issaving
           ? account
             ? 'Modification...'
             : 'Création..'
