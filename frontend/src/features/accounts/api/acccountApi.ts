@@ -32,7 +32,6 @@ export async function getAllAccount(): Promise<IAccountResponse> {
 
 export async function getAccount(id: string): Promise<IAccount> {
   const response = await api.get(`/accounts/${id}`);
-  console.log(response.data);
 
   return response.data;
 }

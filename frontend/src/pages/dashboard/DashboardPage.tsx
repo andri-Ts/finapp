@@ -7,34 +7,47 @@ import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from '@/features/transactions/components/transactionList';
 // import { mockTransactions } from '@/mocks/transactions.mock';
 // import Button from '@/components/ui/Button';
-import { useEffect, useState } from 'react';
-import type { IDashboard } from '@/features/dashboard/types/dashboard.types';
+// import { useEffect, useState } from 'react';
+// import type { IDashboard } from '@/features/dashboard/types/dashboard.types';
 import { getDashboard } from '@/features/dashboard/api/dashboardApi';
+import { useQuery } from '@tanstack/react-query';
 
 function DashboardPage() {
-  const [dashboard, setDashboard] = useState<IDashboard | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function loadDashboard() {
-      try {
-        const data = await getDashboard();
-        console.log('data dash: ', data);
-        setDashboard(data);
-      } catch (error) {
-        console.error('Erreur lors du chargement du dashboard: ', error);
-      }
-    }
+  const {
+    data: dashboard,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: getDashboard,
+  });
 
-    loadDashboard();
-  }, []);
+  // useEffect(() => {
+  //   async function loadDashboard() {
+  //     try {
+  //       const data = await getDashboard();
+  //       console.log('data dash: ', data);
+  //       setDashboard(data);
+  //     } catch (error) {
+  //       console.error('Erreur lors du chargement du dashboard: ', error);
+  //     }
+  //   }
+
+  //   loadDashboard();
+  // }, []);
 
   const handleEdit = (id: string) => {
     navigate(`/transactions/${id}/edit`);
   };
 
-  if (!dashboard) {
+  if (isLoading) {
     return <p>Chargement...</p>;
+  }
+
+  if (isError || !dashboard) {
+    return <p>Impossible de charger le dashboard.</p>;
   }
 
   return (

@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import type { IAccount } from '@/types/account.types';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 
 // interface IAccountFormProps {
 //   onCreated: () => void;
@@ -47,7 +49,7 @@ function AccountForm({ account }: IAccountFormProps) {
 
   const selectedIcon = watch('icon');
 
-  // Utiliser pour la modification (patch)
+  // PRÉREMPLISSAGE DU FORMULAIRE EN MODE ÉDITION / Utiliser pour la modification (patch)
   useEffect(() => {
     if (!account) return;
 
@@ -68,36 +70,74 @@ function AccountForm({ account }: IAccountFormProps) {
     });
   };
 
+  // ============================================================
+  // MUTATIONS
+  // ============================================================
+  const createMutation = useMutation({
+    mutationFn: createAccount,
+
+    onSuccess: () => {
+      // apres la création, le cache 'accounts' est maintenant considéré obselete
+      queryClient.invalidateQueries({
+        queryKey: ['accounts'],
+      });
+      toast.success('Compte créé avec succès');
+      navigate('/accounts');
+    },
+
+    onError: (error) => {
+      console.error('Erreur lors de la création du compte :', error);
+      toast.error('Impossible de créer le compte');
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: Parameters<typeof updateAccount>[1]; // TypScr : donne-moi le type du deuxième paramètre.
+    }) => updateAccount(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['accounts'] }); // invalide la liste apres modification
+      queryClient.invalidateQueries({ queryKey: ['account'] }); // invalide également la transaciotn individuelle si elle est mise en cache
+      toast.success('Compte modifiée avec succès');
+      navigate('/accounts');
+    },
+
+    onError: (error) => {
+      console.error('Erreur lors de la modification du compte :', error);
+      toast.error('Impossible de modifier le compte');
+    },
+  });
+
+  const issaving = createMutation.isPending || updateMutation.isPending;
+
+  // ============================================================
+  // SUBMIT
+  // ============================================================
   const onSubmitForm = async (data: IAccountFormData) => {
     console.log('Données du formularie: ', data);
 
-    try {
-      // POur la modification d'un compte
-      if (account) {
-        await updateAccount(account.id, {
+    if (account) {
+      updateMutation.mutate({
+        id: account.id,
+        payload: {
           name: data.name,
           type: data.type,
           icon: data.icon ?? undefined,
           color: data.color ?? undefined,
-        });
-        toast.success('Compte modifié avec succès');
-        navigate('/accounts');
-        return;
-      }
-
-      await createAccount({
-        ...data,
-        initialBalance: data.initialBalance ?? 0,
+        },
       });
-      toast.success('Compte créé avec succès');
-      navigate('/accounts');
-    } catch (error) {
-      toast.error(
-        account
-          ? 'Impossible de modifier le compte'
-          : 'Impossible de créer le compte',
-      );
+      return;
     }
+
+    createMutation.mutate({
+      ...data,
+      initialBalance: data.initialBalance ?? 0,
+    });
   };
 
   return (
