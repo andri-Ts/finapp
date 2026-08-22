@@ -24,6 +24,8 @@ function DashboardPage() {
     queryFn: getDashboard,
   });
 
+  console.log('dashboard data:', dashboard)
+
   // useEffect(() => {
   //   async function loadDashboard() {
   //     try {

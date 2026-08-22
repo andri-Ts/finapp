@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import { updateCategory } from '../../api/categoryApi';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
 
 interface ICategoryFormProps {
   category?: ICategory;
@@ -24,7 +26,7 @@ function CategoryForm({ category }: ICategoryFormProps) {
     setValue,
     watch,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ICategoryFormData>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
@@ -57,29 +59,54 @@ function CategoryForm({ category }: ICategoryFormProps) {
     });
   };
 
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: {
+        name: string;
+        type: ICategoryFormData['type'];
+        icon?: string;
+        color?: string;
+      };
+    }) => updateCategory(id, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['categories'],
+      });
+
+      toast.success('Catégorie modifiée avec succès');
+      navigate('/categories');
+    },
+
+    onError: (error) => {
+      console.error('Erreur lors de la modification de la catégorie :', error);
+
+      toast.error('Impossible de modifier la catégorie');
+    },
+  });
+
+  // TanStack Query nous indique si la mutation est en cours.
+  const isSaving = updateMutation.isPending;
+
   const onSubmit = async (data: ICategoryFormData) => {
-    try {
-      if (category) {
-        await updateCategory(category.id, {
+    if (category) {
+      updateMutation.mutate({
+        id: category.id,
+        payload: {
           name: data.name,
           type: data.type,
           icon: data.icon ?? undefined,
           color: data.color ?? undefined,
-        });
+        },
+      });
 
-        toast.success('Catégorie modifié avec succes');
-        navigate('/categories');
-        return;
-      }
-
-      // Création d'une catégorie
-    } catch (error) {
-      console.error('Erreur lors de la modificaiton: ', error);
-      toast.error(
-        category
-          ? 'Impossible de modifier la catégorie'
-          : 'Impossible de créer la catégorie',
-      );
+      toast.success('Catégorie modifié avec succes');
+      navigate('/categories');
+      return;
     }
   };
 
@@ -154,8 +181,8 @@ function CategoryForm({ category }: ICategoryFormProps) {
         <input type="color" id="color" {...register('color')} />
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting
+      <Button type="submit" disabled={isSaving}>
+        {isSaving
           ? category
             ? 'Modification en cours...'
             : 'Création...'

@@ -46,6 +46,10 @@ function TransactionsPage() {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] }); // indique à tansstack query que les trans ne sont plus à jour
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
+      });
+
       toast.success('Transaction supprimée');
     },
 

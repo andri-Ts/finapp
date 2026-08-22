@@ -97,6 +97,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       queryClient.invalidateQueries({
         queryKey: ['transactions'], // le cache devient invalide car la liste a été renouvelé
       });
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
+      });
+
       toast.success('Transaction ajoutés');
       navigate('/');
     },
@@ -127,6 +131,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] }); // invalide la liste apres modification
       queryClient.invalidateQueries({ queryKey: ['transaction'] }); // invalide également la transaciotn individuelle si elle est mise en cache
+      queryClient.invalidateQueries({
+        queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
+      });
+
       toast.success('Transaction modifiée');
       navigate('/');
     },
