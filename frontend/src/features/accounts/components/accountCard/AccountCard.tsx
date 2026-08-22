@@ -12,7 +12,9 @@ interface AccountCardProps {
   onSetDefault: (id: string) => void;
 }
 
-function AccountCard({ account, onArchive, onSetDefault }: AccountCardProps) {
+function AccountCard({
+  account /*onArchive, onSetDefault*/,
+}: AccountCardProps) {
   const AccountIcon = account.icon ? accountIcons[account.icon] : null;
   const navigate = useNavigate();
 
