@@ -3,16 +3,27 @@
   background: var(--color-surface);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-sm);
+  padding: var(--space-md);
   color: var(--color-text);
   transition:
     background-color var(--transition-normal),
     border-color var(--transition-normal),
     transform var(--transition-normal);
 }
-
 .card:hover {
   border-color: var(--color-border);
+}
+
+.interactive {
+  cursor: pointer;
+}
+.interactive:hover {
+  background: var(--color-surface-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.interactive:active {
+  transform: translateY(0);
 }
 
 .title {

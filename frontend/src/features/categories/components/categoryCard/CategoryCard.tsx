@@ -17,11 +17,11 @@ function CategoryCard({ category, onEdit /*onArchive*/ }: CategoryCardProps) {
   // const isExpense = category.type === 'EXPENSE';
 
   return (
-    <Card className={styles.wrapper}>
+    <Card className={styles.wrapper} interactive>
       <article className={styles.card}>
         <button
           type="button"
-          // className={styles.content}
+          className={styles.button}
           onClick={() => onEdit(category.id)}
         >
           <div
@@ -35,16 +35,16 @@ function CategoryCard({ category, onEdit /*onArchive*/ }: CategoryCardProps) {
           </div>
 
           <h3 className={styles.name}>{category.name}</h3>
-        </button>
 
-        <strong
-          className={
-            category.type === 'EXPENSE' ? styles.expense : styles.income
-          }
-        >
-          {/* {category.type === 'EXPENSE' ? '-' : '+'} */}
-          {formatCurrency(category.monthlyAmount)}
-        </strong>
+          <strong
+            className={
+              category.type === 'EXPENSE' ? styles.expense : styles.income
+            }
+          >
+            {/* {category.type === 'EXPENSE' ? '-' : '+'} */}
+            {formatCurrency(category.monthlyAmount)}
+          </strong>
+        </button>
       </article>
     </Card>
   );

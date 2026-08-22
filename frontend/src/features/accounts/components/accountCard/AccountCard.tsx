@@ -23,7 +23,7 @@ function AccountCard({
   };
 
   return (
-    <Card className={styles.wrapper}>
+    <Card className={styles.wrapper} interactive>
       <button type="button" className={styles.card} onClick={handleClick}>
         <div
           className={styles.icon}
