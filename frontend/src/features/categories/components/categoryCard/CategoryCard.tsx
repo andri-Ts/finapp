@@ -7,37 +7,42 @@ import { formatCurrency } from '@/utils/formatCurrency';
 
 interface CategoryCardProps {
   category: ICategory;
-  // onEdit: (category: ICategory) => void;
+  onEdit: (id: string) => void;
   // onArchive: (id: string) => void;
 }
 
-function CategoryCard({ category /* onEdit, onArchive*/ }: CategoryCardProps) {
+function CategoryCard({ category, onEdit /*onArchive*/ }: CategoryCardProps) {
   const CategoryIcon = category?.icon ? categoryIcons[category.icon] : null;
 
   // const isExpense = category.type === 'EXPENSE';
 
   return (
-    <Card>
-      <article
-        className={styles.card}
-        style={
-          {
-            '--category-color': category.color ?? 'var(--color-primary)',
-          } as React.CSSProperties
-        }
-      >
-        <div className={styles.icon}>
-          {CategoryIcon && <CategoryIcon size={24} />}
-        </div>
+    <Card className={styles.wrapper}>
+      <article className={styles.card}>
+        <button
+          type="button"
+          // className={styles.content}
+          onClick={() => onEdit(category.id)}
+        >
+          <div
+            className={styles.icon}
+            style={{
+              // MODIFICATION : couleur propre à la catégorie
+              backgroundColor: category.color ?? 'var(--color-primary)',
+            }}
+          >
+            {CategoryIcon && <CategoryIcon size={24} />}
+          </div>
 
-        <h3 className={styles.name}>{category.name}</h3>
+          <h3 className={styles.name}>{category.name}</h3>
+        </button>
 
         <strong
           className={
             category.type === 'EXPENSE' ? styles.expense : styles.income
           }
         >
-          {category.type === 'EXPENSE' ? '-' : '+'}
+          {/* {category.type === 'EXPENSE' ? '-' : '+'} */}
           {formatCurrency(category.monthlyAmount)}
         </strong>
       </article>

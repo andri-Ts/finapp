@@ -1,8 +1,10 @@
 .list {
   display: grid;
 
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-lg);
+  /* MODIFICATION : 4 cartes sur desktop */
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* cart min 22 rem*/
+
+  gap: var(--space-md);
 }
 
 /* ==========================
@@ -11,6 +13,7 @@
 
 @media (max-width: 64rem) {
   .list {
+    /* MODIFICATION : 3 colonnes */
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -21,8 +24,9 @@
 
 @media (max-width: 48rem) {
   .list {
+    /* MODIFICATION : 2 colonnes */
     grid-template-columns: repeat(2, minmax(0, 1fr));
 
-    gap: var(--space-lg);
+    gap: var(--space-md);
   }
 }

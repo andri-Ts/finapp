@@ -8,27 +8,47 @@ import {
   // archiveCategory,
   getAllCategory,
 } from '@/features/categories/api/categoryApi';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 // import { queryClient } from '@/lib/queryClient';
 import CategoryTabs from '@/features/categories/components/categoryTabs';
 import { useState } from 'react';
+import CategorySummary from '@/features/categories/components/categorySummary';
+import { getDashboard } from '@/features/dashboard/api/dashboardApi';
+import CategoryPageSkeleton from '@/features/categories/components/categoryPageSkeleton';
+import { queryClient } from '@/lib/queryClient';
+import CategoryErrorState from '@/features/categories/components/categoryErrorState';
+import CategoryEmptyState from './categoryEmptyState';
 
 function CategoryPage() {
-  const [activeType, setActiveType] = useState<CategoryType>('EXPENSE'); // tyope de catégorie affiché
+  const [selectedType, setSelectedType] = useState<CategoryType>('EXPENSE'); // onglet de tyope affiché
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // =========================================================
   // Utiliasation de useQuery
   // =========================================================
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: categoryData,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useQuery({
     queryKey: ['categories'],
     queryFn: getAllCategory,
   });
 
-  const categories: ICategory[] = data?.categories ?? [];
+  const categories: ICategory[] = categoryData?.categories ?? [];
+
+  // MODIFICATION : récupération des statistiques mensuelles
+  const {
+    data: dashboard,
+    isLoading: isDashboardLoading,
+    isError: isDashboardError,
+  } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: getDashboard,
+  });
 
   // const archiveMutation = useMutation({
   //   mutationFn: archiveCategory,
@@ -47,19 +67,26 @@ function CategoryPage() {
   // });
 
   // =========================================================
-  // Catégories affichées selon l'onglet
+  // Fonctions
   // =========================================================
+  // Catégories affichées selon l'onglet
   const displayedCategories = categories.filter(
-    (category) => category.type === activeType,
+    (category) => category.type === selectedType,
   );
+
+  // Total vient de dashboard, , on ne recalule pas
+  const monthlyTotal =
+    selectedType === 'EXPENSE'
+      ? (dashboard?.stats.expenseOfMonth ?? 0)
+      : (dashboard?.stats.incomeOfMonth ?? 0);
 
   // =========================================================
   // Handle
   // =========================================================
 
-  // const handleEditCategory = (category: ICategory) => {
-  //   navigate(`/categories/${category.id}/edit`);
-  // };
+  const handleEditCategory = (id: string) => {
+    navigate(`/categories/${id}/edit`);
+  };
 
   // const handleArchiveCategory = async (id: string) => {
   //   // On ne modifie plus directement categories avec setState.
@@ -67,25 +94,64 @@ function CategoryPage() {
   //   archiveMutation.mutate(id);
   // };
 
-  if (isLoading) {
-    return <p>Chargement...</p>;
+  if (displayedCategories.length === 0) {
+    return (
+      <section className={styles.page}>
+        <PageHeader title="Catégories" />
+
+        <CategoryTabs selectedType={selectedType} onChange={setSelectedType} />
+
+        <CategorySummary type={selectedType} amount={monthlyTotal} />
+
+        <CategoryEmptyState
+          type={selectedType}
+          onAdd={() => navigate('/transactions/new')}
+        />
+      </section>
+    );
   }
 
-  if (isError) {
-    return <p>Impossible de charger les catégories.</p>;
+  if (isCategoriesLoading || isDashboardLoading) {
+    return (
+      <section className={styles.page}>
+        <PageHeader title="Catégories" />
+
+        <CategoryPageSkeleton />
+      </section>
+    );
+  }
+
+  if (isCategoriesError || isDashboardError || !dashboard) {
+    return (
+      <section className={styles.page}>
+        <PageHeader title="Catégories" />
+
+        <CategoryErrorState
+          onRetry={() => {
+            queryClient.invalidateQueries({
+              queryKey: ['categories'],
+            });
+
+            queryClient.invalidateQueries({
+              queryKey: ['dashboard'],
+            });
+          }}
+        />
+      </section>
+    );
   }
 
   return (
     <section className={styles.page}>
       <PageHeader title="Catégories" />
 
-      <p className={styles.period}>Ce mois-ci</p>
+      <CategoryTabs selectedType={selectedType} onChange={setSelectedType} />
 
-      <CategoryTabs activeType={activeType} onChange={setActiveType} />
+      <CategorySummary type={selectedType} amount={monthlyTotal} />
 
       <CategoryList
         categories={displayedCategories}
-        // onEdit={handleEditCategory}
+        onEdit={handleEditCategory}
         // onArchive={handleArchiveCategory}
       />
     </section>

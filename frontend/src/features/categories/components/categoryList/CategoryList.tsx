@@ -4,18 +4,18 @@ import CategoryCard from '../categoryCard';
 
 interface CategoryListProps {
   categories: ICategory[];
-  // onEdit: (category: ICategory) => void;
+  onEdit: (id: string) => void;
   // onArchive: (id: string) => void;
 }
 
-function CategoryList({ categories /*onEdit, onArchive*/ }: CategoryListProps) {
+function CategoryList({ categories, onEdit /*onArchive*/ }: CategoryListProps) {
   return (
     <div className={styles.list}>
       {categories.map((category) => (
         <CategoryCard
           key={category.id}
           category={category}
-          // onEdit={onEdit}
+          onEdit={onEdit}
           // onArchive={onArchive}
         />
       ))}

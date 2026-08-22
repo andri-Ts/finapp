@@ -2,19 +2,19 @@ import type { CategoryType } from '@/types/category.types';
 import styles from './categoryTabs.module.css';
 
 interface CategoryTabsProps {
-  activeType: CategoryType;
+  selectedType: CategoryType;
   onChange: (type: CategoryType) => void;
 }
 
-function CategoryTabs({ activeType, onChange }: CategoryTabsProps) {
+function CategoryTabs({ selectedType, onChange }: CategoryTabsProps) {
   return (
     <div className={styles.tabs} role="tablist" aria-label="Type de catégorie">
       <button
         type="button"
         role="tab"
-        aria-selected={activeType === 'EXPENSE'}
+        aria-selected={selectedType === 'EXPENSE'}
         className={`${styles.tab} ${
-          activeType === 'EXPENSE' ? styles.active : ''
+          selectedType === 'EXPENSE' ? styles.active : ''
         }`}
         onClick={() => onChange('EXPENSE')}
       >
@@ -24,9 +24,9 @@ function CategoryTabs({ activeType, onChange }: CategoryTabsProps) {
       <button
         type="button"
         role="tab"
-        aria-selected={activeType === 'INCOME'}
+        aria-selected={selectedType === 'INCOME'}
         className={`${styles.tab} ${
-          activeType === 'INCOME' ? styles.active : ''
+          selectedType === 'INCOME' ? styles.active : ''
         }`}
         onClick={() => onChange('INCOME')}
       >

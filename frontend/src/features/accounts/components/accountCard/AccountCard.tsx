@@ -3,7 +3,7 @@ import styles from './accountCard.module.css';
 import Card from '@/components/ui/Card';
 import { accountIcons } from '@/constants/constIcons';
 import { formatCurrency } from '@/utils/formatCurrency';
-import Button from '@/components/ui/Button';
+// import Button from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 
 interface AccountCardProps {
@@ -16,13 +16,23 @@ function AccountCard({ account, onArchive, onSetDefault }: AccountCardProps) {
   const AccountIcon = account.icon ? accountIcons[account.icon] : null;
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate(`/accounts/${account.id}`);
+  };
+
   return (
-    <Card>
-      <article className={styles.card}>
-        <div className={styles.header}>
-          {AccountIcon && <AccountIcon size={22} />}
-          <h3>{account.name}</h3>
+    <Card className={styles.wrapper}>
+      <button type="button" className={styles.card} onClick={handleClick}>
+        <div
+          className={styles.icon}
+          style={{
+            color: account.color ?? 'var(--color-primary)',
+          }}
+        >
+          {AccountIcon && <AccountIcon size={28} />}
         </div>
+
+        <h3 className={styles.name}>{account.name}</h3>
 
         <strong className={styles.balance}>
           {formatCurrency(account.currentBalance)}
@@ -30,19 +40,10 @@ function AccountCard({ account, onArchive, onSetDefault }: AccountCardProps) {
 
         <span className={styles.currency}>{account.currency}</span>
 
-        <Button
-          type="button"
-          onClick={() => onSetDefault(account.id)}
-          disabled={account.isDefault}
-        >
-          {account.isDefault ? 'Compte par défaut' : 'Définir par défaut'}
-        </Button>
-
-        <Button onClick={() => navigate(`/accounts/${account.id}/edit`)}>
-          Modifier
-        </Button>
-        <Button onClick={() => onArchive(account.id)}>Archiver</Button>
-      </article>
+        {account.isDefault && (
+          <span className={styles.default}>Compte par défaut</span>
+        )}
+      </button>
     </Card>
   );
 }

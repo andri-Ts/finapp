@@ -3,71 +3,87 @@
      Brand — Madagascar Forest
   ====================== */
 
-  --color-primary: #63d391;
-  --color-primary-hover: #4fbd7d;
-  --color-primary-soft: #183326;
+  --color-primary: #2f8f5b;
+  --color-primary-hover: #26784b;
+  --color-primary-soft: #e8f4ed;
 
   /* =====================
      Accent — Pervenche
   ====================== */
 
-  --color-accent: #b86ad9;
-  --color-accent-hover: #a653c7;
-  --color-accent-soft: #2a1b32;
+  --color-accent: #d86b8a;
+  --color-accent-hover: #c45575;
+  --color-accent-soft: #f9e8ee;
 
   /* =====================
      Highlight — Sun
   ====================== */
 
-  --color-highlight: #e8c96a;
+  --color-highlight: #d9b94f;
 
   /* =====================
      Surfaces
   ====================== */
 
-  --color-background: #0f1a14;
-  --color-surface: #17261e;
-  --color-surface-elevated: #1d3026;
-
-  --color-surface-hover: #23392d;
-  --color-surface-active: #294332;
+  --color-background: #f6f8f6;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-hover: #f0f5f1;
+  --color-surface-active: #e5f1e9;
 
   /* =====================
      Text
   ====================== */
 
-  --color-text: #f4f7f3;
-  --color-text-secondary: #9caf9f;
-  --color-text-muted: #708479;
-  --color-text-inverse: #0b1410;
+  --color-text: #1c2921;
+  --color-text-secondary: #617267;
+  --color-text-muted: #87968d;
+  --color-text-inverse: #ffffff;
 
   /* =====================
      Borders
   ====================== */
 
-  --color-border: #2b4035;
-  --color-border-subtle: #21352b;
-  --color-border-focus: #63d391;
+  --color-border: #d7e1da;
+  --color-border-subtle: #e7eee9;
+  --color-border-focus: #2f8f5b;
 
   /* =====================
      Semantic
   ====================== */
 
-  --color-success: #63d391;
-  --color-success-background: #193b2b;
-  --color-success-text: #8ee3ad;
+  --color-success: #2f8f5b;
+  --color-success-background: #e8f4ed;
+  --color-success-text: #26784b;
 
-  --color-danger: #f2766a;
-  --color-danger-background: #40221f;
-  --color-danger-text: #ff9b91;
+  --color-danger: #d95f55;
+  --color-danger-background: #fbecea;
+  --color-danger-text: #bd4941;
 
-  --color-warning: #e8c96a;
-  --color-warning-background: #3d321b;
-  --color-warning-text: #f2d98a;
+  --color-warning: #c49b2f;
+  --color-warning-background: #faf3dc;
+  --color-warning-text: #9c7920;
 
-  --color-info: #65cfe0;
-  --color-info-background: #18363c;
-  --color-info-text: #8de1ed;
+  --color-info: #3b9daf;
+  --color-info-background: #e7f5f7;
+  --color-info-text: #287d8c;
+
+  /* =====================
+     Shadows
+  ====================== */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* =====================
+     Glass
+  ====================== */
+
+  --glass-background: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --glass-blur: 18px;
 
   /* =====================
      Spacing
