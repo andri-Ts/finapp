@@ -19,6 +19,7 @@ import type { ITransaction } from '@/types/transaction.types';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
+import { CalendarDays } from 'lucide-react';
 
 interface ITransactionFormProps {
   // Si présent → mode édition
@@ -66,8 +67,13 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
    */
   const amount = watch('amount');
   const selectedType = watch('type');
-  // const selectedCategoryId = watch('categoryId');
-  // const selectedAccountId = watch('accountId');
+  const selectedCategoryId = watch('categoryId');
+  const selectedAccountId = watch('accountId');
+  const selectedDate = watch('transactionDate');
+
+  // Récupération des comptes source/destination  pour conserver le fonctionnement du transfert.
+  const selectedSourceAccountId = watch('sourceAccountId');
+  const selectedDestinationAccountId = watch('destinationAccountId');
 
   // quand le type change, on remet le catégorie à 0
   // lorsque la transaction arrive en mode édition,  on remplit le formulaire avec ses données.
@@ -90,6 +96,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     [transaction, reset] /*[selectedType, setValue]*/,
   );
 
+  // ==========================================
+  // CRÉATION
+  // ==========================================
+
   const createMutation = useMutation({
     mutationFn: createTransaction,
 
@@ -97,6 +107,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       queryClient.invalidateQueries({
         queryKey: ['transactions'], // le cache devient invalide car la liste a été renouvelé
       });
+
       queryClient.invalidateQueries({
         queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
       });
@@ -118,6 +129,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       toast.error('Impossible de créer la transaction');
     },
   });
+
+  // ==========================================
+  // MODIFICATION
+  // ==========================================
 
   const updateMutation = useMutation({
     mutationFn: ({
@@ -155,6 +170,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
 
   const issaving = createMutation.isPending || updateMutation.isPending;
 
+  // ==========================================
+  // SUBMIT
+  // ==========================================
+
   // fonc appeller par handleSubmit de Hook Form si le formulaire est valide
   const onSubmitForm = async (data: ITransactionFormData) => {
     const payload = buildTransactionPayload(data);
@@ -173,6 +192,17 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     // reset();
   };
 
+  const today = new Date().toISOString().split('T')[0];
+
+  const formattedDate =
+    selectedDate === today
+      ? "Aujourd'hui"
+      : new Date(`${selectedDate}T00:00:00`).toLocaleDateString('fr-FR', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        });
+
   return (
     <form
       className={styles.form}
@@ -180,20 +210,6 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         console.log('Formulaire invalide :', errors);
       })}
     >
-      {/* =========================
-      MONTANT
-      ========================== */}
-      <div className={`${styles.field} ${styles.amountField}`}>
-        <AmountInput
-          value={amount}
-          onChange={(value) => setValue('amount', value)}
-        />
-
-        {errors.amount && (
-          <span className={styles.error}>{errors.amount.message}</span>
-        )}
-      </div>
-
       {/* =========================
       TYPE
       ========================== */}
@@ -209,15 +225,36 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       </div>
 
       {/* =========================
-      CATÉGORIE / COMPTE
+      MONTANT
+      ========================== */}
+      <div className={styles.amountField}>
+        <AmountInput
+          value={amount}
+          onChange={(value) =>
+            setValue('amount', value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+        />
+
+        {errors.amount && (
+          <span className={styles.error}>{errors.amount.message}</span>
+        )}
+      </div>
+
+      {/* =========================
+        CATÉGORIE
       ========================== */}
 
       {selectedType !== 'TRANSFER' && (
         <>
-          <div className={styles.field}>
+          <div className={styles.categoryField}>
             <CategorySelect
-              value={watch('categoryId')}
-              onChange={(value) => setValue('categoryId', value)}
+              value={selectedCategoryId}
+              onChange={(value) =>
+                setValue('categoryId', value, { shouldValidate: true })
+              }
               type={selectedType}
             />
 
@@ -225,29 +262,38 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
               <span className={styles.error}>{errors.categoryId.message}</span>
             )}
           </div>
-
-          <div className={styles.field}>
-            <AccountSelect
-              value={watch('accountId')}
-              onChange={(value) => setValue('accountId', value)}
-            />
-
-            {errors.accountId && (
-              <span className={styles.error}>{errors.accountId.message}</span>
-            )}
-          </div>
         </>
+      )}
+
+      {/* =========================
+        COMPTE
+      ========================== */}
+      {selectedType !== 'TRANSFER' && (
+        <div className={styles.accountField}>
+          <AccountSelect
+            value={selectedAccountId}
+            onChange={(value) =>
+              setValue('accountId', value, { shouldValidate: true })
+            }
+          />
+
+          {errors.accountId && (
+            <span className={styles.error}>{errors.accountId.message}</span>
+          )}
+        </div>
       )}
 
       {/* =========================
       TRANSFERT
       ========================== */}
       {selectedType === 'TRANSFER' && (
-        <>
-          <div className={styles.field}>
+        <div className={styles.transferFields}>
+          <div className={styles.accountField}>
             <AccountSelect
-              value={watch('sourceAccountId') ?? ''}
-              onChange={(value) => setValue('sourceAccountId', value)}
+              value={selectedSourceAccountId ?? ''}
+              onChange={(value) =>
+                setValue('sourceAccountId', value, { shouldValidate: true })
+              }
             />
 
             {errors.sourceAccountId && (
@@ -257,10 +303,14 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
             )}
           </div>
 
-          <div className={styles.field}>
+          <div className={styles.accountField}>
             <AccountSelect
-              value={watch('destinationAccountId') ?? ''}
-              onChange={(value) => setValue('destinationAccountId', value)}
+              value={selectedDestinationAccountId ?? ''}
+              onChange={(value) =>
+                setValue('destinationAccountId', value, {
+                  shouldValidate: true,
+                })
+              }
             />
 
             {errors.destinationAccountId && (
@@ -269,20 +319,33 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
               </span>
             )}
           </div>
-        </>
+        </div>
       )}
 
       {/* =========================
       DATE
       ========================== */}
-      <div className={styles.field}>
-        <label htmlFor="transactionDate">Date</label>
+      <div className={styles.dataField}>
+        <span className={styles.sectionLabel}>Date</span>
 
-        <input
-          type="date"
-          id="transactionDate"
-          {...register('transactionDate')}
-        />
+        <div className={styles.dateControl}>
+          <span className={styles.dateText}>{formattedDate}</span>
+
+          <label
+            htmlFor="transactionDate"
+            className={styles.dateButton}
+            aria-label="Changer la date"
+          >
+            <CalendarDays size={20} />
+
+            <input
+              type="date"
+              id="transactionDate"
+              className={styles.hiddenDateInput}
+              {...register('transactionDate')}
+            />
+          </label>
+        </div>
 
         {errors.transactionDate && (
           <span className={styles.error}>{errors.transactionDate.message}</span>
@@ -316,7 +379,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
 
         <textarea
           id="note"
-          rows={3}
+          rows={2}
           {...register('note')}
           placeholder="Ajouter une note..."
         />
@@ -331,7 +394,11 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       ========================== */}
 
       <Button type="submit" disabled={issaving}>
-        {issaving ? 'Enregistrement...' : 'Enregistrer'}
+        {issaving
+          ? 'Enregistrement...'
+          : transaction
+            ? 'Modifier la transaciton'
+            : 'Enregistrer'}
       </Button>
     </form>
   );

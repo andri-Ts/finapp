@@ -19,7 +19,7 @@ import { getDashboard } from '@/features/dashboard/api/dashboardApi';
 import CategoryPageSkeleton from '@/features/categories/components/categoryPageSkeleton';
 import { queryClient } from '@/lib/queryClient';
 import CategoryErrorState from '@/features/categories/components/categoryErrorState';
-import CategoryEmptyState from './categoryEmptyState';
+import CategoryEmptyState from '../../features/categories/components/categoryEmptyState';
 
 function CategoryPage() {
   const [selectedType, setSelectedType] = useState<CategoryType>('EXPENSE'); // onglet de tyope affiché

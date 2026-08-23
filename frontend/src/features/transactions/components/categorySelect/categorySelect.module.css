@@ -1,0 +1,135 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  /* background: green; */
+}
+
+.label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+/* =========================
+   Grille
+========================= */
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+/* =========================
+   Catégorie
+========================= */
+
+.category {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  /* background: var(--color-surface); */
+  /* background: red; */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.category:hover {
+  border-color: var(--color-primary);
+  background: var(--color-secondary);
+}
+
+.category:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   Sélection
+========================= */
+
+.selected {
+  border-color: var(--color-primary);
+  background: var(--color-secondary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* =========================
+   Icône
+========================= */
+
+.icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+/* =========================
+   Nom
+========================= */
+
+.name {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+/* =========================
+   Erreur
+========================= */
+
+.error {
+  color: var(--color-danger-text);
+  font-size: var(--font-size-small);
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .category {
+    min-height: 72px;
+    padding: 6px 4px;
+    gap: 4px;
+    border-radius: var(--radius-sm);
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+  }
+
+  .name {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}

@@ -1,9 +1,11 @@
-import DropdownSelect from '@/components/forms/dropdownSelect';
+// import DropdownSelect from '@/components/forms/dropdownSelect';
 import { getAllCategory } from '@/features/categories/api/categoryApi';
+import styles from './categorySelect.module.css';
 // import { mockCategories } from '@/mocks/categories.mock';
 import type { ICategory, CategoryType } from '@/types/category.types';
+import { useQuery } from '@tanstack/react-query';
 // import { formatCurrency } from '@/utils/formatCurrency';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 interface CategorySelectProps {
   value: string;
@@ -12,47 +14,70 @@ interface CategorySelectProps {
 }
 
 function CategorySelect({ value, type, onChange }: CategorySelectProps) {
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  // récup catégories avec TanStack Query
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getAllCategory,
+  });
 
-  useEffect(() => {
-    async function loadCategories() {
-      try {
-        const data = await getAllCategory();
-        setCategories(data.categories);
-      } catch (error) {
-        console.error('Erreur lors du chargement des catégories: ', error);
-      }
-    }
-
-    loadCategories();
-  }, []);
+  const categories: ICategory[] = data?.categories ?? [];
 
   // On ne garde que les catégories correspondant au type de transaction.
   const filteredCategories = categories.filter(
     (category) => category.type === type,
   );
 
-  return (
-    <DropdownSelect
-      label="Catégorie"
-      items={filteredCategories}
-      value={value}
-      onChange={onChange}
-      renderItem={(category) => (
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <span>{category.name}</span>
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.label}>Catégorie</span>
+        <p>Chargement...</p>
+      </div>
+    );
+  }
 
-          {/* <small>{formatCurrency(category.monthlyAmount)}</small> */}
-        </div>
-      )}
-    />
+  if (isError) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.label}>Catégorie</span>
+        <p className={styles.error}>Impossible de charger les catégories.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      <span className={styles.label}>Catégorie</span>
+
+      <div className={styles.grid}>
+        {filteredCategories.map((category) => {
+          const isSelected = category.id === value;
+
+          return (
+            <button
+              key={category.id}
+              type="button"
+              className={`${styles.category} ${
+                isSelected ? styles.selected : ''
+              }`}
+              onClick={() => onChange(category.id)}
+              aria-pressed={isSelected}
+            >
+              <div
+                className={styles.icon}
+                style={{
+                  backgroundColor: category.color ?? 'var(--color-secondary)',
+                }}
+              >
+                {category.icon ?? '•'}
+              </div>
+
+              <span className={styles.name}>{category.name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

@@ -3,7 +3,8 @@ import { getAllAccount } from '@/features/accounts/api/acccountApi';
 // import { mockAccounts } from '@/mocks/accounts.mock';
 import type { IAccount } from '@/types/account.types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+// import { useEffect, useState } from 'react';
 
 interface AccountSelectProps {
   value: string;
@@ -11,20 +12,21 @@ interface AccountSelectProps {
 }
 
 function AccountSelect({ value, onChange }: AccountSelectProps) {
-  const [accounts, setAccounts] = useState<IAccount[]>([]);
+  // récupéraiton des comptes avec Tansatack query
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['accounts'],
+    queryFn: getAllAccount,
+  });
 
-  useEffect(() => {
-    async function loadCategories() {
-      try {
-        const data = await getAllAccount();
-        setAccounts(data.accounts);
-      } catch (error) {
-        console.error('Erreur lors du chargement des catégories: ', error);
-      }
-    }
+  const accounts: IAccount[] = data?.accounts ?? [];
 
-    loadCategories();
-  }, []);
+  if (isLoading) {
+    return <p>Chargement des comptes...</p>;
+  }
+
+  if (isError) {
+    return <p>Impossible de charger les comptes.</p>;
+  }
 
   return (
     <DropdownSelect
