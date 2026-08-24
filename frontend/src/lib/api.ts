@@ -7,6 +7,14 @@ const api = axios.create({
   },
 });
 
+// Fonction appelée lorsque l'API retourne 401, Elle sera fournie par AuthContext.
+let onUnauthorized: (() => void) | null = null;
+
+// Permet à AuthContext d'enregistrer la fonction logout.
+export function setOnUnauthorized(callback: () => void) {
+  onUnauthorized = callback;
+}
+
 // Interceptor exécuté AVANT chaque requête: récup JWT dans localStorage, ajout de header
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token'); // recup token enregistrer lors de la connexion
@@ -18,5 +26,18 @@ api.interceptors.request.use((config) => {
 
   return config; // on retounr la configuration modifié
 });
+
+// Interceptor exécuté APRÈS la réponse. Si le backend répond 401, la session n'est plus valide.
+api.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    if (error.response?.status === 401) {
+      onUnauthorized?.();
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 export default api;

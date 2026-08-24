@@ -6,6 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import { loginApi } from '../api/authApi';
+import { setOnUnauthorized } from '@/lib/api';
 
 interface IUser {
   id: String;
@@ -70,6 +71,20 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     setToken(null);
     setUser(null);
   };
+
+  // =========================
+  // TOKEN EXPIRE
+  // =========================
+
+  useEffect(() => {
+    // L'interceptor Axios appellera logout(), lorsqu'une requête retourne 401.
+    setOnUnauthorized(logout);
+
+    // Nettoyage lorsque le Provider est démonté.
+    return () => {
+      setOnUnauthorized(() => {});
+    };
+  }, []);
 
   return (
     <AuthContext.Provider
