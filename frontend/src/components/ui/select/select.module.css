@@ -16,52 +16,49 @@
 }
 
 /* =====================================================
-   INPUT
+   SELECT
 ===================================================== */
 
-.input {
+.selectWrapper {
+  position: relative;
   width: 100%;
+}
 
-  /* MODIFICATION : hauteur confortable pour le mobile. */
+.select {
+  width: 100%;
   min-height: var(--touch-target-min);
 
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) 2.75rem var(--space-sm) var(--space-md);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 
-  background: var(--color-surface);
+  background-color: var(--color-surface);
   color: var(--color-text);
 
   font-family: var(--font-family);
   font-size: var(--font-size-body);
   line-height: var(--line-height-normal);
 
-  /* MODIFICATION : empêche le texte de coller aux bords
-     tout en gardant une hauteur tactile correcte. */
+  cursor: pointer;
+
   box-sizing: border-box;
 
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast),
     background-color var(--transition-fast);
-}
 
-/* =====================================================
-   PLACEHOLDER
-===================================================== */
-
-/* MODIFICATION : placeholder volontairement secondaire. */
-
-.input::placeholder {
-  color: var(--color-text-muted);
+  /* MODIFICATION : on laisse le navigateur gérer
+     le comportement natif du select. */
+  appearance: auto;
 }
 
 /* =====================================================
    HOVER
 ===================================================== */
 
-.input:hover:not(:focus):not(:disabled) {
+.select:hover:not(:focus):not(:disabled) {
   border-color: var(--color-text-muted);
 }
 
@@ -69,9 +66,7 @@
    FOCUS
 ===================================================== */
 
-/* MODIFICATION : focus visible et cohérent avec Button. */
-
-.input:focus {
+.select:focus {
   outline: none;
   border-color: var(--color-border-focus);
   box-shadow: 0 0 0 3px var(--color-primary-soft);
@@ -81,10 +76,8 @@
    DISABLED
 ===================================================== */
 
-/* MODIFICATION : état disabled explicite. */
-
-.input:disabled {
-  background: var(--color-surface-hover);
+.select:disabled {
+  background-color: var(--color-surface-hover);
   color: var(--color-text-muted);
   cursor: not-allowed;
 }
@@ -97,15 +90,13 @@
   border-color: var(--color-danger);
 }
 
-/* MODIFICATION : focus spécifique lorsqu'il y a une erreur. */
-
 .error:focus {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px var(--color-danger-background);
 }
 
 /* =====================================================
-   ERROR MESSAGE
+   MESSAGES
 ===================================================== */
 
 .errorMessage {
@@ -116,10 +107,6 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-normal);
 }
-
-/* =====================================================
-   HELPER TEXT
-===================================================== */
 
 .helperText {
   margin: 0;

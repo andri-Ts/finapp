@@ -4,49 +4,63 @@
   justify-content: center;
   gap: var(--space-sm);
 
-  min-height: 2.75rem;
+  /* MODIFICATION : cible tactile minimale du design system */
+  min-height: var(--touch-target-min);
 
   border: 1px solid transparent;
   border-radius: var(--radius-md);
 
   padding: var(--space-sm) var(--space-md);
 
-  font-family: inherit;
+  font-family: var(--font-family);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-semibold);
-  line-height: 1;
+  line-height: var(--line-height-normal);
 
   cursor: pointer;
 
+  /* MODIFICATION : suppression de la transformation permanente
+     pour un rendu plus premium et plus stable. */
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
     color var(--transition-fast),
-    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
     opacity var(--transition-fast);
 }
 
-/* =====================
-   States
-====================== */
+/* =====================================================
+   FOCUS
+===================================================== */
+
+/* MODIFICATION : focus clavier visible pour l'accessibilité. */
+.button:focus-visible {
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 2px;
+}
+
+/* =====================================================
+   STATES
+===================================================== */
 
 .button:hover:not(:disabled) {
-  transform: translateY(-1px);
+  /* MODIFICATION : pas de déplacement vertical.
+     L'interface reste stable et plus élégante. */
+  box-shadow: var(--shadow-sm);
 }
 
 .button:active:not(:disabled) {
-  transform: translateY(0);
+  box-shadow: none;
 }
 
 .button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* =====================
-   Primary
-====================== */
+/* =====================================================
+   PRIMARY
+===================================================== */
 
 .primary {
   background: var(--color-primary);
@@ -61,12 +75,12 @@
   background: var(--color-primary-hover);
 }
 
-/* =====================
-   Secondary
-====================== */
+/* =====================================================
+   SECONDARY
+===================================================== */
 
 .secondary {
-  background: var(--color-surface-elevated);
+  background: var(--color-surface);
   border-color: var(--color-border);
   color: var(--color-text);
 }
@@ -80,9 +94,9 @@
   background: var(--color-surface-active);
 }
 
-/* =====================
-   Danger
-====================== */
+/* =====================================================
+   DANGER
+===================================================== */
 
 .danger {
   background: var(--color-danger);
@@ -94,12 +108,12 @@
 }
 
 .danger:active:not(:disabled) {
-  background: var(--color-danger);
+  background: var(--color-danger-text);
 }
 
-/* =====================
-   Ghost
-====================== */
+/* =====================================================
+   GHOST
+===================================================== */
 
 .ghost {
   background: transparent;
@@ -108,19 +122,23 @@
 
 .ghost:hover:not(:disabled) {
   background: var(--color-primary-soft);
+  box-shadow: none;
 }
 
 .ghost:active:not(:disabled) {
   background: var(--color-primary-soft);
 }
 
-/* =====================
-   Sizes
-====================== */
+/* =====================================================
+   SIZES
+===================================================== */
 
 .sm {
-  min-height: 2.25rem;
+  min-height: 2.75rem;
+
+  /* MODIFICATION : même cible tactile minimale sur mobile. */
   padding: var(--space-xs) var(--space-sm);
+
   font-size: var(--font-size-small);
 }
 
@@ -130,7 +148,10 @@
 }
 
 .lg {
-  min-height: 3.25rem;
-  padding: var(--space-md) var(--space-lg);
+  /* MODIFICATION : CTA principal plus confortable. */
+  min-height: 3rem;
+
+  padding: var(--space-sm) var(--space-lg);
+
   font-size: var(--font-size-body);
 }

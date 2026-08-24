@@ -1,20 +1,28 @@
+.cardWrapper {
+  width: 100%;
+
+  /* MODIFICATION : la carte ne contient plus de bouton secondaire */
+  padding: 0;
+
+  overflow: hidden;
+}
+
 .card {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
-  /* padding: var(--space-sm) 0; */
-  gap: var(--space-md);
+  padding: var(--space-sm);
 }
 
 .content {
-  flex: 1;
-
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
-  gap: var(--space-md);
+  width: 100%;
+  min-width: 0;
+
+  gap: var(--space-sm);
 
   padding: 0;
 
@@ -23,41 +31,116 @@
 
   color: inherit;
   font: inherit;
-
   text-align: left;
 
   cursor: pointer;
+
+  transition: opacity var(--transition-fast);
 }
+
 .content:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
+
+.content:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* =====================
+   Category icon
+====================== */
+
+.categoryIcon {
+  flex: 0 0 2.75rem;
+
+  width: 2.75rem;
+  height: 2.75rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--radius-md);
+
+  /* MODIFICATION : fallback si la catégorie n'a pas de couleur */
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  transition:
+    transform var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.content:hover .categoryIcon {
+  transform: scale(1.04);
+  filter: saturate(1.1);
+}
+
+/* =====================
+   Transaction information
+====================== */
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+
+  flex: 1;
+  min-width: 0;
+
+  gap: 2px;
 }
 
-.info h3 {
-  margin: 0;
-
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-semibold);
-
-  /* MODIFICATION : évite qu'une longue description casse la carte */
+.description {
   overflow: hidden;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .category {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
+  overflow: hidden;
 
   color: var(--color-text-secondary);
 
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-normal);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =====================
+   Amount + date
+====================== */
+
+.meta {
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  gap: 2px;
+
+  margin-left: var(--space-sm);
+}
+
+.amount {
   font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+
+  line-height: var(--line-height-tight);
+
+  white-space: nowrap;
 }
 
 .expense {
@@ -68,16 +151,50 @@
   color: var(--color-success-text);
 }
 
+/* MODIFICATION : date tertiaire, volontairement discrète */
+.date {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-normal);
+
+  white-space: nowrap;
+}
+
+/* =====================
+   Mobile
+====================== */
+
 @media (max-width: 48rem) {
   .card {
-    gap: var(--space-sm);
+    /* padding: var(--space-xs); */
+    padding: 0;
   }
 
-  .content {
-    gap: var(--space-sm);
+  .categoryIcon {
+    flex-basis: 2.5rem;
+
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
-  .amount strong {
+  .description {
     font-size: var(--font-size-small);
+  }
+
+  .category {
+    font-size: var(--font-size-caption);
+  }
+
+  .meta {
+    margin-left: var(--space-xs);
+  }
+
+  .amount {
+    font-size: var(--font-size-small);
+  }
+
+  .date {
+    font-size: var(--font-size-caption);
   }
 }

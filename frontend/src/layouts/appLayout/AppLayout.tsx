@@ -19,8 +19,6 @@ function AppLayout() {
 
         <BottomNavigation />
       </div>
-
-      {/* <FloatingButton /> */}
     </div>
   );
 }

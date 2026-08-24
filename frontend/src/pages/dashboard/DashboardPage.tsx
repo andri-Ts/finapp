@@ -24,21 +24,7 @@ function DashboardPage() {
     queryFn: getDashboard,
   });
 
-  console.log('dashboard data:', dashboard)
-
-  // useEffect(() => {
-  //   async function loadDashboard() {
-  //     try {
-  //       const data = await getDashboard();
-  //       console.log('data dash: ', data);
-  //       setDashboard(data);
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement du dashboard: ', error);
-  //     }
-  //   }
-
-  //   loadDashboard();
-  // }, []);
+  console.log('dashboard data:', dashboard);
 
   const handleEdit = (id: string) => {
     navigate(`/transactions/${id}/edit`);
@@ -54,7 +40,10 @@ function DashboardPage() {
 
   return (
     <section className={styles.page}>
-      <PageHeader title="Bonjour Zahard 👋" />
+      <PageHeader
+        title="Bonjour Zahard 👋"
+        subtitle="Voici où en est ton argent aujourd'hui"
+      />
 
       <BalanceCard
         accountName={

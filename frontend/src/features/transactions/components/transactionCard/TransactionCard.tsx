@@ -4,8 +4,8 @@ import Card from '@/components/ui/Card';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDate } from '@/utils/formatDate';
 import { categoryIcons } from '@/constants/constIcons';
-import Button from '@/components/ui/Button';
-import { Trash } from 'lucide-react';
+// import Button from '@/components/ui/Button';
+// import { Trash } from 'lucide-react';
 
 interface TransactionCardProps {
   transaction: ITransaction;
@@ -15,12 +15,14 @@ interface TransactionCardProps {
 
 function TransactionCard({
   transaction,
-  onDelete,
+  // onDelete,
   onEdit,
 }: TransactionCardProps) {
   const CategoryIcon = transaction.category?.icon
     ? categoryIcons[transaction.category.icon]
     : null;
+
+  const isExpense = transaction.type === 'EXPENSE';
 
   return (
     <Card>
@@ -30,31 +32,50 @@ function TransactionCard({
           className={styles.content}
           onClick={() => onEdit(transaction.id)}
         >
+          <span
+            className={styles.categoryIcon}
+            style={
+              transaction.category?.color
+                ? {
+                    color: transaction.category.color,
+                    backgroundColor: `${transaction.category.color}18`,
+                  }
+                : undefined
+            }
+            aria-hidden="true"
+          >
+            {CategoryIcon ? (
+              <CategoryIcon size={20} strokeWidth={2} />
+            ) : (
+              <span>•</span>
+            )}
+          </span>
+
+          {/* Informations principales de la transaction */}
           <div className={styles.info}>
-            <h3>{transaction.description}</h3>
-            <div className={styles.category}>
-              {CategoryIcon && <CategoryIcon size={15} />}
-              <span>{transaction.category?.name ?? 'Sans catégorie'}</span>
-            </div>
+            <p className={styles.description}>
+              {transaction.description || '(Sans descritption)'}
+            </p>
+            <span className={styles.category}>
+              {transaction.category?.name ?? '(Sans catégorie)'}
+            </span>
           </div>
 
-          <div>
-            <strong
-              className={
-                transaction.type === 'EXPENSE' ? styles.expense : styles.income
-              }
-            >
-              {transaction.type === 'EXPENSE' ? '-' : '+'}
+          <div className={styles.meta}>
+            <strong className={isExpense ? styles.expense : styles.income}>
+              {isExpense ? '-' : '+'}
               {formatCurrency(transaction.amount)}
             </strong>
-            <p>{formatDate(transaction.transactionDate)}</p>
+            <span className={styles.date}>
+              {formatDate(transaction.transactionDate)}
+            </span>
           </div>
         </button>
-        {onDelete && (
+        {/* {onDelete && (
           <Button type="button" onClick={() => onDelete(transaction.id)}>
             <Trash />
           </Button>
-        )}
+        )} */}
       </article>
     </Card>
   );

@@ -2,27 +2,31 @@
   display: flex;
   flex-direction: column;
 
-  height: 100vh; /* prend exactement la taille de lafenêtre*/
   width: var(--sidebar-width);
-  position: sticky; /* sideabr visible pendant le scroll */
+  height: 100vh;
 
-  top: 0; /*colé en haut */
+  position: sticky;
+  top: 0;
+
+  flex-shrink: 0;
+
   padding: var(--space-lg) var(--space-md);
 
   background-color: var(--color-surface);
   border-right: 1px solid var(--color-border-subtle);
-  flex-shrink: 0;
 
-  overflow: hidden; /* sidebar ne scrolle pas*/
+  overflow: hidden;
 }
 
 .logo {
   padding: 0 var(--space-sm);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+
   color: var(--color-text);
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
 }
 
 .navigation {
@@ -31,21 +35,22 @@
   gap: var(--space-xs);
 }
 
-/* ---------------------------------------- */
-/* Navigation links                         */
-/* ---------------------------------------- */
-
 .link {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+
   width: 100%;
-  min-height: 2.75rem;
-  padding: var(--space-sm);
+  min-height: 3rem;
+
+  padding: var(--space-sm) var(--space-md);
+
   border-radius: var(--radius-md);
+
   color: var(--color-text-muted);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
+
   transition:
     color var(--transition-fast),
     background-color var(--transition-fast);
@@ -53,40 +58,51 @@
 
 .link:hover {
   color: var(--color-text);
-  background-color: var(--color-secondary);
+  background-color: var(--color-surface-hover);
 }
 
 .active {
   color: var(--color-primary);
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary-soft);
   font-weight: var(--font-weight-semibold);
 }
 
-/* ---------------------------------------- */
-/* Ajouter une transaction                  */
-/* ---------------------------------------- */
+.link:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* =====================
+   Ajouter une transaction
+====================== */
 
 .addButton {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-sm);
 
-  gap: var(--space-xs);
   width: 100%;
-  min-height: 2.75rem;
-  margin-top: auto;
-  /* MODIFICATION : pousse le CTA vers le bas */
+  min-height: 3rem;
 
-  margin-bottom: var(--space-md);
+  margin-top: auto;
+  margin-bottom: var(--space-lg);
+
   padding: var(--space-sm) var(--space-md);
+
   border: none;
   border-radius: var(--radius-md);
+
   background-color: var(--color-primary);
-  color: var(--color-surface);
+  color: var(--color-text-inverse);
+
   font-family: var(--font-family);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semibold);
+
   cursor: pointer;
+
+  box-shadow: var(--shadow-sm);
 
   transition:
     background-color var(--transition-fast),
@@ -96,59 +112,30 @@
 
 .addButton:hover {
   background-color: var(--color-primary-hover);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .addButton:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 .addButton:focus-visible {
   outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
-.logoutButton {
-  /* MODIFICATION : le bouton ne prend plus toute la largeur */
-  width: fit-content;
-
-  /* MODIFICATION : reste aligné à gauche du profil */
-  align-self: flex-start;
-
-  /* MODIFICATION : on conserve l'alignement icône + texte */
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  gap: var(--space-sm);
-
-  /* MODIFICATION : même retrait horizontal que "Profil" */
-  /* margin-left: var(--space-sm); */
-
-  /* MODIFICATION : on annule le padding horizontal du Button */
-  padding-left: 0;
-  padding-right: var(--space-sm);
-
-  color: var(--color-text-muted);
-}
-
-.logoutButton:hover {
-  color: var(--color-danger-text);
-  background-color: var(--color-danger-background);
-}
-
-/* ---------------------------------------- */
-/* Profil                                   */
-/* ---------------------------------------- */
+/* =====================
+   Profil
+====================== */
 
 .profile {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-
   gap: var(--space-xs);
 
-  padding-top: var(--space-md);
+  padding-top: var(--space-lg);
 
   border-top: 1px solid var(--color-border-subtle);
 
@@ -157,13 +144,13 @@
 
 .profile p {
   margin: 0;
-
-  /* MODIFICATION : même alignement horizontal
-     que le bouton logout */
-  padding: 0 var(--space-sm);
+  padding: 0 var(--space-md);
 
   color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .profile a {
@@ -175,9 +162,29 @@
   color: var(--color-primary);
 }
 
-/* ---------------------------------------- */
-/* Mobile                                   */
-/* ---------------------------------------- */
+.logoutButton {
+  width: fit-content;
+  align-self: flex-start;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-sm);
+
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+
+  color: var(--color-text-muted);
+}
+
+.logoutButton:hover {
+  color: var(--color-danger-text);
+  background-color: var(--color-danger-background);
+}
+
+/* =====================
+   Mobile
+====================== */
 
 @media (max-width: 48rem) {
   .sidebar {

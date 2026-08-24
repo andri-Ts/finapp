@@ -1,7 +1,6 @@
 .navigation {
   display: flex;
   align-items: center;
-  /* justify-content: space-around; */
 
   width: 100%;
   min-height: var(--mobile-navigation-height);
@@ -9,78 +8,108 @@
   position: fixed;
   left: 0;
   bottom: 0;
-
   z-index: 30;
 
   padding: var(--space-xs) var(--space-sm);
-  padding-bottom: calc(
-    var(--space-xs) + env(safe-area-inset-bottom)
-  ); /* prise en compte de la zone sécurisée des appareils avec encoche */
+  padding-bottom: calc(var(--space-xs) + env(safe-area-inset-bottom));
 
+  /* MODIFICATION : séparation plus discrète de la navigation */
   border-top: 1px solid var(--color-border-subtle);
+
   background-color: var(--color-surface);
 
-  box-shadow: var(--shadow-md);
+  /* MODIFICATION : ombre plus légère pour garder un rendu premium */
+  box-shadow: var(--shadow-sm);
 }
 
+/* =====================================================
+   NAVIGATION ITEMS
+===================================================== */
+
 .link {
-  /* position: relative; */
+  position: relative;
+
   display: flex;
   flex: 1;
+
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  /* gap: var(--space-xs); */
 
   min-width: 0;
   min-height: 3rem;
 
   padding: var(--space-xs);
+
   border-radius: var(--radius-md);
 
   color: var(--color-text-muted);
+
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-medium);
 
+  gap: 0.2rem;
+
   transition:
     color var(--transition-fast),
-    background-color var(--transition-fast);
+    transform var(--transition-fast);
 }
+/* MODIFICATION : hover plus subtil */
+
 .link:hover {
   color: var(--color-primary);
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary-soft);
 }
+
+/* =====================================================
+   ACTIVE
+===================================================== */
+
+/* MODIFICATION : l'élément actif possède maintenant
+   une véritable zone visuelle */
 
 .active {
   color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
+
+  background-color: transparent;
 }
+
 .active:hover {
-  color: var(--color-primary);
+  background-color: transparent;
 }
-/* ---------------------------------------- */
-/* Bouton central +                         */
-/* ---------------------------------------- */
+
+/* MODIFICATION : feedback tactile */
+
+.link:active {
+  transform: scale(0.96);
+}
+
+/* =====================================================
+   BOUTON CENTRAL +
+===================================================== */
 
 .addButton {
-  flex: 0 0 3.25rem;
+  flex: 0 0 var(--floating-button-size);
 
-  width: 3.25rem;
-  height: 3.25rem;
+  width: var(--floating-button-size);
+  height: var(--floating-button-size);
 
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 var(--space-lg);
 
+  margin: 0 var(--space-md);
   padding: 0;
 
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-full);
+
+  /* MODIFICATION : bouton circulaire pour renforcer
+     son rôle d'action principale */
 
   background-color: var(--color-primary);
-  color: var(--color-surface);
+  color: var(--color-text-inverse);
 
   box-shadow: var(--shadow-md);
 
@@ -94,13 +123,21 @@
     box-shadow var(--transition-fast);
 }
 
+/* MODIFICATION : hover plus premium */
+
 .addButton:hover {
   background-color: var(--color-primary-hover);
+
+  transform: translateY(-0.7rem);
+
+  box-shadow: var(--shadow-lg);
 }
 
+/* MODIFICATION : correction du déplacement horizontal
+   présent dans l'ancien code */
+
 .addButton:active {
-  transform: translateX(-50%) scale(0.94);
-  /* MODIFICATION : micro-interaction au tap */
+  transform: translateY(-0.6rem) scale(0.94);
 }
 
 .addButton:focus-visible {
@@ -108,9 +145,27 @@
   outline-offset: 3px;
 }
 
-/* ----------------------------------------*/
-/* ----- Ordinateur ------------ */
-/* -----------------------------------------*/
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.75rem;
+  height: 1.75rem;
+
+  border-radius: var(--radius-full);
+
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+.active .iconWrapper {
+  background-color: var(--color-primary-soft);
+}
+
+/* =====================================================
+   DESKTOP
+===================================================== */
 
 @media (min-width: 48rem) {
   .navigation {

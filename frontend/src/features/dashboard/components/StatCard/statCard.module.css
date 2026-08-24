@@ -1,21 +1,44 @@
+.card {
+  width: 100%;
+  min-width: 0;
+
+  padding: var(--space-md);
+
+  /* MODIFICATION : hiérarchie visuelle plus légère */
+  border-radius: var(--radius-lg);
+
+  transition:
+    border-color var(--transition-normal),
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--color-border);
+
+  /* MODIFICATION : interaction très subtile */
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
 .title {
   margin: 0;
 
   color: var(--color-text-secondary);
-  font-size: var(--font-size-body);
+
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
 }
 
 .value {
-  margin: var(--space-md) 0 0;
+  margin: var(--space-sm) 0 0;
 
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
 
-  color: var(--color-text);
-}
-
-.default {
-  color: var(--color-text);
+  letter-spacing: -0.02em;
 }
 
 .success {
@@ -26,7 +49,6 @@
   color: var(--color-danger-text);
 }
 
-/* MODIFICATION : les statistiques deviennent légèrement plus compactes sur mobile */
 @media (max-width: 48rem) {
   .card {
     padding: var(--space-md);

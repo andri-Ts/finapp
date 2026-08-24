@@ -9,7 +9,7 @@ function BottomNavigation() {
   const mobileNavigation = navigation.filter((item) => item.showOnMobile);
 
   return (
-    <nav className={styles.navigation}>
+    <nav className={styles.navigation} aria-label="Navigation principale">
       {mobileNavigation.slice(0, 2).map((nav) => {
         const Icon = nav.icon;
 
@@ -50,7 +50,9 @@ function BottomNavigation() {
               `${styles.link} ${isActive ? styles.active : ''}`
             }
           >
-            <Icon size={22} />
+            <span className={styles.iconWrapper}>
+              <Icon size={22} />
+            </span>
             <span>{nav.label}</span>
           </NavLink>
         );

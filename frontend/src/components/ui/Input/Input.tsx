@@ -28,13 +28,23 @@ function Input({
         className={`${styles.input}
           ${error ? styles.error : ''}
           ${className}`}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={
+          error ? `${id}-error` : helperText ? `${id}-helper` : undefined
+        }
         {...props}
       />
 
-      {error && <p className={styles.erroMessage}>{error}</p>}
+      {error && (
+        <p className={styles.erroMessage} id={`${id}-error`}>
+          {error}
+        </p>
+      )}
 
       {!error && helperText && (
-        <p className={styles.helperText}>{helperText}</p>
+        <p className={styles.helperText} id={`${id}-error`}>
+          {helperText}
+        </p>
       )}
     </div>
   );
