@@ -14,23 +14,6 @@ import { queryClient } from '@/lib/queryClient';
 
 function TransactionsPage() {
   const navigate = useNavigate();
-  // const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   async function loadTransactions() {
-  //     try {
-  //       const data = await getAllTransactions();
-  //       setTransactions(data.transactions);
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement des transactions: ', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   loadTransactions();
-  // }, []);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['transactions'],
@@ -39,6 +22,7 @@ function TransactionsPage() {
 
   // ON récupère le tableau depuis la réponse API
   const transactions: ITransaction[] = data?.transactions ?? [];
+  console.log('Transactions: ', transactions);
 
   // Mutation pour surrpiremer une transaciton
   const deleteMutation = useMutation({
@@ -72,19 +56,6 @@ function TransactionsPage() {
     }
 
     deleteMutation.mutate(id);
-    // try {
-    //   await deleteTransaction(id);
-
-    //   // setTransactions((transactions) =>
-    //   //   // On conserve toutes les transactions sauf celle qui vient d'être supprimée
-    //   //   transactions.filter((transaction) => transaction.id !== id),
-    //   // );
-    //   toast.success('Transaction supprimée');
-    // } catch (error) {
-    //   console.error('Erreur lors de la suppression de la transaction :', error);
-
-    //   toast.error('Impossible de supprimer la transaction');
-    // }
   };
 
   const handleEdit = (id: string) => {

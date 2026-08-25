@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import AmountInput from '../amountInput';
-import styles from './transationForm.module.css';
+import styles from './transactionForm.module.css';
 import TransactionTypeToggle from '../transactionTypeToggle';
 import AccountSelect from '../accountSelect';
 import CategorySelect from '../categorySelect';
@@ -325,7 +325,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {/* =========================
       DATE
       ========================== */}
-      <div className={styles.dataField}>
+      <div className={styles.dateField}>
         <span className={styles.sectionLabel}>Date</span>
 
         <div className={styles.dateControl}>
@@ -355,7 +355,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {/* =========================
       DESCRIPTION
       ========================== */}
-      <div className={styles.field}>
+      <div className={styles.descriptionField}>
         <label htmlFor="description">Description</label>
 
         <input
@@ -374,7 +374,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       NOTE
       ========================== */}
 
-      <div className={styles.field}>
+      <div className={styles.noteField}>
         <label htmlFor="note">Note</label>
 
         <textarea

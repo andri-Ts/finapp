@@ -1,7 +1,10 @@
 .form {
   width: 100%;
-  display: grid;
-  gap: var(--space-lg);
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 
   padding: var(--space-lg);
 
@@ -16,7 +19,8 @@
 ========================================== */
 
 .sectionLabel,
-.field label {
+.descriptionField label,
+.noteField label {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text);
@@ -35,55 +39,13 @@
 ========================================== */
 
 .amountField {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-sm);
-}
 
-/* ==========================================
-   CHAMPS
-========================================== */
-
-.field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   gap: var(--space-xs);
-}
-
-.field input,
-.field textarea,
-.descriptionField input,
-.noteField textarea {
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: var(--space-sm) var(--space-md);
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-
-  background: var(--color-surface);
-  color: var(--color-text);
-
-  font-family: var(--font-family);
-  font-size: var(--font-size-body);
-
-  transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-.field input:focus,
-.field textarea:focus,
-.descriptionField input:focus,
-.noteField textarea:focus {
-  outline: none;
-
-  border-color: var(--color-primary);
-
-  box-shadow: 0 0 0 3px var(--color-secondary);
 }
 
 /* ==========================================
@@ -111,7 +73,8 @@
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+
+  gap: var(--space-sm);
 }
 
 /* ==========================================
@@ -123,23 +86,26 @@
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+
+  gap: var(--space-xs);
 }
 
 .dateControl {
   width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  min-height: 52px;
-  padding: 0 var(--space-md);
+  padding: 0 var(--space-sm);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
 
   background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .dateText {
@@ -151,8 +117,8 @@
 .dateButton {
   position: relative;
 
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 
   display: flex;
   align-items: center;
@@ -160,7 +126,7 @@
 
   color: var(--color-text);
 
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 
   cursor: pointer;
 
@@ -176,7 +142,6 @@
 
 .hiddenDateInput {
   position: absolute;
-
   inset: 0;
 
   width: 100%;
@@ -197,12 +162,46 @@
 
   display: flex;
   flex-direction: column;
+
   gap: var(--space-xs);
 }
 
+.descriptionField input,
 .noteField textarea {
-  min-height: 90px;
-  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: var(--space-sm) var(--space-md);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.descriptionField input {
+  min-height: 44px;
+}
+
+.descriptionField input:focus,
+.noteField textarea:focus {
+  outline: none;
+
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-secondary);
+}
+
+.noteField textarea {
+  min-height: 58px;
+  resize: none;
 }
 
 /* ==========================================
@@ -210,11 +209,11 @@
 ========================================== */
 
 .error {
-  margin-top: var(--space-xs);
+  margin-top: 2px;
 
   color: var(--color-danger-text);
-
   font-size: var(--font-size-small);
+  line-height: 1.2;
 }
 
 /* ==========================================
@@ -231,6 +230,8 @@
 
 @media (min-width: 768px) {
   .form {
+    display: grid;
+
     grid-template-columns:
       minmax(0, 1fr)
       minmax(0, 1fr);
@@ -241,26 +242,23 @@
     align-items: start;
   }
 
-  /* Type et montant restent centrés sur toute la largeur */
-
   .typeField,
-  .amountField {
+  .amountField,
+  .transferFields,
+  .noteField {
     grid-column: 1 / -1;
   }
 
-  /* Catégorie / compte */
-
   .categoryField,
-  .accountField {
+  .accountField,
+  .dateField,
+  .descriptionField {
     grid-column: span 1;
   }
 
-  /* Transfert */
-
   .transferFields {
-    grid-column: 1 / -1;
-
     display: grid;
+
     grid-template-columns:
       minmax(0, 1fr)
       minmax(0, 1fr);
@@ -268,45 +266,22 @@
     gap: var(--space-xl);
   }
 
-  /* Date / description */
-
-  .dateField,
-  .descriptionField {
-    grid-column: span 1;
-  }
-
-  /* Note */
-
-  .noteField {
-    grid-column: 1 / -1;
-  }
-
-  /* Bouton */
-
   .form > button {
     grid-column: 1 / -1;
 
     justify-self: center;
+
     width: auto;
     min-width: 220px;
   }
 }
 
-/* =====================
-   Mobile
-===================== */
+/* ==========================================
+   MOBILE
+========================================== */
 
 @media (max-width: 767px) {
   .form {
-    /*
-      MODIFICATION :
-      Le formulaire mobile doit faire partie
-      intégrante de la page plutôt que ressembler
-      à une grosse carte.
-    */
-    display: flex;
-    flex-direction: column;
-
     gap: var(--space-sm);
 
     padding: var(--space-sm);
@@ -317,62 +292,57 @@
     box-shadow: none;
   }
 
-  /*
-    MODIFICATION :
-    Le montant reste l'élément visuellement
-    principal, mais sans prendre trop de hauteur.
-  */
-  .amountField {
-    margin-bottom: 0;
-  }
-
-  /*
-    MODIFICATION :
-    Le sélecteur de type reste proche du montant.
-  */
   .typeField {
-    align-items: stretch;
-    margin-bottom: var(--space-xs);
+    margin: 0;
   }
 
-  /*
-    MODIFICATION :
-    Les champs sont plus compacts sur mobile.
-  */
-  .field {
-    gap: 2px;
+  .amountField {
+    margin: 0;
   }
 
-  .field input,
-  .field textarea {
-    padding: var(--space-sm);
+  .categoryField,
+  .accountField {
+    width: 100%;
   }
 
-  .field textarea {
-    min-height: 60px;
+  .transferFields {
+    gap: var(--space-sm);
   }
 
-  /*
-    MODIFICATION :
-    Date compacte et intégrée au formulaire.
-  */
   .dateField {
-    padding: var(--space-sm) var(--space-md);
-    min-height: 42px;
+    gap: 4px;
+  }
+
+  .dateControl {
+    min-height: 44px;
+    padding: 0 var(--space-sm);
   }
 
   .dateButton {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
   }
 
-  /*
-    MODIFICATION :
-    Le bouton reste immédiatement accessible
-    après les champs sans gros espace inutile.
-  */
+  .descriptionField,
+  .noteField {
+    gap: 4px;
+  }
+
+  .descriptionField input,
+  .noteField textarea {
+    padding: var(--space-sm);
+  }
+
+  .descriptionField input {
+    min-height: 42px;
+  }
+
+  .noteField textarea {
+    min-height: 56px;
+  }
+
   .form > button {
     width: 100%;
-    margin-top: var(--space-xs);
+    margin-top: 2px;
   }
 }
