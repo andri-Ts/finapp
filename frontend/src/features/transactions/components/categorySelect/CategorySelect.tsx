@@ -4,6 +4,7 @@ import styles from './categorySelect.module.css';
 // import { mockCategories } from '@/mocks/categories.mock';
 import type { ICategory, CategoryType } from '@/types/category.types';
 import { useQuery } from '@tanstack/react-query';
+import { categoryIcons, iconSizes } from '@/constants/constIcons';
 // import { formatCurrency } from '@/utils/formatCurrency';
 // import { useEffect, useState } from 'react';
 
@@ -52,6 +53,9 @@ function CategorySelect({ value, type, onChange }: CategorySelectProps) {
       <div className={styles.grid}>
         {filteredCategories.map((category) => {
           const isSelected = category.id === value;
+          const CategoryIcon = category.icon
+            ? categoryIcons[category.icon]
+            : null;
 
           return (
             <button
@@ -69,7 +73,11 @@ function CategorySelect({ value, type, onChange }: CategorySelectProps) {
                   backgroundColor: category.color ?? 'var(--color-secondary)',
                 }}
               >
-                {category.icon ?? '•'}
+                {CategoryIcon ? (
+                  <CategoryIcon size={iconSizes.md} strokeWidth={2} />
+                ) : (
+                  '•'
+                )}
               </div>
 
               <span className={styles.name}>{category.name}</span>
