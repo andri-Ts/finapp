@@ -1,4 +1,4 @@
-import { CategoryType } from '../generated/prisma/enums';
+import { CategoryType } from '../generated/prisma/enums.js';
 
 export const defaultCategories = [
   {

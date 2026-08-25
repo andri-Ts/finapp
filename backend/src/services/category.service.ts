@@ -1,6 +1,6 @@
 import { defaultCategories } from '../constants/defaultCategories.js';
 import { ERRORS } from '../constants/errors.js';
-import { CategoryType } from '../generated/prisma/enums.js';
+// import { CategoryType } from '../generated/prisma/enums.js';
 import prisma from '../lib/prisma.js';
 import {
   ICreateCategoryInput,
