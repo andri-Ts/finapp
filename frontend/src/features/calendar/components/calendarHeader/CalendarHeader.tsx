@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './calendarHeader.module.css';
-import { iconSizes } from '@/constants/iconSizes';
+import { iconSizes } from '@/constants/constIcons';
 
 interface CalendarHeaderProps {
   currentMonth: Date;
