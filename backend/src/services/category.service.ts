@@ -1,3 +1,4 @@
+import { defaultCategories } from '../constants/defaultCategories.js';
 import { ERRORS } from '../constants/errors.js';
 import { CategoryType } from '../generated/prisma/enums.js';
 import prisma from '../lib/prisma.js';
@@ -5,45 +6,6 @@ import {
   ICreateCategoryInput,
   IUpdateCategoryInput,
 } from '../schemas/category.schema.js';
-
-const defaultCategories = [
-  {
-    name: 'Logement',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Restauration',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Transport',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Loisirs',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Santé',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Shopping',
-    type: CategoryType.EXPENSE,
-  },
-  {
-    name: 'Salaire',
-    type: CategoryType.INCOME,
-  },
-  {
-    name: 'Cadeaux',
-    type: CategoryType.INCOME,
-  },
-  {
-    name: 'Autre revenus',
-    type: CategoryType.INCOME,
-  },
-];
 
 export async function createDefaultCategories(userId: string) {
   const categories = defaultCategories.map((category) => ({
