@@ -603,7 +603,7 @@ export async function deleteTransactionService(
         (t) => t.transferRole === TransferRole.SOURCE,
       );
       const destinationTransaction = transferTransactions.find(
-        (t) => t.transferRole == TransferRole.DESTINATION,
+        (t) => t.transferRole === TransferRole.DESTINATION,
       );
       if (!sourceTransaction || !destinationTransaction) {
         throw new Error(ERRORS.TRANSFER_INVALID);
