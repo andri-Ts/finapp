@@ -8,30 +8,13 @@ import { useState } from 'react';
 import type { ITransaction } from '@/types/transaction.types';
 import { getAllTransactions } from '@/features/transactions/api/transactionApi';
 import { useQuery } from '@tanstack/react-query';
+import { groupTransactionsForDisplay } from '@/utils/groupTransactionsForDisplay';
 
 function CalendarPage() {
   // dates
   const initialDate = new Date();
   const [currentMonth, setCurrentMonth] = useState(initialDate);
   const [selectedDate, setSelectedDate] = useState(initialDate);
-  // const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // // Data: Source de vérité
-  // useEffect(() => {
-  //   async function loadTransaction() {
-  //     try {
-  //       const data = await getAllTransactions();
-  //       setTransactions(data.transactions);
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement des transactions :', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
-
-  //   loadTransaction();
-  // }, []);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['transactions'], // identifiant des transatcions  dans le cache, -> plus besoin de recharger les données si on change de page et qu'on revient
@@ -39,6 +22,7 @@ function CalendarPage() {
   });
 
   const transactions: ITransaction[] = data?.transactions ?? []; // data = { transacitons: [...]}, si data existe, envoie transactions, sinon tab vide
+  const displayedTransactions = groupTransactionsForDisplay(transactions); // Données préparée UNIQUEMENT POUR L'AFFICHAGE
 
   // Next month
   const nextMonth = () => {
@@ -73,7 +57,7 @@ function CalendarPage() {
       />
 
       <CalendarGrid
-        transactions={transactions}
+        transactions={displayedTransactions}
         currentMonth={currentMonth}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -81,7 +65,7 @@ function CalendarPage() {
 
       <DayTransactions
         selectedDate={selectedDate}
-        transactions={transactions}
+        transactions={displayedTransactions}
       />
     </section>
   );

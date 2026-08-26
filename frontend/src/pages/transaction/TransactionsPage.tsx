@@ -11,6 +11,7 @@ import {
 import { toast } from 'sonner';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
+import { groupTransactionsForDisplay } from '@/utils/groupTransactionsForDisplay';
 
 function TransactionsPage() {
   const navigate = useNavigate();
@@ -22,9 +23,14 @@ function TransactionsPage() {
 
   // ON récupère le tableau depuis la réponse API
   const transactions: ITransaction[] = data?.transactions ?? [];
-  console.log('Transactions: ', transactions);
+  // console.log('Transactions: ', transactions);
 
-  // Mutation pour surrpiremer une transaciton
+  // Données préparée UNIQUEMENT POUR L'AFFICHAGE (pour ne pas afficher 2 mêmes transaction pour un transafert)
+  const displayedTransactions = groupTransactionsForDisplay(transactions);
+
+  // =====================================================
+  // SUPPRESSION
+  // =====================================================
   const deleteMutation = useMutation({
     mutationFn: deleteTransaction, // fonc API appelée pour sup transacion
 
@@ -37,11 +43,8 @@ function TransactionsPage() {
       toast.success('Transaction supprimée');
     },
 
-    onError: (error) => {
-      // MODIFICATION : gestion de l'erreur de récupération
-      if (error) {
-        return <p>Impossible de charger les transactions.</p>;
-      }
+    onError: () => {
+      toast.error('Impossible de supprimer la transaction');
     },
   });
 
@@ -84,7 +87,7 @@ function TransactionsPage() {
 
       {/* <p>Nombre de transactions : {transactions.length}</p> */}
       <TransactionList
-        transactions={transactions}
+        transactions={displayedTransactions}
         onDelete={handleDelete}
         onEdit={handleEdit}
       />

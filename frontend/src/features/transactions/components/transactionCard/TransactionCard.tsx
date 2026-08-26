@@ -18,11 +18,14 @@ function TransactionCard({
   // onDelete,
   onEdit,
 }: TransactionCardProps) {
+  // Transfert ni dépense ni revenue
+  const isExpense = transaction.type === 'EXPENSE';
+  const isIncome = transaction.type === 'INCOME';
+  const isTransfer = transaction.type === 'TRANSFER';
+
   const CategoryIcon = transaction.category?.icon
     ? categoryIcons[transaction.category.icon]
     : null;
-
-  const isExpense = transaction.type === 'EXPENSE';
 
   return (
     <Card>
@@ -32,6 +35,9 @@ function TransactionCard({
           className={styles.content}
           onClick={() => onEdit(transaction.id)}
         >
+          {/* =================================================
+              ICÔNE
+          ================================================= */}
           <span
             className={styles.categoryIcon}
             style={
@@ -47,23 +53,50 @@ function TransactionCard({
             {CategoryIcon ? (
               <CategoryIcon size={20} strokeWidth={2} />
             ) : (
-              <span>•</span>
+              <span>{isTransfer ? '↔' : '•'}</span>
             )}
           </span>
 
-          {/* Informations principales de la transaction */}
+          {/* =================================================
+              INFORMATIONS PRINCIPALES
+              ================================================= */}
           <div className={styles.info}>
             <p className={styles.description}>
               {transaction.description || '(Sans descritption)'}
             </p>
-            <span className={styles.category}>
-              {transaction.category?.name ?? '(Sans catégorie)'}
-            </span>
+            {isTransfer ? (
+              <span className={styles.category}>
+                {transaction.account.name}
+                {transaction.transferDestinationAccount && (
+                  <>
+                    {' → '}
+                    {transaction.transferDestinationAccount.name}
+                  </>
+                )}
+              </span>
+            ) : (
+              <span className={styles.category}>
+                {transaction.category?.name ?? '(Sans catégorie)'}
+              </span>
+            )}
           </div>
 
+          {/* =================================================
+              MONTANT + DATE
+              ================================================= */}
           <div className={styles.meta}>
-            <strong className={isExpense ? styles.expense : styles.income}>
-              {isExpense ? '-' : '+'}
+            <strong
+              className={
+                isExpense
+                  ? styles.expense
+                  : isIncome
+                    ? styles.income
+                    : styles.transfer
+              }
+            >
+              {isExpense && '-'}
+              {isIncome && '+'}
+              {/* Un transfert n'a pas de signe */}
               {formatCurrency(transaction.amount)}
             </strong>
             <span className={styles.date}>

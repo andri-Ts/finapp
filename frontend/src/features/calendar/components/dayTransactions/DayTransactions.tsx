@@ -25,23 +25,36 @@ function DayTransactions({ selectedDate, transactions }: DayTransactionsProps) {
       <h3>{formatDate(selectedDate)}</h3>
 
       <div className={styles.list}>
-        {transactionsOfDay.map((transaction) => (
-          <article key={transaction.id} className={styles.transaction}>
-            {/* <span>{transaction.category?.icon}</span> */}
-            <span className={styles.description}>
-              {transaction.description}
-            </span>
+        {transactionsOfDay.map((transaction) => {
+          const isExpense = transaction.type === 'EXPENSE';
+          const isIncome = transaction.type === 'INCOME';
+          const isTransfer = transaction.type === 'TRANSFER';
 
-            <strong
-              className={
-                transaction.type === 'EXPENSE' ? styles.expense : styles.income
-              }
-            >
-              {transaction.type === 'EXPENSE' ? '-' : '+'}
-              {formatCurrency(transaction.amount)}
-            </strong>
-          </article>
-        ))}
+          return (
+            <article key={transaction.id} className={styles.transaction}>
+              {/* <span>{transaction.category?.icon}</span> */}
+              <span className={styles.description}>
+                {isTransfer
+                  ? `${transaction.account.name} → ${transaction.transferDestinationAccount?.name ?? 'Compte inconnu'}`
+                  : transaction.description}
+              </span>
+
+              <strong
+                className={
+                  isExpense
+                    ? styles.expense
+                    : isIncome
+                      ? styles.income
+                      : styles.transfer
+                }
+              >
+                {isExpense && '-'}
+                {isIncome && '+'}
+                {formatCurrency(transaction.amount)}
+              </strong>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

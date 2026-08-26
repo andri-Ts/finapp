@@ -11,6 +11,7 @@ import TransactionList from '@/features/transactions/components/transactionList'
 // import type { IDashboard } from '@/features/dashboard/types/dashboard.types';
 import { getDashboard } from '@/features/dashboard/api/dashboardApi';
 import { useQuery } from '@tanstack/react-query';
+import { groupTransactionsForDisplay } from '@/utils/groupTransactionsForDisplay';
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -37,6 +38,11 @@ function DashboardPage() {
   if (isError || !dashboard) {
     return <p>Impossible de charger le dashboard.</p>;
   }
+
+  // Backend renvoie 2 lignes pnhysiques d'un transfert, on les regroupes en un seul pour l'affichage
+  const displayedTransactions = groupTransactionsForDisplay(
+    dashboard.transactionsOfMonth,
+  );
 
   return (
     <section className={styles.page}>
@@ -76,7 +82,7 @@ function DashboardPage() {
       >
         {/* mockTransactions doit être remplacer par les données du mois en cours envoer par l'api */}
         <TransactionList
-          transactions={dashboard.transactionsOfMonth}
+          transactions={displayedTransactions}
           onEdit={handleEdit}
         />
       </PageSection>

@@ -67,6 +67,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
+.transfer {
+  color: var(--color-primary);
+}
+
 @media (max-width: 48rem) {
   .transaction {
     padding: var(--space-sm) var(--space-md);

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { ERRORS } from '../constants/errors.js';
-import { TransactionType } from '../generated/prisma/enums.js';
+import { TransactionType, TransferRole } from '../generated/prisma/enums.js';
 import prisma from '../lib/prisma.js';
 import {
   ICreateTransactionInput,
@@ -66,6 +66,7 @@ export async function createTransactionService(
           note: transactionData.note,
           transactionDate: transactionData.transactionDate,
           transferGroupId,
+          transferRole: TransferRole.SOURCE,
         },
       });
 
@@ -79,6 +80,7 @@ export async function createTransactionService(
           note: transactionData.note,
           transactionDate: transactionData.transactionDate,
           transferGroupId,
+          transferRole: TransferRole.DESTINATION,
         },
       });
 
@@ -293,14 +295,22 @@ export async function updateTransactionService(
         throw new Error(ERRORS.TRANSFER_INVALID);
       }
 
-      // la transaction qu'on modifie représente le compte source
+      // Identifer la SOURCE et la DESTINATION grace à transaferRole
       const oldSourceTransaction = transferTransactions.find(
-        (t) => t.accountId === transaction.accountId,
+        (t) => t.transferRole === TransferRole.SOURCE,
       );
       const oldDestinationTransaction = transferTransactions.find(
-        (t) => t.accountId !== transaction.accountId,
+        (t) => t.transferRole == TransferRole.DESTINATION,
       );
       if (!oldSourceTransaction || !oldDestinationTransaction) {
+        throw new Error(ERRORS.TRANSFER_INVALID);
+      }
+
+      // Sécurisée le groupe
+      if (
+        oldSourceTransaction.type !== TransactionType.TRANSFER ||
+        oldDestinationTransaction.type !== TransactionType.TRANSFER
+      ) {
         throw new Error(ERRORS.TRANSFER_INVALID);
       }
 
@@ -436,6 +446,7 @@ export async function updateTransactionService(
         note: newData.note !== undefined ? newData.note : transaction.note,
       };
 
+      // SOURCE
       const updatedSourceTransaction = await tx.transaction.update({
         where: {
           id: oldSourceTransaction.id,
@@ -443,9 +454,11 @@ export async function updateTransactionService(
         data: {
           ...commonData,
           accountId: newSourceAccount.id,
+          transferRole: TransferRole.SOURCE,
         },
       });
 
+      // DESTINATION
       await tx.transaction.update({
         where: {
           id: oldDestinationTransaction.id,
@@ -453,6 +466,7 @@ export async function updateTransactionService(
         data: {
           ...commonData,
           accountId: newDestinationAccount.id,
+          transferRole: TransferRole.DESTINATION,
         },
       });
 
@@ -580,15 +594,16 @@ export async function deleteTransactionService(
         },
       });
 
+      // Un transfert doit toujours être composé de 2 transactions
       if (transferTransactions.length !== 2) {
         throw new Error(ERRORS.TRANSFER_INVALID);
       }
 
       const sourceTransaction = transferTransactions.find(
-        (t) => t.accountId === transaction.accountId,
+        (t) => t.transferRole === TransferRole.SOURCE,
       );
       const destinationTransaction = transferTransactions.find(
-        (t) => t.accountId !== transaction.accountId,
+        (t) => t.transferRole == TransferRole.DESTINATION,
       );
       if (!sourceTransaction || !destinationTransaction) {
         throw new Error(ERRORS.TRANSFER_INVALID);

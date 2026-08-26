@@ -151,6 +151,10 @@
   color: var(--color-success-text);
 }
 
+.transfer {
+  color: var(--color-primary);
+}
+
 /* MODIFICATION : date tertiaire, volontairement discrète */
 .date {
   color: var(--color-text-muted);

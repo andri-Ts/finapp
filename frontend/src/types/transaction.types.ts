@@ -2,6 +2,8 @@ import type { CategoryIconName } from '@/constants/constIcons';
 
 export type TransactionType = 'EXPENSE' | 'INCOME' | 'TRANSFER';
 
+export type TransferRole = 'SOURCE' | 'DESTINATION';
+
 export interface TransactionCategory {
   id: string;
   name: string;
@@ -21,9 +23,12 @@ export interface ITransaction {
   id: string;
   amount: number;
   type: TransactionType;
+  transferGroupId: string | null;
+  transferRole: TransferRole | null;
   description: string;
   note: string | null;
   transactionDate: string;
   account: TransactionAccount;
   category: TransactionCategory | null;
+  transferDestinationAccount?: TransactionAccount; // propriété nécéssaire uniquement à l'affichage
 }
