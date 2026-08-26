@@ -1,44 +1,87 @@
+/* =========================================================
+   DASHBOARD PAGE
+   Layout principal du dashboard
+   Mobile-first design system Catharanthus
+=========================================================== */
+
 .page {
-  width: 100%;
-  /* max-width: var(--layout-content-max-width); */
-  max-width: var(--layout-dashboard-max-width);
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
+  gap: var(--space-6);
+  padding: var(--space-5);
+  max-width: var(--layout-dashboard-max-width);
+  margin: 0 auto;
 }
 
+/* Stats Grid — 2 colonnes sur mobile, 2 sur desktop */
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
 }
 
+/* View All Link — petit lien avec flèche */
 .viewAllLink {
-  color: var(--color-primary);
-
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-
-  transition: color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand);
+  transition:
+    color var(--transition-fast),
+    opacity var(--transition-fast);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  margin-right: calc(var(--space-3) * -1);
 }
+
 .viewAllLink:hover {
-  color: var(--color-primary-hover);
+  color: var(--color-brand-hover);
+  opacity: 0.8;
 }
 
-/* ----------------------------------------*/
-/* ----- Tablette et télephone ----------- */
-/*-----------------------------------------*/
+.viewAllLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
 
+/* Mobile */
 @media (max-width: 768px) {
   .page {
-    gap: var(--space-lg);
+    padding: var(--space-5) var(--space-4);
+    gap: var(--space-5);
   }
 
   .statsGrid {
-    gap: var(--space-md);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
   }
 
-  .newTransaction {
-    display: none;
+  .viewAllLink {
+    font-size: var(--text-xs);
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .page {
+    padding: var(--space-6);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .page {
+    padding: var(--space-8);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
   }
 }

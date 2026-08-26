@@ -21,8 +21,14 @@ function BottomNavigation() {
               `${styles.link} ${isActive ? styles.active : ''}`
             }
           >
-            <Icon size={22} />
-            <span>{nav.label}</span>
+            {({ isActive }) => (
+              <>
+                <span className={styles.icon}>
+                  <Icon size={22} strokeWidth={isActive ? 2.4 : 2} />
+                </span>
+                <span className={styles.label}>{nav.label}</span>
+              </>
+            )}
           </NavLink>
         );
       })}

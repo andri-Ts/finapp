@@ -1,88 +1,278 @@
+/* =========================================================
+   FINAPP GLOBAL STYLES v2.1
+   Imports, resets, et styles de base
+=========================================================== */
+@import './token.css';
 @import './reset.css';
-@import './variables.css';
 
-/* =====================
-   Base
-====================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap');
 
-html {
-  background: var(--color-background);
+/* ═════════════════════════════════════════════════════
+   RESET — Normalize + Custom
+═════════════════════════════════════════════════════ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-family);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-normal);
-  background: var(--color-background);
-  color: var(--color-text);
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* =====================
-   Headings
-====================== */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
 
-h1 {
-  font-size: var(--font-size-h1);
+/* ═════════════════════════════════════════════════════
+   TYPOGRAPHY
+═════════════════════════════════════════════════════ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-4xl);
 }
 
 h2 {
-  font-size: var(--font-size-h2);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
+  font-size: var(--text-3xl);
 }
 
 h3 {
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
+  font-size: var(--text-2xl);
 }
 
-/* =====================
-   Text
-====================== */
+h4 {
+  font-size: var(--text-xl);
+}
+
+h5 {
+  font-size: var(--text-lg);
+}
+
+h6 {
+  font-size: var(--text-base);
+}
+
+p {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
 
 small {
-  font-size: var(--font-size-small);
+  font-size: var(--text-sm);
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-/* =====================
-   Focus
-====================== */
+a:hover {
+  color: var(--color-brand);
+}
+
+/* ═════════════════════════════════════════════════════
+   LISTS
+═════════════════════════════════════════════════════ */
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/* ═════════════════════════════════════════════════════
+   FORM ELEMENTS
+═════════════════════════════════════════════════════ */
+
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='search'],
+input[type='number'],
+input[type='date'],
+input[type='time'],
+textarea,
+select {
+  padding: var(--form-input-padding-y) var(--form-input-padding-x);
+  height: var(--form-input-height);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+input[type='search']:focus,
+input[type='number']:focus,
+input[type='date']:focus,
+input[type='time']:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(176, 91, 155, 0.14);
+}
+
+textarea {
+  height: auto;
+  min-height: 120px;
+  resize: vertical;
+  padding: var(--space-3) var(--space-4);
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2352525B' d='M1 4l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+  padding-right: var(--space-10);
+}
+
+/* ═════════════════════════════════════════════════════
+   FOCUS & INTERACTION
+═════════════════════════════════════════════════════ */
 
 :focus-visible {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
 }
 
-/* =====================
-   Text selection
-====================== */
-
 ::selection {
-  background: var(--color-primary);
+  background-color: var(--color-brand);
   color: var(--color-text-inverse);
 }
 
-/* =====================
-   Reduced motion
-====================== */
+/* ═════════════════════════════════════════════════════
+   SCROLLBAR — Webkit browsers
+═════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+/* ═════════════════════════════════════════════════════
+   ACCESSIBILITY — Reduced Motion
+═════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═════════════════════════════════════════════════════
+   ACCESSIBILITY — Forced Colors (Windows High Contrast)
+═════════════════════════════════════════════════════ */
+
+@media (forced-colors: active) {
+  button,
+  input,
+  select,
+  textarea {
+    border-width: 2px;
+  }
+}
+
+/* ═════════════════════════════════════════════════════
+   PRINT
+═════════════════════════════════════════════════════ */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  img,
+  iframe {
+    max-width: 100%;
   }
 }

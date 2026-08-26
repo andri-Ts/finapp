@@ -1,43 +1,61 @@
+/* =========================================================
+   PAGE SECTION
+   Section avec titre optionnel + action optionnelle + contenu
+=========================================================== */
+
 .section {
   display: flex;
   flex-direction: column;
-
-  gap: var(--space-md);
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
-  gap: var(--space-md);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
 }
 
 .title {
-  margin: 0;
-
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text);
-
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-semibold);
+  margin: 0;
   line-height: var(--line-height-tight);
-
-  letter-spacing: -0.01em;
 }
 
 .action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   flex-shrink: 0;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-
-  gap: var(--space-sm);
+  gap: var(--space-4);
 }
 
-@media (max-width: 48rem) {
+/* Mobile */
+@media (max-width: 768px) {
+  .section {
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .title {
-    font-size: var(--font-size-body);
+    font-size: var(--text-xl);
+  }
+
+  .action {
+    width: 100%;
   }
 }

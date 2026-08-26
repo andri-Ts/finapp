@@ -1,60 +1,53 @@
+/* =========================================================
+   STAT CARD
+   Petites cartes pour revenus/dépenses du mois
+   Variants: success (vert) et danger (rouge)
+=========================================================== */
+
 .card {
-  width: 100%;
-  min-width: 0;
-
-  padding: var(--space-md);
-
-  /* MODIFICATION : hiérarchie visuelle plus légère */
-  border-radius: var(--radius-lg);
-
-  transition:
-    border-color var(--transition-normal),
-    transform var(--transition-normal),
-    box-shadow var(--transition-normal);
-}
-
-.card:hover {
-  border-color: var(--color-border);
-
-  /* MODIFICATION : interaction très subtile */
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
 }
 
 .title {
-  margin: 0;
-
-  color: var(--color-text-secondary);
-
-  font-size: var(--font-size-small);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
 .value {
-  margin: var(--space-sm) 0 0;
-
-  font-size: var(--font-size-h2);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
+/* Variant: Success (Income / Revenus) */
 .success {
-  color: var(--color-success-text);
+  color: var(--forest-500);
 }
 
+/* Variant: Danger (Expense / Dépenses) */
 .danger {
-  color: var(--color-danger-text);
+  color: var(--rose-500);
 }
 
-@media (max-width: 48rem) {
+/* Mobile */
+@media (max-width: 768px) {
   .card {
-    padding: var(--space-md);
+    gap: var(--space-2);
   }
 
   .value {
-    font-size: var(--font-size-h3);
+    font-size: var(--text-xl);
+  }
+
+  .title {
+    font-size: var(--text-xs);
   }
 }

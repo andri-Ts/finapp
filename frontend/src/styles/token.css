@@ -1,0 +1,322 @@
+/* =========================================================
+   FINAPP DESIGN SYSTEM v2.1 — CATHARANTHUS ROSEUS
+   Tokens complets — À importer avant tout autre CSS
+=========================================================== */
+
+:root {
+  /* ═══════════════════════════════════════════════════
+     PALETTE COULEURS — CHROMATIC AXES
+  ═══════════════════════════════════════════════════ */
+
+  /* PRIMARY — Catharanthus Roseus Violet-Rose (Brand) */
+  --catharanthus-950: #3d1d45;
+  --catharanthus-900: #5a2b64;
+  --catharanthus-800: #7a3d7f;
+  --catharanthus-700: #904b8e;
+  --catharanthus-600: #a85b9b;
+  --catharanthus-500: #b05b9b;
+  --catharanthus-400: #c878b0;
+  --catharanthus-300: #d99bc7;
+  --catharanthus-200: #e8bdd9;
+  --catharanthus-100: #f2d9e8;
+  --catharanthus-50: #f9ebf3;
+
+  /* SECONDARY / ACCENT — Vert Forêt (Sémantique) */
+  --forest-950: #0a1a12;
+  --forest-900: #0f2a1c;
+  --forest-800: #163d28;
+  --forest-700: #1e5237;
+  --forest-600: #276944;
+  --forest-500: #2e8050;
+  --forest-400: #42a168;
+  --forest-300: #6dbf8c;
+  --forest-200: #a8dbbe;
+  --forest-100: #d6f0e3;
+  --forest-50: #edf8f2;
+
+  /* HIGHLIGHT — Or Solaire (Premium) */
+  --gold-500: #f0a845;
+  --gold-400: #f5bc6b;
+  --gold-200: #fde8bb;
+  --gold-50: #fef7e8;
+
+  /* SEMANTIC — Danger / Expense */
+  --rose-500: #f43f5e;
+  --rose-200: #fecdd3;
+  --rose-50: #fff1f3;
+
+  /* SEMANTIC — Success / Income */
+  --emerald-500: #10b981;
+  --emerald-200: #a7f3d0;
+  --emerald-50: #ecfdf5;
+
+  /* NEUTRALS */
+  --neutral-950: #0c0c0f;
+  --neutral-900: #18181b;
+  --neutral-800: #27272a;
+  --neutral-700: #3f3f46;
+  --neutral-600: #52525b;
+  --neutral-500: #71717a;
+  --neutral-400: #a1a1aa;
+  --neutral-300: #d4d4d8;
+  --neutral-200: #e4e4e7;
+  --neutral-100: #f4f4f5;
+  --neutral-50: #fafafa;
+  --white: #ffffff;
+
+  /* ═══════════════════════════════════════════════════
+     SEMANTIC COLOR ALIASES
+  ═══════════════════════════════════════════════════ */
+
+  /* Brand Primary — Catharanthus (nav, CTA, identity) */
+  --color-brand: var(--catharanthus-500);
+  --color-brand-hover: var(--catharanthus-600);
+  --color-brand-active: var(--catharanthus-700);
+  --color-brand-light: var(--catharanthus-50);
+  --color-brand-subtle: var(--catharanthus-100);
+
+  /* Accent Secondary — Forest (semantic, income, success) */
+  --color-accent: var(--forest-500);
+  --color-accent-hover: var(--forest-600);
+  --color-accent-light: var(--forest-50);
+  --color-accent-subtle: var(--forest-100);
+
+  /* Highlight — Gold (premium, account default) */
+  --color-highlight: var(--gold-500);
+  --color-highlight-hover: var(--gold-400);
+  --color-highlight-light: var(--gold-50);
+
+  /* Surfaces & Backgrounds */
+  --color-background: #f9f6fa;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-hover: #f9f6fa;
+  --color-surface-active: #f2d9e8;
+
+  /* Text */
+  --color-text: #18181b;
+  --color-text-secondary: #52525b;
+  --color-text-muted: #71717a;
+  --color-text-inverse: #ffffff;
+
+  /* Borders */
+  --color-border: #e8d9ea;
+  --color-border-subtle: #f2d9e8;
+  --color-border-focus: var(--catharanthus-500);
+
+  /* Semantic — Danger */
+  --color-danger: var(--rose-500);
+  --color-danger-background: var(--rose-50);
+  --color-danger-text: #c2354b;
+
+  /* Semantic — Success / Income */
+  --color-success: var(--forest-500);
+  --color-success-background: var(--forest-50);
+  --color-success-text: var(--forest-700);
+
+  /* Semantic — Income (clarity alias) */
+  --color-income: var(--emerald-500);
+  --color-income-background: var(--emerald-50);
+  --color-income-text: #0f7c5e;
+
+  /* Semantic — Expense (clarity alias) */
+  --color-expense: var(--rose-500);
+  --color-expense-background: var(--rose-50);
+  --color-expense-text: #c2354b;
+
+  /* ═══════════════════════════════════════════════════
+     SHADOWS
+  ═══════════════════════════════════════════════════ */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.14);
+
+  /* Brand shadow (Catharanthus glow) */
+  --shadow-brand: 0 4px 20px rgba(176, 91, 155, 0.32);
+  --shadow-brand-lg: 0 8px 32px rgba(176, 91, 155, 0.4);
+
+  /* Accent shadow (Forest glow) */
+  --shadow-accent: 0 4px 20px rgba(46, 128, 80, 0.25);
+
+  /* Glass morphism */
+  --glass-background: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --glass-blur: 18px;
+
+  /* ═══════════════════════════════════════════════════
+     BORDER RADIUS
+  ═══════════════════════════════════════════════════ */
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ═══════════════════════════════════════════════════
+     SPACING — 4px base unit system
+  ═══════════════════════════════════════════════════ */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Legacy aliases (backward compatibility) */
+  --space-xs: var(--space-2); /* 8px */
+  --space-sm: var(--space-4); /* 16px */
+  --space-md: var(--space-6); /* 24px */
+  --space-lg: var(--space-8); /* 32px */
+  --space-xl: var(--space-12); /* 48px */
+  --space-2xl: var(--space-16); /* 64px */
+
+  /* ═══════════════════════════════════════════════════
+     TYPOGRAPHY
+  ═══════════════════════════════════════════════════ */
+
+  /* Font Families */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:
+    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Font Sizes — Typographic Scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+
+  /* Display sizes (serif) */
+  --font-size-display: var(--text-5xl);
+  --font-size-h1: var(--text-4xl);
+  --font-size-h2: var(--text-3xl);
+  --font-size-h3: var(--text-2xl);
+  --font-size-body: var(--text-base);
+  --font-size-small: var(--text-sm);
+  --font-size-caption: var(--text-xs);
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+
+  /* ═══════════════════════════════════════════════════
+     TRANSITIONS
+  ═══════════════════════════════════════════════════ */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-base: 220ms ease;
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ═══════════════════════════════════════════════════
+     LAYOUT
+  ═══════════════════════════════════════════════════ */
+
+  --layout-content-max-width: 70rem; /* 1120px */
+  --layout-dashboard-max-width: 75rem; /* 1200px */
+  --layout-calendar-max-width: 68.75rem; /* 1100px */
+  --layout-form-max-width: 50rem; /* 800px */
+  --layout-reading-max-width: 43.75rem; /* 700px */
+
+  /* ═══════════════════════════════════════════════════
+     NAVIGATION & UI DIMENSIONS
+  ═══════════════════════════════════════════════════ */
+
+  --sidebar-width: 15rem; /* 240px */
+  --mobile-header-height: 4rem; /* 64px */
+  --mobile-nav-height: 4.25rem; /* 68px */
+  --fab-size: 3.5rem; /* 56px */
+
+  /* ═══════════════════════════════════════════════════
+     FORM & INPUT
+  ═══════════════════════════════════════════════════ */
+
+  --form-input-height: 2.5rem; /* 40px */
+  --form-input-padding-x: 1rem; /* 16px */
+  --form-input-padding-y: 0.625rem; /* 10px */
+
+  --button-height-sm: 2rem; /* 32px */
+  --button-height-md: 2.5rem; /* 40px */
+  --button-height-lg: 3rem; /* 48px */
+
+  /* ═══════════════════════════════════════════════════
+     ICON SIZES
+  ═══════════════════════════════════════════════════ */
+
+  --icon-size-xs: 1rem; /* 16px */
+  --icon-size-sm: 1.25rem; /* 20px */
+  --icon-size-md: 1.5rem; /* 24px */
+  --icon-size-lg: 2rem; /* 32px */
+  --icon-size-xl: 2.5rem; /* 40px */
+
+  /* ═══════════════════════════════════════════════════
+     Z-INDEX SYSTEM
+  ═══════════════════════════════════════════════════ */
+
+  --z-hide: -1;
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+
+  /* ═══════════════════════════════════════════════════
+     INTERACTIVE TARGETS
+  ═══════════════════════════════════════════════════ */
+
+  --touch-target-min: 2.75rem; /* 44px */
+}
+
+/* ═════════════════════════════════════════════════════
+   REDUCED MOTION — Accessibility
+═════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+    --transition-base: 0ms;
+    --transition-slow: 0ms;
+  }
+}
+
+/* ═════════════════════════════════════════════════════
+   HIGH CONTRAST MODE — Accessibility
+═════════════════════════════════════════════════════ */
+
+@media (prefers-contrast: more) {
+  :root {
+    --shadow-xs: none;
+    --shadow-sm: 0 0 0 1px var(--color-border);
+    --shadow-md: 0 0 0 2px var(--color-border);
+    --shadow-lg: 0 0 0 2px var(--color-border);
+  }
+}

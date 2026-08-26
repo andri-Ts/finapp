@@ -1,31 +1,84 @@
+/* =========================================================
+   BALANCE CARD — Hero Card
+   Affiche le compte par défaut et son solde
+   Design premium avec gradient Catharanthus
+=========================================================== */
+
 .card {
-  text-align: center;
-  padding: var(--space-xl);
+  background: linear-gradient(
+    135deg,
+    var(--catharanthus-800) 0%,
+    #6a3d70 60%,
+    var(--forest-900) 100%
+  );
+  border: none;
+  color: var(--color-text-inverse);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-8);
+  box-shadow: var(--shadow-brand-lg);
+
+  /* Gradient ornemental */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 10%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(
+      circle,
+      rgba(240, 168, 69, 0.15) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
 }
 
 .accountName {
-  font-size: var(--font-size-body);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
+  color: var(--catharanthus-200);
+  margin-bottom: var(--space-2);
+  position: relative;
+  z-index: 1;
 }
 
 .balance {
-  margin-top: var(--space-md);
-
-  font-size: var(--font-size-display);
-  font-weight: var(--font-weight-bold);
-
-  line-height: var(--line-height-tight);
-  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-style: italic;
+  color: var(--white);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.1;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.02em;
 }
 
-/* MODIFICATION : adaptation mobile */
-@media (max-width: 48rem) {
+/* Mobile */
+@media (max-width: 768px) {
   .card {
-    padding: var(--space-lg);
+    padding: var(--space-6);
   }
 
   .balance {
-    font-size: var(--font-size-h1);
+    font-size: var(--text-4xl);
   }
 }
