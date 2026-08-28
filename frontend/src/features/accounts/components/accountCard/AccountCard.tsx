@@ -25,26 +25,31 @@ function AccountCard({
   return (
     <Card className={styles.wrapper} interactive>
       <button type="button" className={styles.card} onClick={handleClick}>
-        <div
-          className={styles.icon}
-          style={{
-            color: account.color ?? 'var(--color-primary)',
-          }}
-        >
-          {AccountIcon && <AccountIcon size={28} />}
+        <div className={styles.top}>
+          <div
+            className={styles.icon}
+            style={{
+              color: account.color ?? 'var(--forest-500)',
+              backgroundColor: account.color
+                ? `${account.color}18`
+                : 'var(--forest-50)',
+            }}
+          >
+            {AccountIcon && <AccountIcon size={24} />}
+          </div>
+
+          {account.isDefault && (
+            <span className={styles.default}>Compte par défaut</span>
+          )}
         </div>
 
-        <h3 className={styles.name}>{account.name}</h3>
-
-        <strong className={styles.balance}>
-          {formatCurrency(account.currentBalance)}
-        </strong>
-
-        <span className={styles.currency}>{account.currency}</span>
-
-        {account.isDefault && (
-          <span className={styles.default}>Compte par défaut</span>
-        )}
+        <div className={styles.info}>
+          <h3 className={styles.name}>{account.name}</h3>
+          <strong className={styles.balance}>
+            {formatCurrency(account.currentBalance)}
+          </strong>
+          <span className={styles.currency}>{account.currency}</span>
+        </div>
       </button>
     </Card>
   );

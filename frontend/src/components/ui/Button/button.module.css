@@ -1,157 +1,193 @@
+/* =========================================================
+   FINAPP — BUTTON
+   Design System v1.1
+========================================================= */
+
 .button {
+  /* Base */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 
-  /* MODIFICATION : cible tactile minimale du design system */
-  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
 
-  border: 1px solid transparent;
+  border: var(--border-width-thin) solid transparent;
   border-radius: var(--radius-md);
 
-  padding: var(--space-sm) var(--space-md);
-
-  font-family: var(--font-family);
-  font-size: var(--font-size-body);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-normal);
+  line-height: 1;
 
+  white-space: nowrap;
   cursor: pointer;
+  user-select: none;
 
-  /* MODIFICATION : suppression de la transformation permanente
-     pour un rendu plus premium et plus stable. */
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
     color var(--transition-fast),
     box-shadow var(--transition-fast),
-    opacity var(--transition-fast);
+    transform var(--transition-fast);
+
+  /* Évite qu'un bouton soit écrasé par son parent */
+  flex-shrink: 0;
 }
 
-/* =====================================================
+/* =========================================================
    FOCUS
-===================================================== */
+========================================================= */
 
-/* MODIFICATION : focus clavier visible pour l'accessibilité. */
 .button:focus-visible {
-  outline: 3px solid var(--color-primary-soft);
+  outline: var(--border-width-medium) solid var(--forest-300);
   outline-offset: 2px;
 }
 
-/* =====================================================
-   STATES
-===================================================== */
-
-.button:hover:not(:disabled) {
-  /* MODIFICATION : pas de déplacement vertical.
-     L'interface reste stable et plus élégante. */
-  box-shadow: var(--shadow-sm);
-}
-
-.button:active:not(:disabled) {
-  box-shadow: none;
-}
-
-.button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* =====================================================
+/* =========================================================
    PRIMARY
-===================================================== */
+   Action principale
+========================================================= */
 
 .primary {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
+  background: var(--forest-500);
+  color: var(--white);
+  border-color: var(--forest-500);
+
+  box-shadow: var(--shadow-xs);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--color-primary-hover);
+  background: var(--forest-600);
+  border-color: var(--forest-600);
+  box-shadow: var(--shadow-sm);
 }
 
 .primary:active:not(:disabled) {
-  background: var(--color-primary-hover);
+  background: var(--forest-700);
+  border-color: var(--forest-700);
+  transform: translateY(1px);
 }
 
-/* =====================================================
+/* =========================================================
    SECONDARY
-===================================================== */
+   Action secondaire avec présence visuelle
+========================================================= */
 
 .secondary {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-  color: var(--color-text);
+  background: var(--forest-50);
+  color: var(--forest-700);
+  border-color: var(--forest-200);
 }
 
 .secondary:hover:not(:disabled) {
-  background: var(--color-surface-hover);
-  border-color: var(--color-border-focus);
+  background: var(--forest-100);
+  border-color: var(--forest-300);
 }
 
 .secondary:active:not(:disabled) {
-  background: var(--color-surface-active);
+  background: var(--forest-200);
 }
 
-/* =====================================================
+/* =========================================================
    DANGER
-===================================================== */
+   Actions destructives
+========================================================= */
 
 .danger {
-  background: var(--color-danger);
-  color: var(--color-text-inverse);
+  background: var(--rose-500);
+  color: var(--white);
+  border-color: var(--rose-500);
+
+  box-shadow: var(--shadow-xs);
 }
 
 .danger:hover:not(:disabled) {
-  background: var(--color-danger-text);
+  background: #e11d48;
+  border-color: #e11d48;
+  box-shadow: var(--shadow-sm);
 }
 
 .danger:active:not(:disabled) {
-  background: var(--color-danger-text);
+  background: #be123c;
+  border-color: #be123c;
+  transform: translateY(1px);
 }
 
-/* =====================================================
+/* =========================================================
    GHOST
-===================================================== */
+   Actions discrètes
+========================================================= */
 
 .ghost {
   background: transparent;
-  color: var(--color-primary);
+  color: var(--neutral-600);
+  border-color: transparent;
 }
 
 .ghost:hover:not(:disabled) {
-  background: var(--color-primary-soft);
-  box-shadow: none;
+  background: var(--neutral-100);
+  color: var(--neutral-900);
 }
 
 .ghost:active:not(:disabled) {
-  background: var(--color-primary-soft);
+  background: var(--neutral-200);
 }
 
-/* =====================================================
+/* =========================================================
    SIZES
-===================================================== */
+========================================================= */
 
 .sm {
-  min-height: 2.75rem;
+  min-height: var(--button-height-sm);
+  padding-inline: var(--button-padding-x-sm);
 
-  /* MODIFICATION : même cible tactile minimale sur mobile. */
-  padding: var(--space-xs) var(--space-sm);
-
-  font-size: var(--font-size-small);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-sm);
 }
 
 .md {
-  min-height: 2.75rem;
-  padding: var(--space-sm) var(--space-md);
+  min-height: var(--button-height-md);
+  padding-inline: var(--button-padding-x-md);
 }
 
 .lg {
-  /* MODIFICATION : CTA principal plus confortable. */
-  min-height: 3rem;
+  min-height: var(--button-height-lg);
+  padding-inline: var(--button-padding-x-lg);
 
-  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--text-base);
+  border-radius: var(--radius-md);
+}
 
-  font-size: var(--font-size-body);
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.button[aria-busy='true'] {
+  cursor: wait;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 639px) {
+  .button {
+    min-height: var(--touch-target-comfortable);
+  }
+
+  .sm {
+    min-height: var(--touch-target-min);
+  }
 }

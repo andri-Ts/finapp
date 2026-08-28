@@ -1,87 +1,138 @@
+/* =========================================================
+   ACCOUNT CARD
+========================================================= */
+
 .wrapper {
-  padding: 0;
+  min-width: 0;
 }
 
 .card {
   width: 100%;
-  min-height: 12rem;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: var(--space-6);
 
-  gap: var(--space-sm);
+  padding: var(--space-5);
 
-  /* padding: var(--space-xs); */
-
+  border: none;
   background: transparent;
-  border: 0;
-  border-radius: var(--radius-lg);
 
-  color: var(--color-text);
+  text-align: left;
 
   cursor: pointer;
 
-  transition:
-    background-color var(--transition-fast),
-    transform var(--transition-fast);
+  font-family: var(--font-body);
 }
 
+/* =========================================================
+   TOP
+========================================================= */
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-3);
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
 .icon {
+  width: 3rem;
+  height: 3rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 3.5rem;
-  height: 3.5rem;
+  flex-shrink: 0;
+
+  border-radius: var(--radius-md);
+}
+
+/* =========================================================
+   DEFAULT BADGE
+========================================================= */
+
+.default {
+  padding: var(--space-1) var(--space-2);
 
   border-radius: var(--radius-full);
 
-  background: var(--color-surface-elevated);
+  background: var(--forest-50);
+  color: var(--forest-600);
+
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
 }
 
 .name {
-  max-width: 100%;
-
   margin: 0;
 
-  font-size: var(--font-size-body);
+  color: var(--neutral-700);
+
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
 
-  text-align: center;
-
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .balance {
-  font-size: var(--font-size-h2);
+  margin-top: var(--space-2);
+
+  color: var(--neutral-900);
+
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
+
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .currency {
-  font-size: var(--font-size-small);
-  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+
+  color: var(--neutral-500);
+
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
 }
 
-.default {
-  font-size: var(--font-size-caption);
-  color: var(--color-text-secondary);
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.card:hover {
-  background: var(--color-surface-hover);
-}
+@media (max-width: 639px) {
+  .card {
+    padding: var(--space-4);
+    gap: var(--space-5);
+  }
 
-.card:active {
-  background: var(--color-surface-active);
-  transform: scale(0.98);
-}
+  .balance {
+    font-size: var(--text-xl);
+  }
 
-.card:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  .default {
+    font-size: 0.6875rem;
+  }
 }
