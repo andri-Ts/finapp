@@ -1,87 +1,128 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-4);
 }
 
 .container h3 {
   margin: 0;
 
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-tight);
+
   color: var(--color-text);
 }
+
+/* =========================================================
+   Liste
+========================================================= */
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-3);
 }
+
+/* =========================================================
+   Transaction
+========================================================= */
 
 .transaction {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  gap: var(--space-md);
+  gap: var(--space-4);
 
-  padding: var(--space-md);
+  padding: var(--space-4);
 
-  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+
+  border: var(--border-width-thin) solid var(--color-border);
   border-radius: var(--radius-md);
 
-  background-color: var(--color-surface);
+  box-shadow: var(--shadow-xs);
 
   transition:
     background-color var(--transition-fast),
-    border-color var(--transition-fast);
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .transaction:hover {
-  background-color: var(--color-surface-hover);
-  border-color: var(--color-border);
+  background: var(--neutral-50);
+  border-color: var(--neutral-300);
+  box-shadow: var(--shadow-sm);
 }
 
+/* =========================================================
+   Description
+========================================================= */
+
 .description {
+  flex: 1;
   min-width: 0;
 
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   color: var(--color-text);
-  font-size: var(--font-size-body);
+
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-snug);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Montant
+========================================================= */
+
+.income,
+.expense,
+.transfer {
+  flex-shrink: 0;
+
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+
+  white-space: nowrap;
 }
 
 .income {
-  flex-shrink: 0;
-
-  color: var(--color-success);
-  font-weight: var(--font-weight-semibold);
+  color: var(--emerald-500);
 }
 
 .expense {
-  flex-shrink: 0;
-
-  color: var(--color-danger);
-  font-weight: var(--font-weight-semibold);
+  color: var(--rose-500);
 }
 
 .transfer {
-  color: var(--color-primary);
+  color: var(--catharanthus-500);
 }
 
-@media (max-width: 48rem) {
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (max-width: 639px) {
   .transaction {
-    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-3);
+    padding: var(--space-3);
   }
 
   .description {
-    font-size: var(--font-size-small);
+    font-size: var(--text-xs);
   }
 
   .income,
-  .expense {
-    font-size: var(--font-size-small);
+  .expense,
+  .transfer {
+    font-size: var(--text-xs);
   }
 }

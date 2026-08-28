@@ -8,10 +8,15 @@ function MobileHeader() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>FinApp</div>
+      <div className={styles.logo}>
+        Fin<span>App</span>
+      </div>
 
       <span className={styles.title}>{title}</span>
-      {/* <Link to={'/login'}>Connexion</Link> */}
+
+      <div className={styles.avatar} aria-label="Profil">
+        Z
+      </div>
     </header>
   );
 }

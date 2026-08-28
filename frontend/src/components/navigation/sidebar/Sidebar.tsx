@@ -16,7 +16,12 @@ function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.logo}>FinApp</div>
+      {/* =================================================
+          LOGO
+      ================================================= */}
+      <div className={styles.logo}>
+        Fin<span>App</span>
+      </div>
 
       <nav className={styles.navigation}>
         {navigation
@@ -39,28 +44,33 @@ function Sidebar() {
           })}
       </nav>
 
-      <button
-        type="button"
-        onClick={() => navigate('/transactions/new')}
-        className={styles.addButton}
-      >
-        <Plus size={20} />
-        <span>Ajouter une transaction</span>
-      </button>
-
-      <div className={styles.profile}>
-        <p>Profil</p>
-
-        <Button
+      {/* =================================================
+          ACTIONS
+      ================================================= */}
+      <div className={styles.bottom}>
+        <button
           type="button"
-          variant="ghost"
-          size="sm"
-          onClick={handleLogout}
-          className={styles.logoutButton}
+          onClick={() => navigate('/transactions/new')}
+          className={styles.addButton}
         >
-          <LogOut size={16} />
-          <span>Déconnexion</span>
-        </Button>
+          <Plus size={20} />
+          <span>Nouvelle transaction</span>
+        </button>
+
+        <div className={styles.profile}>
+          <p className={styles.profileTitle}>Profil</p>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={handleLogout}
+            className={styles.logoutButton}
+          >
+            <LogOut size={16} />
+            <span>Déconnexion</span>
+          </Button>
+        </div>
       </div>
     </aside>
   );

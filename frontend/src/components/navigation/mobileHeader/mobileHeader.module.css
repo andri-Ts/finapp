@@ -1,87 +1,92 @@
 /* =========================================================
    MOBILE HEADER
-   Sticky header visible only on mobile
-   Catharanthus-50 background with glassmorphism
-=========================================================== */
+========================================================= */
 
 .header {
-  display: none;
+  width: 100%;
+  min-height: var(--header-height-mobile);
+
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: var(--mobile-header-height);
-  padding: 0 var(--space-6);
-  background-color: var(--catharanthus-50);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 1px solid var(--catharanthus-200);
-  box-shadow: var(--shadow-sm);
-  color: var(--color-text);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-sticky);
-  padding-top: env(safe-area-inset-top);
+
+  padding: var(--space-4) var(--space-5);
+
+  background: var(--white);
+  border-bottom: var(--border-width-thin) solid var(--color-border);
 }
 
-/* Show on mobile */
-@media (max-width: 1024px) {
-  .header {
-    display: flex;
-  }
-}
+/* =========================================================
+   LOGO
+========================================================= */
 
-/* ─────────────────────────────────────────
-   Logo
-───────────────────────────────────────── */
 .logo {
   flex-shrink: 0;
+
   font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-brand);
-  line-height: var(--line-height-tight);
+  font-size: var(--text-xl);
   font-style: italic;
+  color: var(--forest-700);
 }
 
-/* ─────────────────────────────────────────
-   Title
-───────────────────────────────────────── */
+.logo span {
+  color: var(--catharanthus-500);
+}
+
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
 .title {
   flex: 1;
   min-width: 0;
-  margin-left: var(--space-4);
+
+  margin: 0 var(--space-3);
+
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  color: var(--neutral-600);
+
   text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-/* ─────────────────────────────────────────
-   Responsive — Mobile
-───────────────────────────────────────── */
-@media (max-width: 640px) {
-  .header {
-    padding: 0 var(--space-5);
-    min-height: 56px;
-  }
+/* =========================================================
+   AVATAR
+========================================================= */
 
-  .logo {
-    font-size: var(--text-sm);
-  }
+.avatar {
+  flex: 0 0 var(--avatar-size-sm);
 
-  .title {
-    font-size: var(--text-xs);
-    margin-left: var(--space-3);
-  }
+  width: var(--avatar-size-sm);
+  height: var(--avatar-size-sm);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--radius-full);
+
+  background: linear-gradient(
+    135deg,
+    var(--forest-400),
+    var(--catharanthus-400)
+  );
+
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--white);
 }
 
-/* ─────────────────────────────────────────
-   Fallback (no backdrop-filter support)
-───────────────────────────────────────── */
-@supports not (backdrop-filter: blur(1px)) {
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1024px) {
   .header {
-    background-color: var(--catharanthus-50);
+    display: none;
   }
 }

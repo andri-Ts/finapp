@@ -1,12 +1,9 @@
 /* =========================================================
    APP LAYOUT
-   Mobile-first
-   Sidebar desktop + content + mobile navigation
 ========================================================= */
 
 .layout {
   min-height: 100vh;
-  width: 100%;
   display: flex;
   background: var(--color-bg);
 }
@@ -16,10 +13,9 @@
 ========================================================= */
 
 .content {
-  flex: 1;
   min-width: 0;
+  flex: 1;
   min-height: 100vh;
-
   display: flex;
   flex-direction: column;
 }
@@ -33,79 +29,44 @@
   width: 100%;
   min-width: 0;
 
-  padding: var(--space-5);
+  padding: var(--page-padding-mobile);
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* MODIFICATION :
+     réserve l'espace nécessaire à la BottomNavigation */
+  padding-bottom: calc(
+    var(--page-padding-mobile) + var(--bottom-nav-height) +
+      var(--bottom-nav-safe-area)
+  );
 }
 
-/*
- * Le contenu des pages pourra ensuite définir
- * sa propre largeur maximale.
- *
- * Exemple :
- * max-width: var(--layout-dashboard-max-width);
- */
-
 /* =========================================================
-   TABLET
-   641px → 1024px
+   MOBILE
 ========================================================= */
 
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 640px) {
   .main {
-    padding: var(--space-6);
+    padding: var(--page-padding-tablet);
 
-    /*
-     * Bottom navigation fixe :
-     * on réserve suffisamment d'espace pour
-     * éviter que le dernier contenu soit caché.
-     */
-    padding-bottom: calc(var(--mobile-nav-height) + var(--space-8));
+    /* MODIFICATION :
+       le contenu reste toujours au-dessus de la bottom nav */
+    padding-bottom: calc(
+      var(--page-padding-tablet) + var(--bottom-nav-height) +
+        var(--bottom-nav-safe-area)
+    );
   }
 }
 
 /* =========================================================
    DESKTOP
-   ≥ 1025px
 ========================================================= */
 
-@media (min-width: 1025px) {
-  .layout {
-    /*
-     * La sidebar est fixed.
-     * Le contenu commence donc après sa largeur.
-     */
-    padding-left: var(--sidebar-width);
-  }
-
+@media (min-width: 1024px) {
   .main {
-    padding: var(--space-8) var(--space-12);
-    padding-bottom: var(--space-12);
-  }
-}
+    padding: var(--page-padding-desktop);
 
-/* =========================================================
-   LARGE DESKTOP
-   ≥ 1440px
-========================================================= */
-
-@media (min-width: 1440px) {
-  .main {
-    padding-left: var(--space-16);
-    padding-right: var(--space-16);
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .layout,
-  .content,
-  .main {
-    scroll-behavior: auto;
+    /* MODIFICATION :
+       la bottom navigation disparaît sur desktop,
+       donc plus besoin de réserver son espace */
+    padding-bottom: var(--page-padding-desktop);
   }
 }

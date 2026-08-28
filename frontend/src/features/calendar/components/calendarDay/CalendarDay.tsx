@@ -24,7 +24,7 @@ function CalendarDay({
     selectedDate.getMonth() === currentMonth.getMonth() &&
     selectedDate.getFullYear() === currentMonth.getFullYear();
 
-  // MODIFICATION : détection du jour actuel
+  // détection du jour actuel
   const today = new Date();
 
   const isToday =
@@ -57,19 +57,46 @@ function CalendarDay({
     .filter((transaction) => transaction.type === 'EXPENSE')
     .reduce((sum, transaction) => sum + Number(transaction.amount), 0);
 
+  // indique si le jour contient des transactions
+  const hasIncome = income > 0;
+  const hasExpense = expense > 0;
+
   return (
     <button
+      type="button"
       className={`${styles.day} ${isSelected ? styles.selected : ''} ${isToday ? styles.today : ''}`}
       disabled={calendarCell.day === null}
       onClick={handleClick}
+      aria-label={
+        calendarCell.day !== null
+          ? `Jour ${calendarCell.day}${
+              hasIncome || hasExpense
+                ? `, ${transactions.length} transaction${
+                    transactions.length > 1 ? 's' : ''
+                  }`
+                : ''
+            }`
+          : undefined
+      }
     >
       <span className={styles.number}>{calendarCell.day}</span>
 
-      <div className={styles.summary}>
+      {(hasIncome || hasExpense) && (
+        <div className={styles.summary}>
+          {hasIncome && (
+            <span className={styles.income}>+{income.toFixed(0)} €</span>
+          )}
+
+          {hasExpense && (
+            <span className={styles.expense}>-{expense.toFixed(0)} €</span>
+          )}
+        </div>
+      )}
+      {/* <div className={styles.summary}>
         {income > 0 && <span className={styles.income}>+{income}</span>}
 
         {expense > 0 && <span className={styles.expense}>-{expense}</span>}
-      </div>
+      </div> */}
     </button>
   );
 }

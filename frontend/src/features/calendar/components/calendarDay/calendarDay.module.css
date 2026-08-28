@@ -1,87 +1,226 @@
+/* =========================================================
+   CALENDAR DAY
+
+   Une case = une journée financière
+========================================================= */
+
 .day {
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
 
+  min-width: 0;
   aspect-ratio: 1;
 
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
 
   background: var(--color-surface);
-  font-size: var(--font-size-body);
   color: var(--color-text);
+
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
 
   cursor: pointer;
 
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
-    color var(--transition-fast);
-}
-.day:hover {
-  background: var(--color-secondary);
-  border-color: var(--color-primary);
-}
-.day:focus-visible {
-  outline: 0.125rem solid var(--color-primary);
-  outline-offset: 0.125rem;
-}
-.day:disabled {
-  cursor: default;
-  border-color: transparent;
-  background: transparent;
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
 
+/* =========================================================
+   Numéro du jour
+========================================================= */
+
 .number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: var(--radius-full);
+
   font-weight: var(--font-weight-semibold);
+  line-height: 1;
+
+  color: var(--neutral-700);
+
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
+
+/* =========================================================
+   Hover
+========================================================= */
+
+.day:not(:disabled):hover {
+  background: var(--forest-50);
+  border-color: var(--forest-200);
+
+  box-shadow: var(--shadow-xs);
+}
+
+.day:not(:disabled):hover .number {
+  color: var(--forest-700);
+}
+
+/* =========================================================
+   Focus
+========================================================= */
+
+.day:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Aujourd'hui
+========================================================= */
+
+.today {
+  border-color: var(--forest-300);
+}
+
+.today .number {
+  background: var(--forest-100);
+  color: var(--forest-700);
+}
+
+/* =========================================================
+   Jour sélectionné
+========================================================= */
+
+.selected {
+  background: var(--forest-500);
+  border-color: var(--forest-500);
+
+  box-shadow: var(--shadow-brand);
+}
+
+.selected .number {
+  background: var(--white);
+  color: var(--forest-700);
+}
+
+.selected:hover {
+  background: var(--forest-600);
+  border-color: var(--forest-600);
+}
+
+.selected.today {
+  border-color: var(--forest-500);
+}
+
+/* =========================================================
+   Résumé financier
+========================================================= */
 
 .summary {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  gap: 0.15rem;
+  width: 100%;
+  min-width: 0;
 
-  margin-top: var(--space-xs);
+  margin-top: var(--space-1);
 
-  font-size: var(--font-size-caption);
+  gap: 2px;
+
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-bold);
   line-height: 1;
 }
 
-.income {
-  color: var(--color-success);
+/* =========================================================
+   Revenus
+========================================================= */
 
-  font-size: var(--font-size-caption);
+.income {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: var(--emerald-500);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
+/* =========================================================
+   Dépenses
+========================================================= */
 
 .expense {
-  color: var(--color-danger);
-  font-size: var(--font-size-caption);
+  max-width: 100%;
+
+  overflow: hidden;
+
+  color: var(--rose-500);
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.selected {
-  border: 2px solid var(--color-primary);
-  background: var(--color-primary-soft);
+/* =========================================================
+   Jour sélectionné : couleurs adaptées au fond vert
+========================================================= */
+
+.selected .income {
+  color: var(--emerald-200);
 }
 
-.today {
-  border-color: var(--color-primary);
-}
-.today.selected {
-  background: var(--color-primary-soft);
+.selected .expense {
+  color: var(--rose-200);
 }
 
-@media (max-width: 48rem) {
+/* =========================================================
+   Cases vides du mois précédent / suivant
+========================================================= */
+
+.day:disabled {
+  cursor: default;
+
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.day:disabled .number {
+  color: transparent;
+}
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (max-width: 639px) {
   .day {
-    font-size: var(--font-size-small);
+    padding: var(--space-1);
+
+    border-radius: var(--radius-sm);
+
+    font-size: var(--text-xs);
   }
 
-  .summary,
-  .income,
-  .expense {
-    font-size: 0.625rem;
+  .number {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .summary {
+    margin-top: 2px;
+
+    font-size: 0.5625rem;
   }
 }
