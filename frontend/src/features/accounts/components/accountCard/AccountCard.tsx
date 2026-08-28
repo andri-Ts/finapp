@@ -24,32 +24,34 @@ function AccountCard({
 
   return (
     <Card className={styles.wrapper} interactive>
-      <button type="button" className={styles.card} onClick={handleClick}>
-        <div className={styles.top}>
-          <div
-            className={styles.icon}
-            style={{
-              color: account.color ?? 'var(--forest-500)',
-              backgroundColor: account.color
-                ? `${account.color}18`
-                : 'var(--forest-50)',
-            }}
-          >
+      <button
+        type="button"
+        className={styles.card}
+        onClick={handleClick}
+        style={
+          {
+            '--account-color': account.color ?? 'var(--forest-500)',
+          } as React.CSSProperties
+        }
+      >
+        <div className={styles.identity}>
+          <div className={styles.icon}>
             {AccountIcon && <AccountIcon size={24} />}
           </div>
-
-          {account.isDefault && (
-            <span className={styles.default}>Compte par défaut</span>
-          )}
+          <div className={styles.information}>
+            <h3 className={styles.name}>{account.name}</h3>
+            <div className={styles.meta}>
+              <span className={styles.currency}>{account.currency}</span>
+              {account.isDefault && (
+                <span className={styles.default}>Compte par défaut</span>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className={styles.info}>
-          <h3 className={styles.name}>{account.name}</h3>
-          <strong className={styles.balance}>
-            {formatCurrency(account.currentBalance)}
-          </strong>
-          <span className={styles.currency}>{account.currency}</span>
-        </div>
+        <strong className={styles.balance}>
+          {formatCurrency(account.currentBalance)}
+        </strong>
       </button>
     </Card>
   );
