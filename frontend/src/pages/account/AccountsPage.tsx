@@ -63,21 +63,6 @@ function AccountsPage() {
     },
   });
 
-  // useEffect(() => {
-  //   async function loadAccount() {
-  //     try {
-  //       const data = await getAllAccount();
-  //       setAccounts(data.accounts);
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement des comptes: ', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   loadAccount();
-  // }, []);
-
   // =========================================================
   // Handlers
   // =========================================================
@@ -92,6 +77,9 @@ function AccountsPage() {
     defaultMutation.mutate(id);
   };
 
+  const handleAccountClick = (id: string) => {
+    navigate(`/accounts/${id}`);
+  };
   // =========================================================
   // Gestion du chargement, erreur
   // =========================================================
@@ -117,6 +105,7 @@ function AccountsPage() {
         accounts={accounts}
         onArchive={handleArchiveAccount}
         onSetDefault={handleSetDefault}
+        onClick={handleAccountClick}
       />
     </section>
   );

@@ -1,10 +1,20 @@
 import api from '@/lib/api';
 import type { IAccount } from '@/types/account.types';
+import type { ITransaction } from '@/types/transaction.types';
 
 // On ne fait donc pas : Promise<IAccount[]> car backend ne renvoie pas directement le tableau.
 // Il renvoie :{ accounts: [...] }
 interface IAccountResponse {
   accounts: IAccount[];
+}
+
+interface IAccountDetailResponse {
+  account: IAccount;
+  stats: {
+    incomeOfMonth: number;
+    expenseOfMonth: number;
+  };
+  transacitons: ITransaction[];
 }
 
 export interface IUpdateAccountPayload {
@@ -30,7 +40,7 @@ export async function getAllAccount(): Promise<IAccountResponse> {
   return response.data;
 }
 
-export async function getAccount(id: string): Promise<IAccount> {
+export async function getAccount(id: string): Promise<IAccountDetailResponse> {
   const response = await api.get(`/accounts/${id}`);
 
   return response.data;

@@ -52,13 +52,113 @@ export async function getAllAccountService(userId: string) {
 }
 
 export async function getAccountService(accountId: string, userId: string) {
-  return await prisma.account.findFirst({
+  // =====================================================
+  // A. RÉCUPÉRER LE COMPTE
+  // =====================================================
+  const account = await prisma.account.findFirst({
     where: {
       id: accountId,
       userId, // un user peut avoir plusieur account
       archived: false,
     },
   });
+
+  if (!account) {
+    return null;
+  }
+
+  // =====================================================
+  // B. PÉRIODE DU MOIS ACTUEL
+  // =====================================================
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+  // =====================================================
+  // C. RÉCUPÉRER LES TRANSACTIONS DU COMPTE
+  // =====================================================
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      account: {
+        id: account.id,
+      },
+      transactionDate: {
+        gte: startOfMonth,
+        lt: startOfNextMonth,
+      },
+    },
+    include: {
+      account: {
+        select: {
+          id: true,
+          name: true,
+          color: true,
+          icon: true,
+        },
+      },
+      category: {
+        select: {
+          id: true,
+          name: true,
+          color: true,
+          icon: true,
+        },
+      },
+    },
+    orderBy: {
+      transactionDate: 'desc',
+    },
+  });
+
+  // =====================================================
+  // D. REVENUS / DEPENSES DU MOIS
+  // =====================================================
+  const incomeOfMonth = await prisma.transaction.aggregate({
+    where: {
+      accountId,
+      type: 'INCOME',
+      transactionDate: {
+        gte: startOfMonth,
+        lt: startOfNextMonth,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  const expenseOfMonth = await prisma.transaction.aggregate({
+    where: {
+      accountId,
+      type: 'EXPENSE',
+      transactionDate: {
+        gte: startOfMonth,
+        lt: startOfNextMonth,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // =====================================================
+  // F. RÉPONSE
+  // =====================================================
+  return {
+    account: {
+      ...account,
+      initialBalance: Number(account.initialBalance),
+      currentBalance: Number(account.currentBalance),
+    },
+    stats: {
+      incomeOfMonth: Number(incomeOfMonth._sum.amount ?? 0),
+      expenseOfMonth: Number(expenseOfMonth._sum.amount ?? 0),
+    },
+    transactions: transactions.map((transaction) => ({
+      ...transaction,
+      amount: Number(transaction.amount),
+    })),
+  };
 }
 
 export async function updateAccountService(

@@ -14,6 +14,7 @@ import EditTransactionPage from '@/pages/editTransaction/EditTransactionPage';
 import AuthLayout from '@/layouts/authLayout/AuthLayout';
 import RegisterPage from '@/pages/register/RegisterPage';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import AccountDetailPage from '@/pages/accountDetailPage/AccountDetailPage';
 
 export const myRouter = createBrowserRouter([
   // Route protéger, pas accessible sans authentification (via login)
@@ -46,6 +47,10 @@ export const myRouter = createBrowserRouter([
           {
             path: '/accounts',
             element: <AccountsPage />,
+          },
+          {
+            path: '/accounts/:id',
+            element: <AccountDetailPage />,
           },
           {
             path: '/calendar',

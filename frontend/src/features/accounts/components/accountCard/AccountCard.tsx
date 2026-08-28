@@ -4,30 +4,26 @@ import Card from '@/components/ui/Card';
 import { accountIcons } from '@/constants/constIcons';
 import { formatCurrency } from '@/utils/formatCurrency';
 // import Button from '@/components/ui/Button';
-import { useNavigate } from 'react-router-dom';
 
 interface AccountCardProps {
   account: IAccount;
   onArchive: (id: string) => void;
   onSetDefault: (id: string) => void;
+  onClick: (id: string) => void;
 }
 
 function AccountCard({
-  account /*onArchive, onSetDefault*/,
+  account,
+  onClick /*onArchive, onSetDefault*/,
 }: AccountCardProps) {
   const AccountIcon = account.icon ? accountIcons[account.icon] : null;
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/accounts/${account.id}`);
-  };
 
   return (
     <Card className={styles.wrapper} interactive>
       <button
         type="button"
         className={styles.card}
-        onClick={handleClick}
+        onClick={() => onClick(account.id)}
         style={
           {
             '--account-color': account.color ?? 'var(--forest-500)',

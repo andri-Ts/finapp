@@ -6,9 +6,15 @@ interface AccountListProps {
   accounts: IAccount[];
   onArchive: (id: string) => void;
   onSetDefault: (id: string) => void;
+  onClick: (id: string) => void;
 }
 
-function AccountList({ accounts, onArchive, onSetDefault }: AccountListProps) {
+function AccountList({
+  accounts,
+  onArchive,
+  onSetDefault,
+  onClick,
+}: AccountListProps) {
   return (
     <div className={styles.list}>
       {accounts.map((account) => (
@@ -17,6 +23,7 @@ function AccountList({ accounts, onArchive, onSetDefault }: AccountListProps) {
           account={account}
           onArchive={onArchive}
           onSetDefault={onSetDefault}
+          onClick={onClick}
         />
       ))}
     </div>
