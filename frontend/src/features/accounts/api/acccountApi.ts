@@ -14,7 +14,7 @@ interface IAccountDetailResponse {
     incomeOfMonth: number;
     expenseOfMonth: number;
   };
-  transacitons: ITransaction[];
+  transactions: ITransaction[];
 }
 
 export interface IUpdateAccountPayload {
