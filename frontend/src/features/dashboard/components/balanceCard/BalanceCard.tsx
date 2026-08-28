@@ -10,8 +10,20 @@ interface IBalanceProps {
 function BalanceCard({ accountName, balance }: IBalanceProps) {
   return (
     <Card className={styles.card}>
-      <p className={styles.accountName}>{accountName}</p>
-      <p className={styles.balance}>{formatCurrency(balance)}</p>
+      <div className={styles.decorativeCircle} aria-hidden="true" />
+
+      <div className={styles.content}>
+        <p className={styles.accountName}>🏦 {accountName}</p>
+
+        <p className={styles.balance}>{formatCurrency(balance)}</p>
+
+        <div className={styles.cardFooter}>
+          <p className={styles.defaultBadge}>★ Compte principal</p>
+          <span className={styles.cardBrand} aria-hidden="true">
+            FIN
+          </span>
+        </div>
+      </div>
     </Card>
   );
 }

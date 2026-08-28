@@ -10,6 +10,9 @@ function BottomNavigation() {
 
   return (
     <nav className={styles.navigation} aria-label="Navigation principale">
+      {/* =====================================================
+          LEFT NAVIGATION
+      ===================================================== */}
       {mobileNavigation.slice(0, 2).map((nav) => {
         const Icon = nav.icon;
 
@@ -24,7 +27,7 @@ function BottomNavigation() {
             {({ isActive }) => (
               <>
                 <span className={styles.icon}>
-                  <Icon size={22} strokeWidth={isActive ? 2.4 : 2} />
+                  <Icon size={20} strokeWidth={isActive ? 2.4 : 2} />
                 </span>
                 <span className={styles.label}>{nav.label}</span>
               </>
@@ -33,18 +36,23 @@ function BottomNavigation() {
         );
       })}
 
+      {/* =====================================================
+          FAB
+      ===================================================== */}
       <button
         type="button"
         className={styles.addButton}
         onClick={() => {
-          console.log('Je clique');
           navigatePlus('/transactions/new');
         }}
         aria-label="Ajouter une transaction"
       >
-        <Plus size={26} />
+        <Plus size={26} strokeWidth={2} />
       </button>
 
+      {/* =====================================================
+          RIGHT NAVIGATION
+      ===================================================== */}
       {mobileNavigation.slice(2).map((nav) => {
         const Icon = nav.icon;
 
@@ -56,10 +64,14 @@ function BottomNavigation() {
               `${styles.link} ${isActive ? styles.active : ''}`
             }
           >
-            <span className={styles.iconWrapper}>
-              <Icon size={22} />
-            </span>
-            <span>{nav.label}</span>
+            {({ isActive }) => (
+              <>
+                <span className={styles.icon}>
+                  <Icon size={20} strokeWidth={isActive ? 2.4 : 2} />
+                </span>
+                <span className={styles.label}>{nav.label}</span>
+              </>
+            )}
           </NavLink>
         );
       })}

@@ -1,19 +1,23 @@
+/* =========================================================
+   TRANSACTION CARD
+   Carte individuelle d'une transaction
+   ========================================================= */
+
 .cardWrapper {
   width: 100%;
-
-  /* MODIFICATION : la carte ne contient plus de bouton secondaire */
-  padding: 0;
-
   overflow: hidden;
+  padding: var(--space-1);
 }
 
+/* MODIFICATION : chaque transaction possède maintenant
+   sa propre Card avec un espacement visuel entre les cartes */
 .card {
   width: 100%;
-  display: flex;
-  align-items: center;
-
-  padding: var(--space-sm);
 }
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
 
 .content {
   display: flex;
@@ -22,9 +26,9 @@
   width: 100%;
   min-width: 0;
 
-  gap: var(--space-sm);
+  gap: var(--space-3);
 
-  padding: 0;
+  padding: var(--space-3);
 
   border: none;
   background: transparent;
@@ -35,28 +39,29 @@
 
   cursor: pointer;
 
-  transition: opacity var(--transition-fast);
+  transition: background var(--transition-fast);
 }
 
 .content:hover {
-  opacity: 0.85;
+  background: var(--neutral-50);
+  border-radius: var(--radius-lg);
 }
 
 .content:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+  outline: var(--border-width-medium) solid var(--color-brand);
+  outline-offset: -2px;
   border-radius: var(--radius-md);
 }
 
-/* =====================
-   Category icon
-====================== */
+/* =========================================================
+   CATEGORY ICON
+   ========================================================= */
 
 .categoryIcon {
-  flex: 0 0 2.75rem;
+  flex: 0 0 var(--icon-size-2xl);
 
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--icon-size-2xl);
+  height: var(--icon-size-2xl);
 
   display: flex;
   align-items: center;
@@ -64,9 +69,10 @@
 
   border-radius: var(--radius-md);
 
-  /* MODIFICATION : fallback si la catégorie n'a pas de couleur */
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
+  background: var(--forest-50);
+  color: var(--forest-500);
+
+  font-size: var(--text-lg);
 
   transition:
     transform var(--transition-fast),
@@ -78,9 +84,9 @@
   filter: saturate(1.1);
 }
 
-/* =====================
-   Transaction information
-====================== */
+/* =========================================================
+   TRANSACTION INFORMATION
+   ========================================================= */
 
 .info {
   display: flex;
@@ -93,13 +99,16 @@
 }
 
 .description {
+  margin: 0;
+
   overflow: hidden;
 
   color: var(--color-text);
 
-  font-size: var(--font-size-h3);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
+
+  line-height: var(--leading-tight);
 
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -108,97 +117,104 @@
 .category {
   overflow: hidden;
 
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
 
-  font-size: var(--font-size-caption);
-  line-height: var(--line-height-normal);
+  font-size: var(--text-xs);
+
+  line-height: var(--leading-normal);
 
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* =====================
-   Amount + date
-====================== */
+/* =========================================================
+   AMOUNT + DATE
+   ========================================================= */
 
 .meta {
   flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
-
   align-items: flex-end;
 
   gap: 2px;
 
-  margin-left: var(--space-sm);
+  margin-left: var(--space-2);
 }
 
-.amount {
-  font-size: var(--font-size-small);
+.expense,
+.income,
+.transfer {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
 
-  line-height: var(--line-height-tight);
+  line-height: var(--leading-tight);
 
   white-space: nowrap;
 }
 
 .expense {
-  color: var(--color-danger-text);
+  color: var(--rose-500);
 }
 
 .income {
-  color: var(--color-success-text);
+  color: var(--emerald-500);
 }
 
 .transfer {
-  color: var(--color-primary);
+  color: var(--catharanthus-500);
 }
 
-/* MODIFICATION : date tertiaire, volontairement discrète */
 .date {
   color: var(--color-text-muted);
 
-  font-size: var(--font-size-caption);
-  line-height: var(--line-height-normal);
+  font-size: var(--text-xs);
+
+  line-height: var(--leading-normal);
 
   white-space: nowrap;
 }
 
-/* =====================
-   Mobile
-====================== */
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-@media (max-width: 48rem) {
-  .card {
-    /* padding: var(--space-xs); */
-    padding: 0;
+@media (max-width: 639px) {
+  .content {
+    gap: var(--space-3);
+    padding: var(--space-3);
   }
 
   .categoryIcon {
-    flex-basis: 2.5rem;
+    flex-basis: var(--icon-size-xl);
 
-    width: 2.5rem;
-    height: 2.5rem;
+    width: var(--icon-size-xl);
+    height: var(--icon-size-xl);
+
+    border-radius: var(--radius-md);
   }
 
   .description {
-    font-size: var(--font-size-small);
+    font-size: var(--text-sm);
   }
 
   .category {
-    font-size: var(--font-size-caption);
+    font-size: var(--text-xs);
   }
 
   .meta {
-    margin-left: var(--space-xs);
+    margin-left: var(--space-1);
   }
 
-  .amount {
-    font-size: var(--font-size-small);
+  .expense,
+  .income,
+  .transfer {
+    font-size: var(--text-xs);
   }
 
   .date {
-    font-size: var(--font-size-caption);
+    font-size: var(--text-xs);
   }
 }

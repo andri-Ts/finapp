@@ -80,7 +80,6 @@ function DashboardPage() {
           </Link>
         }
       >
-        {/* mockTransactions doit être remplacer par les données du mois en cours envoer par l'api */}
         <TransactionList
           transactions={displayedTransactions}
           onEdit={handleEdit}

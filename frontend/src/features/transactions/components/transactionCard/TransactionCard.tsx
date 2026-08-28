@@ -28,7 +28,7 @@ function TransactionCard({
     : null;
 
   return (
-    <Card>
+    <Card className={styles.cardWrapper}>
       <article className={styles.card}>
         <button
           type="button"
@@ -62,7 +62,7 @@ function TransactionCard({
               ================================================= */}
           <div className={styles.info}>
             <p className={styles.description}>
-              {transaction.description || '(Sans descritption)'}
+              {transaction.description || '(Sans description)'}
             </p>
             {isTransfer ? (
               <span className={styles.category}>

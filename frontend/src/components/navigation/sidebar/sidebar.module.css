@@ -1,119 +1,133 @@
-.sidebar {
-  display: flex;
-  flex-direction: column;
+/* =========================================================
+   SIDEBAR — Desktop Navigation
+   Catharanthus-950 background, items avec active gradient
+=========================================================== */
 
+.sidebar {
+  display: none;
+  flex-direction: column;
+  background-color: var(--catharanthus-950);
+  border-right: 1px solid var(--catharanthus-900);
+  padding: var(--space-6) 0;
   width: var(--sidebar-width);
   height: 100vh;
-
-  position: sticky;
-  top: 0;
-
-  flex-shrink: 0;
-
-  padding: var(--space-lg) var(--space-md);
-
-  background-color: var(--color-surface);
-  border-right: 1px solid var(--color-border-subtle);
-
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
+/* Show on desktop */
+@media (min-width: 1025px) {
+  .sidebar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: var(--z-fixed);
+  }
+}
+
+/* ─────────────────────────────────────────
+   Logo
+───────────────────────────────────────── */
 .logo {
-  padding: 0 var(--space-sm);
-  margin-bottom: var(--space-2xl);
-
-  color: var(--color-text);
-  font-size: var(--font-size-h2);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
   font-weight: var(--font-weight-bold);
+  color: var(--white);
+  padding: 0 var(--space-6);
+  margin-bottom: var(--space-8);
+  cursor: pointer;
+  transition: color var(--transition-base);
+  font-style: italic;
   line-height: var(--line-height-tight);
-  letter-spacing: -0.02em;
 }
 
+.logo:hover {
+  color: var(--catharanthus-300);
+}
+
+/* ─────────────────────────────────────────
+   Navigation List
+───────────────────────────────────────── */
 .navigation {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 0;
+  padding: 0 var(--space-3);
 }
 
 .link {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-
-  width: 100%;
-  min-height: 3rem;
-
-  padding: var(--space-sm) var(--space-md);
-
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin: var(--space-1) 0;
   border-radius: var(--radius-md);
-
-  color: var(--color-text-muted);
-  font-size: var(--font-size-small);
+  color: var(--catharanthus-300);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
-
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
 }
 
 .link:hover {
-  color: var(--color-text);
-  background-color: var(--color-surface-hover);
+  background-color: rgba(176, 91, 155, 0.1);
+  color: var(--catharanthus-200);
 }
 
-.active {
-  color: var(--color-primary);
-  background-color: var(--color-primary-soft);
+.link.active {
+  background: linear-gradient(
+    90deg,
+    var(--catharanthus-500),
+    var(--catharanthus-600)
+  );
+  color: var(--white);
   font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-brand);
 }
 
-.link:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+.link svg {
+  flex-shrink: 0;
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
 }
 
-/* =====================
-   Ajouter une transaction
-====================== */
-
+/* ─────────────────────────────────────────
+   Add Transaction Button
+───────────────────────────────────────── */
 .addButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
 
-  width: 100%;
-  min-height: 3rem;
-
-  margin-top: auto;
-  margin-bottom: var(--space-lg);
-
-  padding: var(--space-sm) var(--space-md);
-
+  gap: var(--space-2);
+  margin: var(--space-6) var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-4);
+  background: linear-gradient(
+    135deg,
+    var(--catharanthus-500),
+    var(--catharanthus-600)
+  );
   border: none;
-  border-radius: var(--radius-md);
-
-  background-color: var(--color-primary);
-  color: var(--color-text-inverse);
-
-  font-family: var(--font-family);
-  font-size: var(--font-size-small);
+  border-radius: var(--radius-lg);
+  color: var(--white);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
-
   cursor: pointer;
-
-  box-shadow: var(--shadow-sm);
-
-  transition:
-    background-color var(--transition-fast),
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-brand);
+  font-family: var(--font-body);
+  white-space: nowrap;
 }
 
 .addButton:hover {
-  background-color: var(--color-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-brand-lg);
+  transform: translateY(-2px);
 }
 
 .addButton:active {
@@ -121,73 +135,74 @@
 }
 
 .addButton:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 3px;
+  outline: 2px solid var(--catharanthus-300);
+  outline-offset: 2px;
 }
 
-/* =====================
-   Profil
-====================== */
+.addButton svg {
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
+  flex-shrink: 0;
+}
 
+/* ─────────────────────────────────────────
+   Profile Section
+───────────────────────────────────────── */
 .profile {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: var(--space-xs);
-
-  padding-top: var(--space-lg);
-
-  border-top: 1px solid var(--color-border-subtle);
-
-  font-size: var(--font-size-small);
+  border-top: 1px solid var(--catharanthus-900);
+  padding: var(--space-6) var(--space-3);
+  margin-top: auto;
 }
 
 .profile p {
-  margin: 0;
-  padding: 0 var(--space-md);
-
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.profile a {
-  color: var(--color-text-muted);
-  transition: color var(--transition-fast);
-}
-
-.profile a:hover {
-  color: var(--color-primary);
+  letter-spacing: 0.1em;
+  color: var(--catharanthus-400);
+  margin-bottom: var(--space-3);
+  padding: 0 var(--space-4);
 }
 
 .logoutButton {
-  width: fit-content;
-  align-self: flex-start;
-
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: var(--space-sm);
-
-  padding-left: var(--space-md);
-  padding-right: var(--space-md);
-
-  color: var(--color-text-muted);
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--catharanthus-300);
+  font-size: var(--text-sm);
+  transition: all var(--transition-base);
 }
 
 .logoutButton:hover {
-  color: var(--color-danger-text);
-  background-color: var(--color-danger-background);
+  background-color: rgba(176, 91, 155, 0.1);
+  color: var(--rose-400);
 }
 
-/* =====================
-   Mobile
-====================== */
+.logoutButton:focus-visible {
+  outline: 2px solid var(--catharanthus-300);
+  outline-offset: 2px;
+}
 
-@media (max-width: 48rem) {
-  .sidebar {
-    display: none;
-  }
+/* ─────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────── */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--catharanthus-700);
+  border-radius: var(--radius-full);
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--catharanthus-500);
 }

@@ -1,53 +1,68 @@
 /* =========================================================
    STAT CARD
-   Petites cartes pour revenus/dépenses du mois
-   Variants: success (vert) et danger (rouge)
-=========================================================== */
+   Revenus / dépenses du mois
+========================================================= */
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
+
+  min-width: 0;
+
   position: relative;
 }
 
+/* =========================================================
+   Title
+========================================================= */
+
 .title {
-  font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
   margin: 0;
+
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+
+  color: var(--color-text-muted);
 }
 
+/* =========================================================
+   Value
+========================================================= */
+
 .value {
-  font-family: var(--font-mono);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.1;
   margin: 0;
+
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+
+  line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
-/* Variant: Success (Income / Revenus) */
+/* =========================================================
+   Variants
+========================================================= */
+
 .success {
-  color: var(--forest-500);
+  color: var(--emerald-500);
 }
 
-/* Variant: Danger (Expense / Dépenses) */
 .danger {
   color: var(--rose-500);
 }
 
-/* Mobile */
+/* =========================================================
+   Mobile
+========================================================= */
+
 @media (max-width: 768px) {
   .card {
-    gap: var(--space-2);
+    padding: var(--space-4);
   }
 
   .value {
-    font-size: var(--text-xl);
-  }
-
-  .title {
-    font-size: var(--text-xs);
+    font-size: var(--text-lg);
   }
 }
