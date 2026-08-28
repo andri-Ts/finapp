@@ -22,7 +22,7 @@ function EditAccountPage() {
 
       try {
         const data = await getAccount(id);
-        setAccount(data);
+        setAccount(data.account);
       } catch (error) {
         console.error('Erreur lors du chargement du compte: ', error);
       } finally {
