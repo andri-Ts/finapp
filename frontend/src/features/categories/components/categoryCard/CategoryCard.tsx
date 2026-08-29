@@ -14,7 +14,7 @@ interface CategoryCardProps {
 
 function CategoryCard({
   category,
-  onEdit,
+  /*onEdit,*/
   onClick /*onArchive*/,
 }: CategoryCardProps) {
   const CategoryIcon = category?.icon ? categoryIcons[category.icon] : null;
