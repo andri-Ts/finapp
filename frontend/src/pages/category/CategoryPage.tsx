@@ -9,9 +9,7 @@ import {
   getAllCategory,
 } from '@/features/categories/api/categoryApi';
 import { useNavigate } from 'react-router-dom';
-// import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
-// import { queryClient } from '@/lib/queryClient';
 import CategoryTabs from '@/features/categories/components/categoryTabs';
 import { useState } from 'react';
 import CategorySummary from '@/features/categories/components/categorySummary';
@@ -50,22 +48,6 @@ function CategoryPage() {
     queryFn: getDashboard,
   });
 
-  // const archiveMutation = useMutation({
-  //   mutationFn: archiveCategory,
-
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ['categories'],
-  //     });
-  //     toast.success('Catégories archivées avec succes');
-  //   },
-
-  //   onError: (error) => {
-  //     console.error("Erreur lors de l'archivage de la catégorie :", error);
-  //     toast.error("Impossible d'archiver la catégorie");
-  //   },
-  // });
-
   // =========================================================
   // Fonctions
   // =========================================================
@@ -86,6 +68,10 @@ function CategoryPage() {
 
   const handleEditCategory = (id: string) => {
     navigate(`/categories/${id}/edit`);
+  };
+
+  const handleClick = (id: string) => {
+    navigate(`/categories/${id}`);
   };
 
   // const handleArchiveCategory = async (id: string) => {
@@ -152,6 +138,7 @@ function CategoryPage() {
       <CategoryList
         categories={displayedCategories}
         onEdit={handleEditCategory}
+        onClick={handleClick}
         // onArchive={handleArchiveCategory}
       />
     </section>

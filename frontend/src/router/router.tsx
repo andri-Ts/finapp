@@ -41,6 +41,10 @@ export const myRouter = createBrowserRouter([
             element: <CategoryPage />,
           },
           {
+            path: '/categories/:id',
+            element: <CategoryPage />,
+          },
+          {
             path: '/categories/:id/edit',
             element: <EditCategoryPage />,
           },

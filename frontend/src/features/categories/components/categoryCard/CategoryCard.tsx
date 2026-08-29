@@ -8,10 +8,15 @@ import { formatCurrency } from '@/utils/formatCurrency';
 interface CategoryCardProps {
   category: ICategory;
   onEdit: (id: string) => void;
+  onClick: (id: string) => void;
   // onArchive: (id: string) => void;
 }
 
-function CategoryCard({ category, onEdit /*onArchive*/ }: CategoryCardProps) {
+function CategoryCard({
+  category,
+  onEdit,
+  onClick /*onArchive*/,
+}: CategoryCardProps) {
   const CategoryIcon = category?.icon ? categoryIcons[category.icon] : null;
 
   // const isExpense = category.type === 'EXPENSE';
@@ -22,7 +27,7 @@ function CategoryCard({ category, onEdit /*onArchive*/ }: CategoryCardProps) {
         <button
           type="button"
           className={styles.button}
-          onClick={() => onEdit(category.id)}
+          onClick={() => onClick(category.id)}
         >
           <div
             className={styles.icon}
