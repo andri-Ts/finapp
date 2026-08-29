@@ -31,4 +31,5 @@ export interface ITransaction {
   account: TransactionAccount;
   category: TransactionCategory | null;
   transferDestinationAccount?: TransactionAccount; // propriété nécéssaire uniquement à l'affichage
+  displaySign?: '+' | '-'; // pour les signes pour transfert ou expense ou income
 }

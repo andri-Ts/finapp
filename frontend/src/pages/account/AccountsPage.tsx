@@ -4,7 +4,6 @@ import AccountList from '@/features/accounts/components/accountList';
 // import { useEffect, useState } from 'react';
 import type { IAccount } from '@/types/account.types';
 import {
-  archiveAccount,
   getAllAccount,
   setDefaultAccount,
 } from '@/features/accounts/api/acccountApi';
@@ -25,22 +24,7 @@ function AccountsPage() {
     queryFn: getAllAccount,
   });
 
-  const accounts: IAccount[] = data?.accounts ?? []; // si data n'est pas dispon, on revoie tab vide
-
-  // mutation pour archiver un compte
-  const archiveMutation = useMutation({
-    mutationFn: archiveAccount,
-
-    onSuccess: (message) => {
-      queryClient.invalidateQueries({ queryKey: ['accounts'] }); // une fois archiver, on invalide la liste des comptes (du cache)
-      toast.success(message);
-    },
-
-    onError: (error) => {
-      console.error("Erreur lors de l'archivage :", error);
-      toast.error("Impossible d'archiver le compte");
-    },
-  });
+  const accounts: IAccount[] = data?.accounts ?? []; // si data n'est pas dispon, on revoie tab vid
 
   // mutation pour définir compte par défaut
   const defaultMutation = useMutation({
@@ -66,12 +50,6 @@ function AccountsPage() {
   // =========================================================
   // Handlers
   // =========================================================
-
-  const handleArchiveAccount = async (id: string) => {
-    // On ne modifie plus directement le tableau accounts.
-    // On demande à la mutation d'appeler l'API.
-    archiveMutation.mutate(id);
-  };
 
   const handleSetDefault = async (id: string) => {
     defaultMutation.mutate(id);
@@ -103,7 +81,6 @@ function AccountsPage() {
 
       <AccountList
         accounts={accounts}
-        onArchive={handleArchiveAccount}
         onSetDefault={handleSetDefault}
         onClick={handleAccountClick}
       />

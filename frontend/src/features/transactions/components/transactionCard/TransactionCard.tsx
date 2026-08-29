@@ -27,6 +27,9 @@ function TransactionCard({
     ? categoryIcons[transaction.category.icon]
     : null;
 
+  const displaySign =
+    transaction.displaySign ?? (isExpense ? '-' : isIncome ? '+' : '');
+
   return (
     <Card className={styles.cardWrapper}>
       <article className={styles.card}>
@@ -94,9 +97,9 @@ function TransactionCard({
                     : styles.transfer
               }
             >
-              {isExpense && '-'}
-              {isIncome && '+'}
-              {/* Un transfert n'a pas de signe */}
+              {/* Signe pour expense/income */}
+              {displaySign}
+
               {formatCurrency(transaction.amount)}
             </strong>
             <span className={styles.date}>

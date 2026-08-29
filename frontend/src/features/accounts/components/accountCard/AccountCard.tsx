@@ -7,7 +7,6 @@ import { formatCurrency } from '@/utils/formatCurrency';
 
 interface AccountCardProps {
   account: IAccount;
-  onArchive: (id: string) => void;
   onSetDefault: (id: string) => void;
   onClick: (id: string) => void;
 }
