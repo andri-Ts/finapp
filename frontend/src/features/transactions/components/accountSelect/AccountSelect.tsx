@@ -1,4 +1,3 @@
-import DropdownSelect from '@/components/forms/dropdownSelect';
 import styles from './accountSelect.module.css';
 import { getAllAccount } from '@/features/accounts/api/acccountApi';
 // import { mockAccounts } from '@/mocks/accounts.mock';
@@ -41,7 +40,7 @@ function AccountSelect({ value, onChange, error }: AccountSelectProps) {
     );
   }
 
-  const selectedAccount = accounts.find((account) => account.id === value);
+  //const selectedAccount = accounts.find((account) => account.id === value);
 
   return (
     <Select
