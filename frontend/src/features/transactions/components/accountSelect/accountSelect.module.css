@@ -1,0 +1,53 @@
+/* ==========================================
+   COMPTE
+========================================== */
+
+.accountItem {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-sm);
+}
+
+.accountName {
+  min-width: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: var(--color-text);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.accountBalance {
+  flex-shrink: 0;
+
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 767px) {
+  .accountItem {
+    gap: var(--space-xs);
+  }
+
+  .accountName {
+    font-size: var(--font-size-body);
+  }
+
+  .accountBalance {
+    font-size: var(--font-size-small);
+  }
+}

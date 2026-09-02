@@ -1,16 +1,17 @@
 .container {
   width: 100%;
-
   display: flex;
   flex-direction: column;
-
-  gap: var(--space-xs);
+  gap: var(--space-2); /* MODIFICATION */
 }
 
 .label {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
+  display: block; /* MODIFICATION */
+  font-size: var(--text-xs); /* MODIFICATION */
+  font-weight: 700; /* MODIFICATION */
+  color: var(--neutral-600); /* MODIFICATION */
+  letter-spacing: 0.04em; /* MODIFICATION */
+  text-transform: uppercase; /* MODIFICATION */
 }
 
 /* ==========================================
@@ -19,12 +20,10 @@
 
 .grid {
   width: 100%;
-
   display: grid;
-
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: var(--space-xs);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  justify-items: center; /* MODIFICATION */
 }
 
 /* ==========================================
@@ -32,28 +31,28 @@
 ========================================== */
 
 .category {
-  min-width: 0;
+  width: 70px;
+  height: 70px;
+  aspect-ratio: 1 / 1;
 
-  min-height: 58px;
+  min-width: 0;
+  min-height: 0;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  gap: 3px;
+  gap: 4px; /* MODIFICATION */
 
-  padding: 4px;
-
+  padding: var(--space-2);
   box-sizing: border-box;
 
-  background: var(--color-surface);
+  background: var(--white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
 
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-
-  color: var(--color-text);
-
+  color: var(--neutral-900);
   cursor: pointer;
 
   transition:
@@ -64,12 +63,15 @@
 }
 
 .category:hover {
-  border-color: var(--color-primary);
-  background: var(--color-secondary);
+  /* MODIFICATION */
+  border-color: var(--forest-300);
+
+  /* MODIFICATION */
+  background: var(--forest-50);
 }
 
 .category:active {
-  transform: scale(0.98);
+  transform: scale(0.97); /* MODIFICATION */
 }
 
 /* ==========================================
@@ -77,11 +79,14 @@
 ========================================== */
 
 .selected {
-  border-color: var(--color-primary);
+  /* MODIFICATION */
+  border-color: var(--forest-500);
 
-  background: var(--color-secondary);
+  /* MODIFICATION */
+  background: var(--forest-50);
 
-  box-shadow: 0 0 0 2px var(--color-primary);
+  /* MODIFICATION : anneau doux du Design System */
+  box-shadow: 0 0 0 3px rgba(46, 128, 80, 0.15);
 }
 
 /* ==========================================
@@ -89,18 +94,17 @@
 ========================================== */
 
 .icon {
-  width: 28px;
-  height: 28px;
-
-  flex-shrink: 0;
+  width: 28px; /* MODIFICATION */
+  height: 28px; /* MODIFICATION */
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
+  border-radius: var(--radius-md);
 
-  font-size: 15px;
+  /* MODIFICATION : icône suffisamment visible */
+  font-size: 1.4rem;
 }
 
 /* ==========================================
@@ -116,10 +120,14 @@
 
   text-align: center;
 
-  font-size: 11px;
-  line-height: 1.1;
+  font-size: 9px; /* MODIFICATION */
+  line-height: 1;
+  font-weight: 600;
+}
 
-  font-weight: var(--font-weight-medium);
+.selected .name {
+  /* MODIFICATION */
+  color: var(--forest-600);
 }
 
 /* ==========================================
@@ -127,8 +135,11 @@
 ========================================== */
 
 .error {
-  color: var(--color-danger-text);
-  font-size: var(--font-size-small);
+  /* MODIFICATION */
+  color: var(--rose-500);
+
+  /* MODIFICATION */
+  font-size: var(--text-xs);
 }
 
 /* ==========================================
@@ -137,22 +148,29 @@
 
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-sm);
+    /* MODIFICATION : on conserve une grille compacte */
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: var(--space-3);
   }
 
   .category {
-    min-height: 70px;
-    padding: var(--space-sm);
-    gap: var(--space-xs);
+    /* MODIFICATION */
+    min-height: 72px;
+
+    padding: var(--space-3);
+
+    gap: var(--space-2);
   }
 
   .icon {
+    /* MODIFICATION */
     width: 36px;
     height: 36px;
   }
 
   .name {
-    font-size: var(--font-size-small);
+    /* MODIFICATION */
+    font-size: var(--text-xs);
   }
 }

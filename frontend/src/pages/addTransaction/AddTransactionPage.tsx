@@ -4,7 +4,7 @@ import TransactionForm from '@/features/transactions/components/transactionForm'
 
 function AddTransactionPage() {
   return (
-    <section className={styles.page}>
+    <section className={`${styles.page} ${styles.fullscreen}`}>
       <PageHeader title="Nouvelle transaction" />
 
       <TransactionForm />

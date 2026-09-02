@@ -19,7 +19,8 @@ import type { ITransaction } from '@/types/transaction.types';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
-import { CalendarDays } from 'lucide-react';
+import { ArrowDown, CalendarDays } from 'lucide-react';
+import AccountPicker from '../accountPicker';
 
 interface ITransactionFormProps {
   // Si présent → mode édition
@@ -112,7 +113,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
       });
 
-      toast.success('Transaction ajoutés');
+      toast.success('Transaction ajoutée');
       navigate('/');
     },
 
@@ -248,21 +249,19 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       ========================== */}
 
       {selectedType !== 'TRANSFER' && (
-        <>
-          <div className={styles.categoryField}>
-            <CategorySelect
-              value={selectedCategoryId}
-              onChange={(value) =>
-                setValue('categoryId', value, { shouldValidate: true })
-              }
-              type={selectedType}
-            />
+        <div className={styles.categoryField}>
+          <CategorySelect
+            value={selectedCategoryId}
+            onChange={(value) =>
+              setValue('categoryId', value, { shouldValidate: true })
+            }
+            type={selectedType}
+          />
 
-            {errors.categoryId && (
-              <span className={styles.error}>{errors.categoryId.message}</span>
-            )}
-          </div>
-        </>
+          {errors.categoryId && (
+            <span className={styles.error}>{errors.categoryId.message}</span>
+          )}
+        </div>
       )}
 
       {/* =========================
@@ -270,16 +269,13 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       ========================== */}
       {selectedType !== 'TRANSFER' && (
         <div className={styles.accountField}>
-          <AccountSelect
+          <AccountPicker
             value={selectedAccountId}
             onChange={(value) =>
               setValue('accountId', value, { shouldValidate: true })
             }
+            error={errors.accountId?.message}
           />
-
-          {errors.accountId && (
-            <span className={styles.error}>{errors.accountId.message}</span>
-          )}
         </div>
       )}
 
@@ -289,18 +285,16 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {selectedType === 'TRANSFER' && (
         <div className={styles.transferFields}>
           <div className={styles.accountField}>
-            <AccountSelect
+            <AccountPicker
               value={selectedSourceAccountId ?? ''}
               onChange={(value) =>
                 setValue('sourceAccountId', value, { shouldValidate: true })
               }
+              error={errors.sourceAccountId?.message}
             />
-
-            {errors.sourceAccountId && (
-              <span className={styles.error}>
-                {errors.sourceAccountId.message}
-              </span>
-            )}
+          </div>
+          <div className={styles.transferArrow}>
+            <ArrowDown size={18} />
           </div>
 
           <div className={styles.accountField}>
@@ -315,7 +309,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
 
             {errors.destinationAccountId && (
               <span className={styles.error}>
-                {errors.destinationAccountId.message}
+                {errors.destinationAccountId?.message}
               </span>
             )}
           </div>
@@ -362,7 +356,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
           id="description"
           type="text"
           {...register('description')}
-          placeholder="Ex. Restaurant"
+          placeholder="Ex.Déjeuner avec Julie"
         />
 
         {errors.description && (
@@ -397,7 +391,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         {issaving
           ? 'Enregistrement...'
           : transaction
-            ? 'Modifier la transaciton'
+            ? 'Modifier la transaction'
             : 'Enregistrer'}
       </Button>
     </form>

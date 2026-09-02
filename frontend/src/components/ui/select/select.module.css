@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2);
 }
 
 /* =====================================================
@@ -9,10 +9,16 @@
 ===================================================== */
 
 .label {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  color: var(--color-text);
+  display: block;
+
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1.4;
+
+  color: var(--neutral-600);
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* =====================================================
@@ -26,19 +32,19 @@
 
 .select {
   width: 100%;
-  min-height: var(--touch-target-min);
+  min-height: 44px;
 
-  padding: var(--space-sm) 2.75rem var(--space-sm) var(--space-md);
+  padding: 10px var(--space-10) 10px var(--space-4);
 
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
 
-  background-color: var(--color-surface);
-  color: var(--color-text);
+  background-color: var(--white);
+  color: var(--neutral-900);
 
-  font-family: var(--font-family);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-normal);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
 
   cursor: pointer;
 
@@ -49,8 +55,6 @@
     box-shadow var(--transition-fast),
     background-color var(--transition-fast);
 
-  /* MODIFICATION : on laisse le navigateur gérer
-     le comportement natif du select. */
   appearance: auto;
 }
 
@@ -59,7 +63,7 @@
 ===================================================== */
 
 .select:hover:not(:focus):not(:disabled) {
-  border-color: var(--color-text-muted);
+  border-color: var(--neutral-400);
 }
 
 /* =====================================================
@@ -68,8 +72,10 @@
 
 .select:focus {
   outline: none;
-  border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 3px var(--color-primary-soft);
+
+  border-color: var(--forest-400);
+
+  box-shadow: 0 0 0 3px rgba(46, 128, 80, 0.12);
 }
 
 /* =====================================================
@@ -77,22 +83,28 @@
 ===================================================== */
 
 .select:disabled {
-  background-color: var(--color-surface-hover);
-  color: var(--color-text-muted);
+  background-color: var(--neutral-50);
+  color: var(--neutral-400);
+
   cursor: not-allowed;
+
+  opacity: 0.5;
 }
 
 /* =====================================================
    ERROR
 ===================================================== */
 
-.error {
-  border-color: var(--color-danger);
+.select.error {
+  border-color: var(--rose-500);
+
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
 }
 
-.error:focus {
-  border-color: var(--color-danger);
-  box-shadow: 0 0 0 3px var(--color-danger-background);
+.select.error:focus {
+  border-color: var(--rose-500);
+
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
 }
 
 /* =====================================================
@@ -100,19 +112,23 @@
 ===================================================== */
 
 .errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
   margin: 0;
 
-  color: var(--color-danger-text);
+  color: var(--rose-500);
 
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-normal);
+  font-size: var(--text-xs);
+  line-height: 1.5;
 }
 
 .helperText {
   margin: 0;
 
-  color: var(--color-text-secondary);
+  color: var(--neutral-400);
 
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-normal);
+  font-size: var(--text-xs);
+  line-height: 1.5;
 }

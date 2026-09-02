@@ -11,10 +11,31 @@
 
 .page {
   width: 100%;
-  padding: var(--space-lg);
-
-  /* Le formulaire peut grandir avec la largeur disponible, mais s'arrête à cette largeur. */
-  width: min(100%, var(--layout-form-max-width));
-
+  max-width: var(--layout-form-max-width);
   margin: 0 auto;
+
+  /* MODIFICATION : la page utilise toute la hauteur disponible */
+  min-height: 100%;
+
+  /* MODIFICATION : layout vertical */
+  display: flex;
+  flex-direction: column;
+
+  /* MODIFICATION : padding mobile plus compact */
+  padding: var(--space-3) var(--space-4);
+
+  box-sizing: border-box;
+}
+
+.fullscreen {
+  /* MODIFICATION : la page de transaction doit pouvoir
+     occuper toute la hauteur disponible */
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  .page {
+    /* MODIFICATION : on retrouve plus d'espace sur desktop */
+    padding: var(--space-6);
+  }
 }
