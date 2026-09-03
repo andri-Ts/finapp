@@ -1,5 +1,9 @@
 import api from '@/lib/api';
-import type { CategoryType, ICategory } from '@/types/category.types';
+import type {
+  CategoryType,
+  ICategory,
+  ICategoryDetailResponse,
+} from '@/types/category.types';
 
 interface ICategoryResponse {
   categories: ICategory[];
@@ -18,10 +22,12 @@ export async function getAllCategory(): Promise<ICategoryResponse> {
   return response.data;
 }
 
-export async function getCategory(id: string): Promise<ICategory> {
+export async function getCategory(
+  id: string,
+): Promise<ICategoryDetailResponse> {
   const response = await api.get(`/categories/${id}`);
 
-  return response.data.category;
+  return response.data;
 }
 
 export async function updateCategory(

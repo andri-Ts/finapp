@@ -87,13 +87,47 @@ export async function getAllCategorieService(userId: string) {
 }
 
 export async function getCategoryService(userId: string, categoryId: string) {
-  return await prisma.category.findFirst({
+  const category = await prisma.category.findFirst({
     where: {
       userId,
       id: categoryId,
       archived: false,
     },
   });
+  if (!category) throw new Error(ERRORS.CATEGORY_NOT_FOUND);
+
+  const transactions = await prisma.transaction.findMany({
+    where: {
+      categoryId: category.id,
+      account: {
+        userId,
+        archived: false,
+      },
+    },
+    include: {
+      account: {
+        select: {
+          id: true,
+          name: true,
+          icon: true,
+          color: true,
+        },
+      },
+      category: {
+        select: {
+          id: true,
+          name: true,
+          icon: true,
+          color: true,
+        },
+      },
+    },
+    orderBy: {
+      transactionDate: 'desc',
+    },
+  });
+
+  return { category, transactions };
 }
 
 export async function updateCategoryService(

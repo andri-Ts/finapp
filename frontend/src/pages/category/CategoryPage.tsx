@@ -1,8 +1,6 @@
 import PageHeader from '@/components/layout/pageHeader';
 import styles from './categoryPage.module.css';
 import CategoryList from '@/features/categories/components/categoryList';
-// import { mockCategories } from '@/mocks/categories.mock';
-// import { useEffect, useState } from 'react';
 import type { CategoryType, ICategory } from '@/types/category.types';
 import {
   // archiveCategory,

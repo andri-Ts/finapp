@@ -57,10 +57,16 @@ export async function getCategory(req: Request, res: Response) {
       return res.status(401).json({ message: 'Utilisateur non authentifié' });
     }
 
-    const category = await getCategoryService(userId, categoryId);
+    const data = await getCategoryService(userId, categoryId);
 
-    return res.status(200).json({ category });
+    return res.status(200).json(data); // Contient {categorie, transactions}
   } catch (error) {
+    if (error instanceof Error && error.message === ERRORS.CATEGORY_NOT_FOUND) {
+      return res.status(404).json({
+        message: 'Catégorie introuvable',
+      });
+    }
+
     console.error(error);
 
     return res.status(500).json('Erreur serveur');

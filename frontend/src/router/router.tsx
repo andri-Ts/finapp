@@ -15,6 +15,7 @@ import AuthLayout from '@/layouts/authLayout/AuthLayout';
 import RegisterPage from '@/pages/register/RegisterPage';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import AccountDetailPage from '@/pages/accountDetailPage/AccountDetailPage';
+import CategoryDetailPage from '@/pages/categoryDetail/CategoryDetailPage';
 
 export const myRouter = createBrowserRouter([
   // Route protéger, pas accessible sans authentification (via login)
@@ -42,7 +43,7 @@ export const myRouter = createBrowserRouter([
           },
           {
             path: '/categories/:id',
-            element: <CategoryPage />,
+            element: <CategoryDetailPage />,
           },
           {
             path: '/categories/:id/edit',
