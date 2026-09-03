@@ -1,4 +1,4 @@
-import type { ICategory } from '@/types/category.types';
+import type { ICategoryDetail } from '@/types/category.types';
 import styles from './categoryForm.module.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +16,7 @@ import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
 
 interface ICategoryFormProps {
-  category?: ICategory;
+  category?: ICategoryDetail;
 }
 
 function CategoryForm({ category }: ICategoryFormProps) {
