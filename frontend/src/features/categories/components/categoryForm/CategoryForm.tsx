@@ -103,10 +103,6 @@ function CategoryForm({ category }: ICategoryFormProps) {
           color: data.color ?? undefined,
         },
       });
-
-      toast.success('Catégorie modifié avec succes');
-      navigate('/categories');
-      return;
     }
   };
 
