@@ -4,12 +4,12 @@ import CategoryForm from '@/features/categories/components/categoryForm';
 // import { mockCategories } from '@/mocks/categories.mock';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import type { ICategory } from '@/types/category.types';
+import type { ICategoryDetail } from '@/types/category.types';
 import { toast } from 'sonner';
 import { getCategory } from '@/features/categories/api/categoryApi';
 
 function EditCategoryPage() {
-  const [category, setCategory] = useState<ICategory | null>(null);
+  const [category, setCategory] = useState<ICategoryDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
