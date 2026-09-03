@@ -25,7 +25,7 @@ function EditCategoryPage() {
 
       try {
         const data = await getCategory(id);
-        setCategory(data);
+        setCategory(data.category);
       } catch (error) {
         console.error('Erreur lors du chargement de la catégorie : ', error);
 
