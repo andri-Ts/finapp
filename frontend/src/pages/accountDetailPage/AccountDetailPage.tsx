@@ -14,10 +14,13 @@ import type { ITransaction } from '@/types/transaction.types';
 import { Archive, Pencil } from 'lucide-react';
 import { queryClient } from '@/lib/queryClient';
 import { toast } from 'sonner';
+import { useTransactionActions } from '@/features/transactions/hooks/useTransactionActions';
 
 function AccountDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams(); // récupérer l'id cu compte via url
+
+  const { handleEdit, handleDelete } = useTransactionActions();
 
   // Récup les données du compte
   const { data, isLoading, isError } = useQuery({
@@ -42,11 +45,6 @@ function AccountDetailPage() {
       toast.error("Impossible d'archiver le compte");
     },
   });
-
-  // Modifier une transaction
-  const handleEditTransaction = (transactionId: string) => {
-    navigate(`/transactions/${transactionId}/edit`);
-  };
 
   const handleEditAccount = () => {
     if (!id) return;
@@ -137,7 +135,8 @@ function AccountDetailPage() {
       <PageSection title="Transactions du mois">
         <TransactionList
           transactions={displayTransaction}
-          onEdit={handleEditTransaction}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
         />
       </PageSection>
     </section>

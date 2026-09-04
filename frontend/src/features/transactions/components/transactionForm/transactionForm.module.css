@@ -589,6 +589,57 @@
   width: 100%;
 }
 
+.actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.actions > button:first-child {
+  flex: 1;
+}
+
+.deleteButton {
+  width: 84px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: transparent;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  color: var(--neutral-400);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+.deleteButton:hover:not(:disabled) {
+  color: var(--rose-500);
+  background: var(--rose-50);
+  border-color: var(--rose-200);
+}
+.deleteButton:focus-visible {
+  outline: 2px solid var(--rose-300);
+  outline-offset: 2px;
+}
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ==========================================
    MOBILE
 ========================================== */

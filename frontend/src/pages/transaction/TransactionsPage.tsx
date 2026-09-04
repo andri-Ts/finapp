@@ -4,17 +4,14 @@ import TransactionList from '@/features/transactions/components/transactionList'
 import Button from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import type { ITransaction } from '@/types/transaction.types';
-import {
-  deleteTransaction,
-  getAllTransactions,
-} from '@/features/transactions/api/transactionApi';
-import { toast } from 'sonner';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { queryClient } from '@/lib/queryClient';
 import { groupTransactionsForDisplay } from '@/utils/groupTransactionsForDisplay';
+import { getAllTransactions } from '@/features/transactions/api/transactionApi';
+import { useQuery } from '@tanstack/react-query';
+import { useTransactionActions } from '@/features/transactions/hooks/useTransactionActions';
 
 function TransactionsPage() {
   const navigate = useNavigate();
+  const { handleEdit, handleDelete } = useTransactionActions();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['transactions'],
@@ -27,43 +24,6 @@ function TransactionsPage() {
 
   // Données préparée UNIQUEMENT POUR L'AFFICHAGE (pour ne pas afficher 2 mêmes transaction pour un transafert)
   const displayedTransactions = groupTransactionsForDisplay(transactions);
-
-  // =====================================================
-  // SUPPRESSION
-  // =====================================================
-  const deleteMutation = useMutation({
-    mutationFn: deleteTransaction, // fonc API appelée pour sup transacion
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['transactions'] }); // indique à tansstack query que les trans ne sont plus à jour
-      queryClient.invalidateQueries({
-        queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
-      });
-
-      toast.success('Transaction supprimée');
-    },
-
-    onError: () => {
-      toast.error('Impossible de supprimer la transaction');
-    },
-  });
-
-  const handleDelete = async (id: string) => {
-    // Demande confirmation avant de supprimer définitivement la transaction.
-    const confirmed = window.confirm(
-      'Êtes-vous sûr de vouloir supprimer cette transaction ?',
-    );
-    // Si l'utilisateur annule, on ne fait rien.
-    if (!confirmed) {
-      return;
-    }
-
-    deleteMutation.mutate(id);
-  };
-
-  const handleEdit = (id: string) => {
-    navigate(`/transactions/${id}/edit`);
-  };
 
   if (isLoading) {
     return <p>Chargement...</p>;

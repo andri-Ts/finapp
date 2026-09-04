@@ -3,14 +3,15 @@ import styles from './dashboard.module.css';
 import StatCard from '@/features/dashboard/components/StatCard';
 import BalanceCard from '@/features/dashboard/components/balanceCard';
 import PageSection from '@/components/layout/pageSection';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TransactionList from '@/features/transactions/components/transactionList';
 import { getDashboard } from '@/features/dashboard/api/dashboardApi';
 import { useQuery } from '@tanstack/react-query';
 import { groupTransactionsForDisplay } from '@/utils/groupTransactionsForDisplay';
+import { useTransactionActions } from '@/features/transactions/hooks/useTransactionActions';
 
 function DashboardPage() {
-  const navigate = useNavigate();
+  const { handleDelete, handleEdit } = useTransactionActions();
 
   const {
     data: dashboard,
@@ -21,11 +22,7 @@ function DashboardPage() {
     queryFn: getDashboard,
   });
 
-  console.log('dashboard data:', dashboard);
-
-  const handleEdit = (id: string) => {
-    navigate(`/transactions/${id}/edit`);
-  };
+  // console.log('dashboard data:', dashboard);
 
   if (isLoading) {
     return <p>Chargement...</p>;
@@ -79,6 +76,7 @@ function DashboardPage() {
         <TransactionList
           transactions={displayedTransactions}
           onEdit={handleEdit}
+          onDelete={handleDelete}
         />
       </PageSection>
     </section>

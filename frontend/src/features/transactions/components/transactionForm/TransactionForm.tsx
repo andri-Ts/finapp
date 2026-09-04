@@ -19,8 +19,9 @@ import type { ITransaction } from '@/types/transaction.types';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
-import { ArrowDown, CalendarDays } from 'lucide-react';
+import { ArrowDown, CalendarDays, SquarePen, Trash2 } from 'lucide-react';
 import AccountPicker from '../accountPicker';
+import { useTransactionActions } from '../../hooks/useTransactionActions';
 
 interface ITransactionFormProps {
   // Si présent → mode édition
@@ -61,6 +62,8 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     },
   });
   const navigate = useNavigate();
+
+  const { handleDelete, isDeleting } = useTransactionActions();
 
   /*
    * watch('amount'): "Donne-moi la valeur actuelle de amount."
@@ -386,14 +389,33 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {/* =========================
       SUBMIT
       ========================== */}
+      <div className={styles.actions}>
+        <Button type="submit" disabled={issaving}>
+          {issaving ? (
+            'Enregistrement...'
+          ) : transaction ? (
+            <>
+              <SquarePen size={18} />
+              Modifiier la transaction
+            </>
+          ) : (
+            'Enregistrer'
+          )}
+        </Button>
 
-      <Button type="submit" disabled={issaving}>
-        {issaving
-          ? 'Enregistrement...'
-          : transaction
-            ? 'Modifier la transaction'
-            : 'Enregistrer'}
-      </Button>
+        {transaction && (
+          <button
+            type="button"
+            className={styles.deleteButton}
+            onClick={() => handleDelete(transaction.id)}
+            disabled={isDeleting || issaving}
+            aria-label="Supprimer la transaction"
+            title="Supprimer la transaction"
+          >
+            <Trash2 size={18} />
+          </button>
+        )}
+      </div>
     </form>
   );
 }

@@ -1,21 +1,23 @@
 import PageHeader from '@/components/layout/pageHeader';
 import styles from './categoryDetailPage.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getCategory } from '@/features/categories/api/categoryApi';
 import PageSection from '@/components/layout/pageSection';
 import TransactionList from '@/features/transactions/components/transactionList';
+import { useTransactionActions } from '@/features/transactions/hooks/useTransactionActions';
 
 function CategoryDetailPage() {
-  const navigate = useNavigate();
   const { id } = useParams();
+
+  const { handleDelete, handleEdit } = useTransactionActions();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['category', id],
     queryFn: () => getCategory(id!),
     enabled: !!id,
   });
-  console.log('categories: ', data);
+  // console.log('categories: ', data);
 
   if (isLoading) {
     return <p>Chargement...</p>;
@@ -26,10 +28,6 @@ function CategoryDetailPage() {
   }
 
   const { category, transactions } = data;
-
-  const handleEdit = (transactionId: string) => {
-    navigate(`/transactions/${transactionId}/edit`);
-  };
 
   return (
     <section className={styles.page}>
@@ -44,7 +42,11 @@ function CategoryDetailPage() {
 
       <div className={styles.transactions}>
         <PageSection title="Transactions">
-          <TransactionList transactions={transactions} onEdit={handleEdit} />
+          <TransactionList
+            transactions={transactions}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </PageSection>
       </div>
     </section>
