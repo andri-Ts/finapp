@@ -17,6 +17,9 @@ export function useTransactionActions() {
       queryClient.invalidateQueries({
         queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
       });
+      queryClient.invalidateQueries({
+        queryKey: ['accounts'], // account page dépends aussi de transactions
+      });
 
       toast.success('Transaction supprimée');
       navigate('/');

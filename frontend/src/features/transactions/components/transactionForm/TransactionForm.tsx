@@ -116,6 +116,10 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ['accounts'], // account page dépends aussi de transactions
+      });
+
       toast.success('Transaction ajoutée');
       navigate('/');
     },
@@ -152,6 +156,9 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       queryClient.invalidateQueries({ queryKey: ['transaction'] }); // invalide également la transaciotn individuelle si elle est mise en cache
       queryClient.invalidateQueries({
         queryKey: ['dashboard'], // dashboard dépent égalememnt des transactions
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['accounts'], // account page dépends aussi de transactions
       });
 
       toast.success('Transaction modifiée');
