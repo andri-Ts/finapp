@@ -224,7 +224,7 @@ export async function getTransactionService(
   transactionId: string,
 ) {
   // findFirst() pour des recherches avec plusieurs filtres
-  return prisma.transaction.findFirst({
+  const transaction = await prisma.transaction.findFirst({
     where: {
       id: transactionId,
       account: {
@@ -251,6 +251,38 @@ export async function getTransactionService(
       },
     },
   });
+
+  if (!transaction) return null;
+
+  if (transaction.type === 'TRANSFER' && transaction.transferGroupId) {
+    const destinationTransaction = await prisma.transaction.findFirst({
+      where: {
+        transferGroupId: transaction.transferGroupId,
+        transferRole: 'DESTINATION',
+        account: {
+          userId,
+          archived: false,
+        },
+      },
+      include: {
+        account: {
+          select: {
+            id: true,
+            name: true,
+            color: true,
+            icon: true,
+          },
+        },
+      },
+    });
+
+    return {
+      ...transaction,
+      transferDestinationAccount: destinationTransaction?.account ?? null,
+    };
+  }
+
+  return transaction;
 }
 
 export async function updateTransactionService(
@@ -262,7 +294,6 @@ export async function updateTransactionService(
     // =====================================================
     // A. RÉCUPÉRER LA TRANSACTION
     // =====================================================
-    // Vérifier que la transaction existe
     const transaction = await tx.transaction.findFirst({
       where: {
         id: transactionId,
@@ -274,6 +305,24 @@ export async function updateTransactionService(
     });
     if (!transaction) {
       throw new Error(ERRORS.TRANSACTION_NOT_FOUND);
+    }
+
+    // PROTECTIONS:
+    // Un transfert ne peut pas changer de type
+    if (
+      transaction.type === TransactionType.TRANSFER &&
+      newData.type !== undefined &&
+      newData.type !== TransactionType.TRANSFER
+    ) {
+      throw new Error(ERRORS.TRANSACTION_TYPE_IMMUTABLE);
+    }
+
+    // Un transaction classique ne peut devenir un transfert
+    if (
+      transaction.type !== TransactionType.TRANSFER &&
+      newData.type === TransactionType.TRANSFER
+    ) {
+      throw new Error(ERRORS.TRANSFER_INVALID);
     }
 
     // =====================================================
@@ -351,29 +400,6 @@ export async function updateTransactionService(
       }
 
       // =====================================================
-      // B2 Récupération des nouveaux comptes
-      // =====================================================
-      const newSourceAccount = await tx.account.findFirst({
-        where: {
-          id: newSourceAccountId,
-          userId,
-          archived: false,
-        },
-      });
-
-      const newDestinationAccount = await tx.account.findFirst({
-        where: {
-          id: newDestinationAccountId,
-          userId,
-          archived: false,
-        },
-      });
-
-      if (!newSourceAccount || !newDestinationAccount) {
-        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
-      }
-
-      // =====================================================
       // B3 Annuler les anciens impacts
       // =====================================================
       await tx.account.update({
@@ -397,6 +423,27 @@ export async function updateTransactionService(
           ),
         },
       });
+
+      // Recharger les 2 comptes APRES l'annulation (maj)
+      const newSourceAccount = await tx.account.findFirst({
+        where: {
+          id: newSourceAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      const newDestinationAccount = await tx.account.findFirst({
+        where: {
+          id: newDestinationAccountId,
+          userId,
+          archived: false,
+        },
+      });
+
+      if (!newSourceAccount || !newDestinationAccount) {
+        throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+      }
 
       // =====================================================
       // B4 Vérifier le nouveau solde
@@ -474,65 +521,100 @@ export async function updateTransactionService(
     }
 
     // =====================================================
-    // A. RÉCUPÉRER LA TRANSACTION
+    // C. CAS EXPENSE/INCOME
     // =====================================================
     // Vérifier le compte
-    const account = await tx.account.findFirst({
+    const oldAccount = await tx.account.findFirst({
       where: {
         id: transaction.accountId,
         userId,
         archived: false,
       },
     });
-    if (!account) {
+    if (!oldAccount) {
       throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
     }
 
-    // Calculer le nouveau solde du compte
-    let newBalance = account.currentBalance; //
+    // Déterminer les nouvelles valeurs (Utilisé les anciens données s'ils ne font pas partie de la modification)
+    const finalType = newData.type ?? transaction.type; // Si type.amount existe, utilise-le. Sinon garde l'ancien montant.
+    const finalAmount = newData.amount ?? transaction.amount;
+    const finalAccountId = newData.accountId ?? transaction.accountId;
+    const finalCategoryId =
+      newData.categoryId !== undefined
+        ? newData.categoryId
+        : transaction.categoryId;
 
-    // Si le amount ou le type a été modifié (pas juste le nom ou le catégorie par ex)
-    if (newData.amount !== undefined || newData.type !== undefined) {
-      // 1- Annuler l'ancien impact (ancine montant)
-      if (transaction.type === 'EXPENSE') {
-        newBalance = account.currentBalance.plus(transaction.amount);
-      } else if (transaction.type === 'INCOME') {
-        newBalance = account.currentBalance.minus(transaction.amount);
-      }
+    //Check des erreurs
+    if (finalType == TransactionType.TRANSFER)
+      throw new Error(ERRORS.TRANSFER_INVALID); // Un transfert ne peut être créé depuis une trasaction classique
+    if (!finalCategoryId) throw new Error(ERRORS.CATEGORY_REQUIRED); // Vérifier la catégorie correspondant au type final
 
-      // 2- Appliquer le nouveau montant
-      // Utilisé les anciens données s'ils ne font pas partie de la modification
-      const finalType = newData.type ?? transaction.type; // Si type.amount existe, utilise-le. Sinon garde l'ancien montant.
-      const finalAmount = newData.amount ?? transaction.amount;
-      const finalCategoryId = newData.categoryId ?? transaction.categoryId;
-
-      // Vérifier la catégorie : parce que l'user peut ne pas modif la categori
-      if (finalType !== TransactionType.TRANSFER) {
-        if (!finalCategoryId) throw new Error(ERRORS.CATEGORY_REQUIRED);
-
-        const category = await tx.category.findFirst({
-          where: {
-            id: finalCategoryId,
-            userId,
-            archived: false,
-          },
-        });
-
-        if (!category) {
-          throw new Error(ERRORS.CATEGORY_NOT_FOUND);
-        }
-
-        if (category.type !== finalType) {
-          throw new Error(ERRORS.CATEGORY_TYPE_MISMATCH);
-        }
-      }
-
-      if (finalType === 'EXPENSE') {
-        newBalance = newBalance.minus(finalAmount);
-      } else if (finalType === 'INCOME') {
-        newBalance = newBalance.plus(finalAmount);
-      }
+    const finalCategory = await tx.category.findFirst({
+      where: {
+        id: finalCategoryId,
+        userId,
+        archived: false,
+      },
+    });
+    if (!finalCategory) {
+      throw new Error(ERRORS.CATEGORY_NOT_FOUND);
     }
+
+    if (finalCategory.type !== finalType) {
+      throw new Error(ERRORS.CATEGORY_TYPE_MISMATCH);
+    }
+
+    // Annuler l'ancien impact sur l'ancien compte
+    let oldBalance = oldAccount.currentBalance;
+
+    if (transaction.type === TransactionType.EXPENSE) {
+      oldBalance = oldBalance.plus(transaction.amount);
+    } else if (transaction.type === TransactionType.INCOME) {
+      oldBalance = oldBalance.minus(transaction.amount);
+    }
+
+    await tx.account.update({
+      where: {
+        id: oldAccount.id,
+      },
+      data: {
+        currentBalance: oldBalance,
+      },
+    });
+
+    // Récupérer le compte final apres l'annulation
+    const newAccount = await tx.account.findFirst({
+      where: {
+        id: finalAccountId,
+        userId,
+        archived: false,
+      },
+    });
+    if (!newAccount) {
+      throw new Error(ERRORS.ACCOUNT_NOT_FOUND);
+    }
+
+    // Appliquer le nouvel impact
+    let newAccountBalance = newAccount.currentBalance;
+
+    if (finalType === TransactionType.EXPENSE) {
+      if (newAccountBalance.lessThan(finalAmount)) {
+        throw new Error(ERRORS.INSUFFICIENT_BALANCE);
+      }
+
+      newAccountBalance = newAccountBalance.minus(finalAmount);
+    } else if (finalType === TransactionType.INCOME) {
+      newAccountBalance = newAccountBalance.plus(finalAmount);
+    }
+
+    await tx.account.update({
+      where: {
+        id: newAccount.id,
+      },
+      data: {
+        currentBalance: newAccountBalance,
+      },
+    });
 
     // Mettre à jour la transaction
     const transactionUpdated = await tx.transaction.update({
@@ -541,16 +623,10 @@ export async function updateTransactionService(
       },
       data: {
         ...newData,
-      },
-    });
-
-    // Mettre à jour le compte
-    await tx.account.update({
-      where: {
-        id: account.id,
-      },
-      data: {
-        currentBalance: newBalance,
+        type: finalType,
+        amount: finalAmount,
+        accountId: finalAccountId,
+        categoryId: finalCategoryId,
       },
     });
 

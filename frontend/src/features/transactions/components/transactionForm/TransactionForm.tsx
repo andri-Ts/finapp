@@ -94,6 +94,13 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         transactionDate: transaction.transactionDate.split('T')[0],
         description: transaction.description,
         note: transaction.note ?? '',
+
+        sourceAccountId:
+          transaction.type === 'TRANSFER' ? transaction.account.id : undefined,
+        destinationAccountId:
+          transaction.type === 'TRANSFER'
+            ? (transaction.transferDestinationAccount?.id ?? '')
+            : undefined,
       });
       // setValue('categoryId', '');
     },
@@ -221,23 +228,35 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         console.log('Formulaire invalide :', errors);
       })}
     >
-      {/* =========================
-      TYPE
-      ========================== */}
-      <div className={styles.typeField}>
-        <TransactionTypeToggle
-          value={selectedType}
-          onChange={(value) => setValue('type', value)}
-        />
+      {/* ==================================================
+        TYPE
+      ======================================================= */}
+      {selectedType !== 'TRANSFER' && (
+        <div className={styles.typeField}>
+          <TransactionTypeToggle
+            value={selectedType}
+            onChange={(value) => {
+              setValue('type', value, {
+                shouldValidate: true, // le champ est obligatoire
+                shouldDirty: true, // indique différent de la valeur d'origine
+              });
+              // une catégorie EXPENSE ne peuet pas resté selectionné lorsque le type devient INCOME et inversement
+              setValue('categoryId', '', {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+            }}
+          />
 
-        {errors.type && (
-          <span className={styles.error}>{errors.type.message}</span>
-        )}
-      </div>
+          {errors.type && (
+            <span className={styles.error}>{errors.type.message}</span>
+          )}
+        </div>
+      )}
 
-      {/* =========================
+      {/* =========================================================
       MONTANT
-      ========================== */}
+      ========================================================== */}
       <div className={styles.amountField}>
         <AmountInput
           value={amount}
@@ -254,9 +273,9 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         )}
       </div>
 
-      {/* =========================
+      {/* ===========================================================
         CATÉGORIE
-      ========================== */}
+      ============================================================ */}
 
       {selectedType !== 'TRANSFER' && (
         <div className={styles.categoryField}>
@@ -274,9 +293,9 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         </div>
       )}
 
-      {/* =========================
+      {/* ===============================================================
         COMPTE
-      ========================== */}
+      ================================================================ */}
       {selectedType !== 'TRANSFER' && (
         <div className={styles.accountField}>
           <AccountPicker
@@ -289,9 +308,9 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
         </div>
       )}
 
-      {/* =========================
+      {/* ==============================================================
       TRANSFERT
-      ========================== */}
+      ============================================================*/}
       {selectedType === 'TRANSFER' && (
         <div className={styles.transferFields}>
           <div className={styles.accountField}>
