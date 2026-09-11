@@ -234,6 +234,11 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {selectedType !== 'TRANSFER' && (
         <div className={styles.typeField}>
           <TransactionTypeToggle
+            allowedTypes={
+              transaction
+                ? ['EXPENSE', 'INCOME']
+                : ['EXPENSE', 'INCOME', 'TRANSFER']
+            }
             value={selectedType}
             onChange={(value) => {
               setValue('type', value, {

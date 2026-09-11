@@ -8,6 +8,10 @@
   width: 100%;
 }
 
+.twoButtons {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .button {
   min-height: 40px;
 
@@ -61,6 +65,10 @@
 @media (max-width: 767px) {
   .buttonGroup {
     gap: 4px;
+  }
+
+  .twoButtons {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .button {
