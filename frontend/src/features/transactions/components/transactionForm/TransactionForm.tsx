@@ -10,7 +10,7 @@ import {
   transactionSchema,
   type ITransactionFormData,
 } from '../../schemas/transaction.schema';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { buildTransactionPayload } from '../../utils/buildTransactionPayload';
 import { createTransaction, updateTransaction } from '../../api/transactionApi';
 import axios from 'axios';
@@ -30,17 +30,6 @@ interface ITransactionFormProps {
 }
 
 function TransactionForm({ transaction }: ITransactionFormProps) {
-  /*
-   * useForm() de React Hook Form est le "gestionnaire" de notre formulaire.
-   *
-   * On lui indique que notre formulaire contient des données correspondant au type ITransactionFormData.
-   * Cela permet notamment à TypeScript de savoir que :
-   *
-   * amount       → number
-   * type         → EXPENSE | INCOME
-   * categoryId   → string
-   * etc.
-   */
   const {
     register, // fonc de Hook Form princ qui récup auto les valeurs (donc ca remplace onChange et velue)
     handleSubmit, // fonc de Hook Form: intercept le submit de formulaire, exécute la fonction à l'intérieur si tout est ok
@@ -62,6 +51,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
     },
   });
   const navigate = useNavigate();
+  const [showNote, setShowNote] = useState(false); // l'affichage des notes sont facultatifs
 
   const { handleDelete, isDeleting } = useTransactionActions();
 
@@ -103,6 +93,7 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
             : undefined,
       });
       // setValue('categoryId', '');
+      setShowNote(Boolean(transaction.note));
     },
     [transaction, reset] /*[selectedType, setValue]*/,
   );
@@ -401,25 +392,44 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
       {/* =========================
       NOTE
       ========================== */}
+      {showNote ? (
+        <div className={styles.noteField}>
+          <div className={styles.noteHeader}>
+            <label htmlFor="note">Note</label>
+            <button
+              type="button"
+              className={styles.noteToggle}
+              onClick={() => setShowNote(false)}
+            >
+              Masquer
+            </button>
+          </div>
 
-      <div className={styles.noteField}>
-        <label htmlFor="note">Note</label>
+          <textarea
+            id="note"
+            rows={2}
+            {...register('note')}
+            placeholder="Ajouter une note..."
+          />
 
-        <textarea
-          id="note"
-          rows={2}
-          {...register('note')}
-          placeholder="Ajouter une note..."
-        />
-
-        {errors.note && (
-          <span className={styles.error}>{errors.note.message}</span>
-        )}
-      </div>
+          {errors.note && (
+            <span className={styles.error}>{errors.note.message}</span>
+          )}
+        </div>
+      ) : (
+        <button
+          type="button"
+          className={styles.addNoteButton}
+          onClick={() => setShowNote(true)}
+        >
+          + Ajouter une note
+        </button>
+      )}
 
       {/* =========================
       SUBMIT
       ========================== */}
+
       <div className={styles.actions}>
         <Button type="submit" disabled={issaving}>
           {issaving ? (
@@ -452,3 +462,15 @@ function TransactionForm({ transaction }: ITransactionFormProps) {
 }
 
 export default TransactionForm;
+
+/*
+ * useForm() de React Hook Form est le "gestionnaire" de notre formulaire.
+ *
+ * On lui indique que notre formulaire contient des données correspondant au type ITransactionFormData.
+ * Cela permet notamment à TypeScript de savoir que :
+ *
+ * amount       → number
+ * type         → EXPENSE | INCOME
+ * categoryId   → string
+ * etc.
+ */
