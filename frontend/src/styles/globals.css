@@ -238,6 +238,42 @@ button:disabled {
   border: 0;
 }
 
+/* ==========================================
+   SONNER
+========================================== */
+
+[data-sonner-toast] {
+  font-family: var(--font-body);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+[data-sonner-toaster][data-position='bottom-center'] {
+  --normal-bg: var(--white);
+  --normal-text: var(--neutral-900);
+  --normal-border: var(--color-border);
+}
+
+[data-sonner-toast][data-type='success'] {
+  background: var(--forest-50);
+  border-color: var(--forest-200);
+  color: var(--forest-700);
+}
+
+[data-sonner-toast][data-type='error'] {
+  background: var(--rose-50);
+  border-color: var(--rose-200);
+  color: var(--rose-700);
+}
+
+@media (max-width: 767px) {
+  [data-sonner-toaster][data-position='bottom-center'] {
+    bottom: calc(
+      var(--bottom-nav-height) + var(--bottom-nav-safe-area) + var(--space-md)
+    ) !important;
+  }
+}
+
 /* =========================================================
    REDUCED MOTION
    ========================================================= */
