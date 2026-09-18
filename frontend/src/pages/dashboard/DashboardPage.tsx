@@ -40,7 +40,7 @@ function DashboardPage() {
   return (
     <section className={styles.page}>
       <PageHeader
-        title="Bonjour Zahard 👋"
+        title="Bonjour Jahad 👋"
         subtitle="Voici où en est ton argent aujourd'hui"
       />
 
